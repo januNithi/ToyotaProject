@@ -1,0 +1,53 @@
+
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Load Excel</a></li>
+            <li ><a ng-click="">Instruction Manual</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <div class="container-fluid">
+
+        <div class="form">
+
+            <div class="form-group">
+
+                <label class="control-label" for="model">Choose Model</label>
+
+                <select id="model" ng-model="choosenModel" ng-change="modelSelected(choosenModel)" class="form-control">
+
+                    <option ng-value="mdl.id" ng-repeat="mdl in models">{{mdl.modelName}}</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label class="control-label" for="serviceType">Choose Service</label>
+
+                <select id="serviceType" ng-model="choosenService" ng-change="serviceSelected(choosenService)" class="form-control">
+
+                    <option ng-value="service.serviceId" ng-repeat="service in services">{{service.serviceName}}</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div ng-show="loadExcel" class="jumbotron">
+
+            <input type="file" ngf-select ng-model="file" name="file" ngf-max-size="20MB" id="fileInput" onchange="angular.element(this).scope().loadData(this.files)"/>
+
+    </div>
+
+</div>

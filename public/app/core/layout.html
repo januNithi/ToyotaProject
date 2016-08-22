@@ -1,0 +1,58 @@
+<!--<!DOCTYPE html>-->
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Toyota</title>
+
+    <link rel="stylesheet" type="text/css" href="../../bower_components/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/dashboardStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/instructionManual.css"/>
+    <!-- BASE URL -->
+    <base href="/"/>
+
+</head>
+
+<body ng-app="toyotaApp">
+
+    <ng-view></ng-view>
+
+    <!-- LIBRARIES AND PLUGINS -->
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <!--<script src="../../bower_components/angular/angular.js"></script>-->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+    <script src="bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
+
+    <!-- CORE -->
+    <script src="app/core/module.js"></script>
+    <script src="app/core/config.js"></script>
+
+    <!--&lt;!&ndash;Text Area Directiv&ndash;&gt;-->
+    <!--<script src="app/textAreaDirective/textAreaDirective.js"></script>-->
+
+    <!--Dashboard-->
+    <script src="app/dashboard/dashboardService.js"></script>
+    <script src="app/dashboard/dashboardController.js"></script>
+
+
+    <!--Loads Input Data-->
+    <script src="app/loadInputData/loadInputDataService.js"></script>
+    <script src="app/loadInputData/loadInputDataController.js"></script>
+
+    <!--Load Instruction-->
+    <script src="app/InstructionManual/instructionManualController.js"></script>
+    <script src="app/InstructionManual/instructionManualService.js"></script>
+
+    <!--Model Registration-->
+    <script src="app/modelRegistration/modelRegistrationService.js"></script>
+    <script src="app/modelRegistration/modelRegistrationController.js"></script>
+
+</body>
+</html>
