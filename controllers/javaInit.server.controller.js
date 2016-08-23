@@ -14,5 +14,6 @@ java.classpath.push("./classes");
 java.classpath.push("./classes/Main.java");
 
 exports.getJavaInstance = function() {
+    console.log(java);
     return java;
 }
