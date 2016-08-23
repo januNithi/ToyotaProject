@@ -13,11 +13,8 @@ var WorkBookFactory = java.import('org.apache.poi.ss.usermodel.WorkbookFactory')
 
 exports.getImages = function (req,res) {
 
-    var workbook = WorkBookFactory.create(new
-        FileInputStream(new File("./public/uploads/file-Innova 40K & 10K SOP Final.xls")),function(result,error){
-        console.log("result"+result);
-        console.log("error"+error);
-    });
+    var workbook = WorkBookFactory.createSync(new
+        FileInputStream(new File("./public/uploads/file-Innova 40K & 10K SOP Final.xls")));
 
     console.log(workbook);
 };
