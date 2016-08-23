@@ -5,8 +5,18 @@
 var javaInit = require("./javaInit.server.controller.js");
 var java = javaInit.getJavaInstance();
 
+var HSSFSheet = java.import('org.apache.poi.hssf.usermodel.HSSFSheet');
+var File = java.import('java.io.File');
+var FileInputStream = java.import('java.io.FileInputStream');
+var WorkBook = java.import('org.apache.poi.ss.usermodel.Workbook');
+var WorkBookFactory = java.import('org.apache.poi.ss.usermodel.WorkbookFactory');
+
 exports.getImages = function (req,res) {
 
-    var main = java.newInstanceSync("Main");
-    console.log(main);
+    var workbook = java.newInstanceSync(WorkBook);
+
+    workbook = WorkbookFactory.create(new
+        FileInputStream("./public/uploads/file-Innova 40K & 10K SOP Final.xls"));
+
+    console.log(workbook);
 };
