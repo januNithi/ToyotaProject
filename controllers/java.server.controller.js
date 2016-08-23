@@ -14,7 +14,7 @@ var WorkBookFactory = java.import('org.apache.poi.ss.usermodel.WorkbookFactory')
 exports.getImages = function (req,res) {
 
     var workbook = WorkBookFactory.createSync(new
-        FileInputStream(new File("./public/uploads/file-Innova 40K & 10K SOP Final.xls")));
+        FileInputStream(new File("../public/uploads/file-Innova 40K & 10K SOP Final.xls")));
 
     console.log(workbook);
 };
