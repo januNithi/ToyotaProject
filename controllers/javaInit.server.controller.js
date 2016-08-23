@@ -11,6 +11,7 @@ dependencies.forEach(function(dependency){
 })
 
 java.classpath.push("./classes");
+java.classpath.push("./classes/Main.java");
 
 exports.getJavaInstance = function() {
     return java;
