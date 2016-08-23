@@ -10,7 +10,7 @@ dependencies.forEach(function(dependency){
     java.classpath.push(baseDir + "/" + dependency);
 })
 
-java.classpath.push("./classes/");
+java.classpath.push("./classes");
 
 exports.getJavaInstance = function() {
     return java;

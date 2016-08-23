@@ -7,6 +7,6 @@ var java = javaInit.getJavaInstance();
 
 exports.getImages = function (req,res) {
 
-    // var Main = java.Main();
-    console.log(java);
+    var main = java.newInstanceSync("Main");
+    console.log(main);
 };
