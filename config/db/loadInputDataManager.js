@@ -43,7 +43,7 @@ function updateWorkCheckInstructions(instructions,regOrderId){
     return deferred.promise;
 }
 
-function updateInstructionData(data,serviceId) {
+function updateInstructionData(data,serviceId,picArr) {
     var deferred = q.defer();
 
     var tempTask_i = '';
@@ -68,6 +68,10 @@ function updateInstructionData(data,serviceId) {
             var taskrId = null;
             var tasklId = null;
             var taskiId = null;
+
+            var picture_l = null;
+            var picture_r = null;
+            var picture_i = null;
 
             if (data[i][2] !== '') {
                 tempTask_r = data[i][2];
@@ -156,25 +160,42 @@ function updateInstructionData(data,serviceId) {
                 data[i][15] = null;
             }
 
-            var query = mysql.format(dataUpdate, [serviceId, tasklId, taskrId, taskiId,
-                data[i][18], data[i][2], data[i][10],
-                data[i][19], data[i][3], data[i][11],
-                null, null, null,0,0,0,
-                data[i][20], data[i][4], data[i][12],
-                20, data[i][21], data[i][5], data[i][13],
-                data[i][23], data[i][7], data[i][15], 1]);
-
-            console.log(query);
-            con.query(query, function (error, results) {
-                if (error) {
-                    console.error(error);
-                    return deferred.reject(error);
+            picArr.forEach(function(value, index) {
+                if (value.split('.')[0] == serviceId+"-"+i + "-22" || value.split('.')[0] == serviceId+"-"+i + "-23") {
+                    picture_l = value;
                 }
-            });
-            if (i == data.length) {
+                if (value.split('.')[0] == serviceId+"-"+i + "-6" || value.split('.')[0] == serviceId+"-"+i + "-7") {
+                    picture_r = value;
+                }
+                if (value.split('.')[0] == serviceId+"-"+i + "-14" || value.split('.')[0] == serviceId+"-"+i + "-15") {
+                    picture_i = value;
+                }
+                if((index+1) == picArr.length) {
 
-                deferred.resolve(results);
-            }
+                    var query = mysql.format(dataUpdate, [serviceId, tasklId, taskrId, taskiId,
+                        data[i][18], data[i][2], data[i][10],
+                        data[i][19], data[i][3], data[i][11],
+                        picture_l, picture_r, picture_i,0,0,0,
+                        data[i][20], data[i][4], data[i][12],
+                        20, data[i][21], data[i][5], data[i][13],
+                        data[i][23], data[i][7], data[i][15], 1]);
+
+                    console.log(query);
+                    con.query(query, function (error, results) {
+                        if (error) {
+                            console.error(error);
+                            return deferred.reject(error);
+                        }
+                    });
+                    if (i == data.length) {
+
+                        deferred.resolve(results);
+                    }
+
+                }
+
+            });
+
         }
     }
 

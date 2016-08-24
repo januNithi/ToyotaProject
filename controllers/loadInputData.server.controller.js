@@ -19,7 +19,8 @@ var storage = multer.diskStorage({ //multers disk storage settings
     filename: function (req, file, cb) {
         var datetimestamp = Date.now();
         console.log("req.body"+req.body.file);
-        cb(null, file.fieldname + '-' + file.originalname);
+        // cb(null, file.fieldname + '-' + file.originalname);
+        cb(null, 'excel-'+req.query.serviceId+"."+file.originalname.split('.')[1]);
         //
         var path = "public/uploads/"+file.fieldname + "-" + file.originalname;
        
@@ -34,29 +35,42 @@ var storage = multer.diskStorage({ //multers disk storage settings
         //         req.session.data.push(result);
         //         console.log(result);
         //     });
-        
 
-        var excelParser = require('excel-parser');
-        excelParser.worksheets({
-            inFile: path
-        }, function(err, worksheets){
-            if(err) console.error(err);
-            console.log(worksheets);
-            for(var i = 1 ; i <= worksheets.length; i++){
-                excelParser.parse({
-                    inFile: path,
-                    worksheet: i
-                },function(err, records){
+        var picArr;
+
+        var exec = require('child_process').exec;
+        var child = exec('java -jar ./javaLib/jar/excelJar.jar ' +req.query.serviceId,
+            function (error, stdout, stderr){
+                console.log('Output -> ' + stdout);
+                picArr = stdout.split("\r\n");
+                if(error !== null){
+                    console.log("Error -> "+error);
+                }
+                var excelParser = require('excel-parser');
+                excelParser.worksheets({
+                    inFile: path
+                }, function(err, worksheets){
                     if(err) console.error(err);
-                    console.log(records);
-                    var data = {
-                        serviceId : req.query.serviceId
+                    console.log(worksheets);
+                    for(var i = 1 ; i <= worksheets.length; i++){
+                        excelParser.parse({
+                            inFile: path,
+                            worksheet: i
+                        },function(err, records){
+                            if(err) console.error(err);
+                            console.log(records);
+                            var data = {
+                                serviceId : req.query.serviceId
+                            }
+                            req.session.data = data;
+                            storageManager.updateInstructionData(records,req.query.serviceId,picArr);
+                        });
                     }
-                    req.session.data = data;
-                    storageManager.updateInstructionData(records,req.query.serviceId);
                 });
-            }
-        });
+
+            });
+
+
 
         // var Excel = require('exceljs');
         //
