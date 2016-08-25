@@ -45,14 +45,25 @@
     <div ng-show="loadInstruction" class="container-fluid">
         <div class="row">
             <div class="col-sm-3 col-lg-2">
-                <nav class="navbar navbar-default navbar-fixed-side">
-                    <!-- normal collapsible navbar markup -->
-                    <ul class="nav navbar-nav">
-                        <li ><a ng-click="showLeftTechnicianInstructions()">Left Technician</a></li>
-                        <li ><a ng-click="showInstructorInstructions()">Instructor</a></li>
-                        <li ><a ng-click="showRightTechnicianInstructions()">Right Technician</a></li>
-                    </ul>
-                </nav>
+                <div class="panel panel-danger">
+
+                    <div class="panel-heading">Choose Technicians</div>
+
+                    <div class="panel-body">
+
+                        <nav class="navbar navbar-link navbar-fixed-side">
+                            <!-- normal collapsible navbar markup -->
+                            <ul class="nav navbar-left -align-center">
+                                <li ><a ng-click="showLeftTechnicianInstructions()">Left Technician</a></li>
+                                <li ><a ng-click="showInstructorInstructions()">Instructor</a></li>
+                                <li ><a ng-click="showRightTechnicianInstructions()">Right Technician</a></li>
+                            </ul>
+                        </nav>
+
+                    </div>
+
+                </div>
+
             </div>
             <div class="col-sm-9 col-lg-10">
                 <!-- your page content -->
@@ -73,7 +84,7 @@
 
                     <div class="col-md-3">
 
-                        Time Taken : {{instructions[0].timeTaken}}
+                        Time Allotted: {{instructions[0].timeTaken}}
 
                     </div>
 
@@ -90,293 +101,363 @@
 
                 <div ng-show="LT">
 
-                    <table class="table table-striped table-responsive">
+                    <div class="panel panel-danger">
 
-                        <thead class="table-bordered">
+                        <div class="panel-heading">Left Technician Instructions</div>
 
-                        <th>Task ID</th>
-                        <th>Left Technician</th>
-                        <th>Process</th>
-                        <th>Inference</th>
-                        <th>Picture</th>
-                        <th>Tools</th>
-                        <th>Measurement</th>
-                        <th>L-Flag</th>
+                        <div class="panel-body">
 
+                            <table class="table table-condensed table-hover no-margin">
 
-                        </thead>
+                                <thead class="table-bordered">
 
-                        <tbody class="table-bordered">
+                                    <th>Task ID</th>
+                                    <th>Left Technician</th>
+                                    <th>Process</th>
+                                    <th>Inference</th>
+                                    <th>Picture</th>
+                                    <th>Tools</th>
+                                    <th>Measurement</th>
+                                    <!--<th>L-Flag</th>-->
+                                    <th ng-show="!onEdit">Edit/Delete</th>
 
+                                </thead>
 
-                        <tr ng-repeat="instruction in instructions">
-
-                            <td ng-show="instruction.taskId_l">
-
-                                {{instruction.taskId_l}}
-
-                            </td>
-                            <td ng-show="instruction.taskId_l">
-
-                                <div ng-hide="onEdit || instruction.isEdit">{{instruction.task_l}}</div>
-                                <div ng-show="onEdit || instruction.isEdit">
-
-                                    <textArea rows="5" class="form-control" ng-model="instruction.task_l"></textArea>
-
-                                </div>
-
-                            </td>
-                            <td ng-show="instruction.taskId_l">
-
-                                <div ng-hide="onEdit || instruction.isEdit">{{instruction.process_l}}</div>
-                                <div ng-show="onEdit || instruction.isEdit">
-
-                                    <textarea rows="5" class="form-control" ng-model="instruction.process_l"></textarea>
-
-                                </div>
+                                <tbody class="table-bordered">
 
 
-                            </td>
-                            <td ng-show="instruction.taskId_l">
+                                <tr ng-repeat="instruction in dataFilter_l">
 
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.inference_l}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                    <td ng-show="instruction.taskId_l">
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.inference_l"></textarea>
+                                        {{instruction.taskId_l}}
 
-                                </div>
+                                    </td>
+                                    <td ng-show="instruction.taskId_l">
 
-                            </td>
-                            <td ng-show="instruction.taskId_l">
+                                        <div ng-hide="onEdit || instruction.isEdit">{{instruction.task_l}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit">
 
-                                <img ngf-src="showImage(instruction.picture_l)" class="image-holder img-responsive" ng-click="triggerUpload(instruction,'picture_l',instruction.id+'-LT')" width = '300'/>
+                                            <textArea rows="5" class="form-control" ng-model="instruction.task_l"></textArea>
 
-                                <input type="file" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="{{instruction.id + '-LT'}}" style="display:none" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+                                        </div>
 
-                            </td>
-                            <td ng-show="instruction.taskId_l">
+                                    </td>
+                                    <td ng-show="instruction.taskId_l">
 
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.tools_l}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                        <div ng-hide="onEdit || instruction.isEdit">{{instruction.process_l}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit">
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.tools_l"></textarea>
+                                            <textarea rows="5" class="form-control" ng-model="instruction.process_l"></textarea>
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_l">
-
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.measurement_l}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
-
-                                    <textarea rows="5" class="form-control" ng-model="instruction.measurement_l"></textarea>
-
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_l">
-
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.flag_l}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
-
-                                    <textarea rows="5" class="form-control" ng-model="instruction.flag_l"></textarea>
-
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_l && !onEdit">
-
-                                <a ng-click="editSingleInstruction(instruction)"><span ng-hide="instruction.isEdit" class="glyphicon glyphicon-edit"></span></a>
-                                <a ng-click="updateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-ok-circle"></span></a>
-                                <a ng-click="cancelUpdateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-remove-circle"> </span></a>
-
-                            </td>
+                                        </div>
 
 
+                                    </td>
+                                    <td ng-show="instruction.taskId_l">
 
-                        </tr>
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.inference_l}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                        </tbody>
+                                            <textarea rows="5" class="form-control" ng-model="instruction.inference_l"></textarea>
 
-                    </table>
+                                        </div>
+
+                                    </td>
+                                    <td ng-show="instruction.taskId_l">
+
+                                        <img ngf-src="showImage(instruction.picture_l)" class="image-holder img-responsive" ng-click="triggerUpload(instruction,'picture_l',instruction.id+'-LT')" width = '100'/>
+
+                                        <input type="file" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="{{instruction.id + '-LT'}}" style="display:none" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+
+                                    </td>
+                                    <td ng-show="instruction.taskId_l">
+
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.tools_l}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
+
+                                            <textarea rows="5" class="form-control" ng-model="instruction.tools_l"></textarea>
+
+                                        </div>
+                                    </td>
+                                    <td ng-show="instruction.taskId_l">
+
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.measurement_l}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
+
+                                            <textarea rows="5" class="form-control" ng-model="instruction.measurement_l"></textarea>
+
+                                        </div>
+                                    </td>
+                                    <!--<td ng-show="instruction.taskId_l">-->
+
+                                        <!--<div ng-hide="onEdit || instruction.isEdit" >{{instruction.flag_l}}</div>-->
+                                        <!--<div ng-show="onEdit || instruction.isEdit" >-->
+
+                                            <!--<textarea rows="5" class="form-control" ng-model="instruction.flag_l"></textarea>-->
+
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <td ng-show="instruction.taskId_l && !onEdit">
+
+                                        <a ng-click="editSingleInstruction(instruction)"><span ng-hide="instruction.isEdit" class="glyphicon glyphicon-edit"></span></a>
+                                        <a ng-click="updateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-ok-circle"></span></a>
+                                        <a ng-click="cancelUpdateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-remove-circle"> </span></a>
+
+                                    </td>
+
+
+
+                                </tr>
+
+                                </tbody>
+
+                            </table>
+
+                            <div ng-hide="showPagination('L')" class="pager">
+
+                                <pagination
+                                        ng-model="cur_page_l"
+                                        total-items="totalLength_l"
+                                        items-per-page="items_per_page_l"
+                                        max-size="max_size_l"
+                                        boundary-links="true">
+                                </pagination>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
                 </div>
                 <div ng-show="I">
-                    <table class="table table-striped table-responsive">
 
-                        <thead class="table-bordered">
+                    <div class="panel panel-danger">
 
-                        <th>Task ID</th>
-                        <th>Instructor</th>
-                        <th>Process</th>
-                        <th>Inference</th>
-                        <th>Picture</th>
-                        <th>Tools</th>
-                        <th>Measurement</th>
-                        <th>I-Flag</th>
+                        <div class="panel-heading">Instructor Instructions</div>
 
+                        <div class="panel-body">
 
-                        </thead>
+                            <table class="table table-condensed table-hover no-margin">
 
-                        <tbody class="table-bordered">
+                                <thead class="table-bordered">
 
-                        <tr ng-repeat="instruction in instructions">
+                                <th>Task ID</th>
+                                <th>Instructor</th>
+                                <th>Process</th>
+                                <th>Inference</th>
+                                <th>Picture</th>
+                                <th>Tools</th>
+                                <th>Measurement</th>
+                                <!--<th>I-Flag</th>-->
+                                <th ng-show="!onEdit">Edit/Delete</th>
 
-                            <td ng-show="instruction.taskId_i">{{instruction.taskId_i}}</td>
-                            <td ng-show="instruction.taskId_i">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.task_i}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                </thead>
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.task_i"></textarea>
+                                <tbody class="table-bordered">
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_i">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.process_i}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                <tr ng-repeat="instruction in dataFilter_i">
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.process_i"></textarea>
+                                    <td ng-show="instruction.taskId_i">{{instruction.taskId_i}}</td>
+                                    <td ng-show="instruction.taskId_i">
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.task_i}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_i">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.inference_i}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                            <textarea rows="5" class="form-control" ng-model="instruction.task_i"></textarea>
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.inference_i"></textarea>
+                                        </div>
+                                    </td>
+                                    <td ng-show="instruction.taskId_i">
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.process_i}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_i">
+                                            <textarea rows="5" class="form-control" ng-model="instruction.process_i"></textarea>
 
-                                <img ngf-src="showImage(instruction.picture_i)" class="image-holder img-responsive" ng-click="triggerUpload(instruction,'picture_i',instruction.id+'-I')" width = '300'/>
+                                        </div>
+                                    </td>
+                                    <td ng-show="instruction.taskId_i">
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.inference_i}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                                <input type="file" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="{{instruction.id + '-I'}}" style="display:none" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+                                            <textarea rows="5" class="form-control" ng-model="instruction.inference_i"></textarea>
 
-                            </td>
-                            <td ng-show="instruction.taskId_i">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.tools_i}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                        </div>
+                                    </td>
+                                    <td ng-show="instruction.taskId_i">
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.tools_i"></textarea>
+                                        <img ngf-src="showImage(instruction.picture_i)" class="image-holder img-responsive" ng-click="triggerUpload(instruction,'picture_i',instruction.id+'-I')" width = '100'/>
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_i">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.measurement_i}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                        <input type="file" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="{{instruction.id + '-I'}}" style="display:none" onchange="angular.element(this).scope().uploadFile(this.files)"/>
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.measurement_i"></textarea>
+                                    </td>
+                                    <td ng-show="instruction.taskId_i">
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.tools_i}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_i">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.flag_i}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                            <textarea rows="5" class="form-control" ng-model="instruction.tools_i"></textarea>
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.flag_i"></textarea>
+                                        </div>
+                                    </td>
+                                    <td ng-show="instruction.taskId_i">
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.measurement_i}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_i && !onEdit">
+                                            <textarea rows="5" class="form-control" ng-model="instruction.measurement_i"></textarea>
 
-                                <a ng-click="editSingleInstruction(instruction)"><span ng-hide="instruction.isEdit" class="glyphicon glyphicon-edit"></span></a>
-                                <a ng-click="updateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-ok-circle"></span></a>
-                                <a ng-click="cancelUpdateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-remove-circle"> </span></a>
+                                        </div>
+                                    </td>
+                                    <!--<td ng-show="instruction.taskId_i">-->
+                                        <!--<div ng-hide="onEdit || instruction.isEdit" >{{instruction.flag_i}}</div>-->
+                                        <!--<div ng-show="onEdit || instruction.isEdit" >-->
 
-                            </td>
+                                            <!--<textarea rows="5" class="form-control" ng-model="instruction.flag_i"></textarea>-->
 
-                        </tr>
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <td ng-show="instruction.taskId_i && !onEdit">
 
-                        </tbody>
+                                        <a ng-click="editSingleInstruction(instruction)"><span ng-hide="instruction.isEdit" class="glyphicon glyphicon-edit"></span></a>
+                                        <a ng-click="updateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-ok-circle"></span></a>
+                                        <a ng-click="cancelUpdateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-remove-circle"> </span></a>
 
-                    </table>
+                                    </td>
+
+                                </tr>
+
+                                </tbody>
+
+                            </table>
+
+                            <div ng-hide="showPagination('I')" class="pager">
+
+                                <pagination
+                                        ng-model="cur_page_i"
+                                        total-items="totalLength_i"
+                                        items-per-page="items_per_page_i"
+                                        max-size="max_size_i"
+                                        boundary-links="true">
+                                </pagination>
+
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
                 <div ng-show="RT">
-                    <table class="table table-striped">
 
-                        <thead class="table-bordered">
+                    <div class="panel panel-danger">
 
-                        <th>Task ID</th>
-                        <th>Right Technician</th>
-                        <th>Process</th>
-                        <th>Inference</th>
-                        <th>Picture</th>
-                        <th>Tools</th>
-                        <th>Measurement</th>
-                        <th>R-Flag</th>
+                        <div class="panel-heading">Right Technician Instructions</div>
 
-                        </thead>
+                        <div class="panel-body">
 
-                        <tbody class="table-bordered">
+                            <table class="table table-condensed table-hover no-margin">
 
-                        <tr ng-repeat="instruction in instructions">
+                                <thead class="table-bordered">
 
-                            <td ng-show="instruction.taskId_r">{{instruction.taskId_r}}</td>
-                            <td ng-show="instruction.taskId_r">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.task_r}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                <th>Task ID</th>
+                                <th>Right Technician</th>
+                                <th>Process</th>
+                                <th>Inference</th>
+                                <th>Picture</th>
+                                <th>Tools</th>
+                                <th>Measurement</th>
+                                <!--<th>R-Flag</th>-->
+                                <th ng-show="!onEdit">Edit/Delete</th>
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.task_r"></textarea>
+                                </thead>
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_r">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.process_r}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                <tbody class="table-bordered">
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.process_r"></textarea>
+                                <tr ng-repeat="instruction in dataFilter_r">
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_r">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.inference_r}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                    <td ng-show="instruction.taskId_r">{{instruction.taskId_r}}</td>
+                                    <td ng-show="instruction.taskId_r">
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.task_r}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.inference_r"></textarea>
+                                            <textarea rows="5" class="form-control" ng-model="instruction.task_r"></textarea>
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_r">
+                                        </div>
+                                    </td>
+                                    <td ng-show="instruction.taskId_r">
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.process_r}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                                <img ngf-src="showImage(instruction.picture_r)" class="image-holder img-responsive" ng-click="triggerUpload(instruction,'picture_r',instruction.id+'-RT')" width = '300'/>
+                                            <textarea rows="5" class="form-control" ng-model="instruction.process_r"></textarea>
 
-                                <input type="file" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="{{instruction.id + '-RT'}}" style="display:none" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+                                        </div>
+                                    </td>
+                                    <td ng-show="instruction.taskId_r">
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.inference_r}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                            </td>
-                            <td ng-show="instruction.taskId_r">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.tools_r}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                            <textarea rows="5" class="form-control" ng-model="instruction.inference_r"></textarea>
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.tools_r"></textarea>
+                                        </div>
+                                    </td>
+                                    <td ng-show="instruction.taskId_r">
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_r">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.measurement_r}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                        <img ngf-src="showImage(instruction.picture_r)" class="image-holder img-responsive" ng-click="triggerUpload(instruction,'picture_r',instruction.id+'-RT')" width = '100'/>
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.measurement_r"></textarea>
+                                        <input type="file" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="{{instruction.id + '-RT'}}" style="display:none" onchange="angular.element(this).scope().uploadFile(this.files)"/>
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_r">
-                                <div ng-hide="onEdit || instruction.isEdit" >{{instruction.flag_r}}</div>
-                                <div ng-show="onEdit || instruction.isEdit" >
+                                    </td>
+                                    <td ng-show="instruction.taskId_r">
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.tools_r}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                                    <textarea rows="5" class="form-control" ng-model="instruction.flag_r"></textarea>
+                                            <textarea rows="5" class="form-control" ng-model="instruction.tools_r"></textarea>
 
-                                </div>
-                            </td>
-                            <td ng-show="instruction.taskId_r && !onEdit">
+                                        </div>
+                                    </td>
+                                    <td ng-show="instruction.taskId_r">
+                                        <div ng-hide="onEdit || instruction.isEdit" >{{instruction.measurement_r}}</div>
+                                        <div ng-show="onEdit || instruction.isEdit" >
 
-                                <a ng-click="editSingleInstruction(instruction)"><span ng-hide="instruction.isEdit" class="glyphicon glyphicon-edit"></span></a>
-                                <a ng-click="updateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-ok-circle"></span></a>
-                                <a ng-click="cancelUpdateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-remove-circle"> </span></a>
+                                            <textarea rows="5" class="form-control" ng-model="instruction.measurement_r"></textarea>
 
-                            </td>
+                                        </div>
+                                    </td>
+                                    <!--<td ng-show="instruction.taskId_r">-->
+                                        <!--<div ng-hide="onEdit || instruction.isEdit" >{{instruction.flag_r}}</div>-->
+                                        <!--<div ng-show="onEdit || instruction.isEdit" >-->
 
-                        </tr>
+                                            <!--<textarea rows="5" class="form-control" ng-model="instruction.flag_r"></textarea>-->
 
-                        </tbody>
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <td ng-show="instruction.taskId_r && !onEdit">
 
-                    </table>
+                                        <a ng-click="editSingleInstruction(instruction)"><span ng-hide="instruction.isEdit" class="glyphicon glyphicon-edit"></span></a>
+                                        <a ng-click="updateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-ok-circle"></span></a>
+                                        <a ng-click="cancelUpdateSingleInstruction(instruction)"><span ng-show="instruction.isEdit" class="glyphicon glyphicon-remove-circle"> </span></a>
+
+                                    </td>
+
+                                </tr>
+
+                                </tbody>
+
+                            </table>
+
+                            <div ng-hide="showPagination('R')" class="pager">
+
+                                <pagination
+                                        ng-model="cur_page_r"
+                                        total-items="totalLength_r"
+                                        items-per-page="items_per_page_r"
+                                        max-size="max_size_r"
+                                        boundary-links="true">
+                                </pagination>
+
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

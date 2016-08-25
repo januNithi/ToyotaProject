@@ -54,150 +54,327 @@ function updateInstructionData(data,serviceId,picArr) {
     var l = 1;
     var I = 1;
 
-    for(var i = 4 ; i < data.length; i++){
+    var version = 1;
 
-        // var dataUpdate = 'Insert into tasks_h(serviceId,task_l,task_r,task_i,';
-        // dataUpdate += 'process_l,process_r,process_i,picture_l,picture_r,picture_i,';
-        // dataUpdate += 'measurement_l,measurement_r,measurement_i,';
-        // dataUpdate += 'timeTaken,tools_l,tools_r,tools_i,inference_l,inference_r,inference_i,version)';
-        // dataUpdate += ' values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    var qry = "Select DISTINCT version from tasks_supreme where serviceId = "+serviceId;
+    qry += " and status = 'active'";
 
-        if(data[i][2] !== '' || data[i][10] !== '' || data[i][18] !== '' ||
-            data[i][3] !== '' || data[i][11] !== '' || data[i][19] !== '') {
+    con.query(qry,function (error,results) {
 
-            var taskrId = null;
-            var tasklId = null;
-            var taskiId = null;
+        if(error){
+            return deferred.reject(error);
+        }
 
-            var picture_l = null;
-            var picture_r = null;
-            var picture_i = null;
+        if(results && results.length > 0){
 
-            if (data[i][2] !== '') {
-                tempTask_r = data[i][2];
-                taskrId = r;
-                r++;
-            } else {
-                if (data[i][3] != '' && tempTask_r != '') {
-                    data[i][2] = tempTask_r;
-                    taskrId = r - 1;
+            version = results[0].version;
+            version = Number(version)+0.1;
+
+            qry = "Update tasks_supreme set status = 'Mark as Deleted' where version = "+version+"";
+            qry += " and serviceId = "+serviceId+" and status = 'active'";
+
+            con.query(qry,function (error,results) {
+
+                if(error){
+                    return deferred.reject(error);
                 }
-            }
 
-            if (data[i][10] !== '') {
-                tempTask_i = data[i][10];
-                taskiId = I;
-                I++;
-            } else {
-                if (data[i][11] != '' && tempTask_i != '') {
-                    data[i][10] = tempTask_i;
-                    taskiId = I - 1;
-                }
-            }
+                for(var i = 4 ; i < data.length; i++){
 
-            if (data[i][18] !== '') {
-                tempTask_l = data[i][18];
-                tasklId = l;
-                l++;
-            } else {
-                if (data[i][19] != '' && tempTask_l != '') {
-                    data[i][18] = tempTask_l;
-                    tasklId = l - 1;
-                }
-            }
+                    // var dataUpdate = 'Insert into tasks_h(serviceId,task_l,task_r,task_i,';
+                    // dataUpdate += 'process_l,process_r,process_i,picture_l,picture_r,picture_i,';
+                    // dataUpdate += 'measurement_l,measurement_r,measurement_i,';
+                    // dataUpdate += 'timeTaken,tools_l,tools_r,tools_i,inference_l,inference_r,inference_i,version)';
+                    // dataUpdate += ' values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
-            var dataUpdate = 'Insert into tasks_supreme(serviceId,taskId_l,taskId_r,taskId_i,task_l,task_r,task_i,';
-            dataUpdate += 'process_l,process_r,process_i,picture_l,picture_r,picture_i,flag_r,flag_i,flag_l,';
-            dataUpdate += 'measurement_l,measurement_r,measurement_i,';
-            dataUpdate += 'timeTaken,tools_l,tools_r,tools_i,inference_l,inference_r,inference_i,version)';
-            dataUpdate += ' values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                    if(data[i][2] !== '' || data[i][10] !== '' || data[i][18] !== '' ||
+                        data[i][3] !== '' || data[i][11] !== '' || data[i][19] !== '') {
 
-            console.log('Query template' + dataUpdate);
+                        var taskrId = null;
+                        var tasklId = null;
+                        var taskiId = null;
 
-            if(data[i][18] == ''){
-                data[i][18] = null;
-            }
-            if(data[i][19] == ''){
-                data[i][19] = null;
-            }
-            if(data[i][20] == ''){
-                data[i][20] = null;
-            }
-            if(data[i][21] == ''){
-                data[i][21] = null;
-            }
-            if(data[i][23] == ''){
-                data[i][23] = null;
-            }
-            if(data[i][2] == ''){
-                data[i][2] = null;
-            }
-            if(data[i][3] == ''){
-                data[i][3] = null;
-            }
-            if(data[i][4] == ''){
-                data[i][4] = null;
-            }
-            if(data[i][5] == ''){
-                data[i][5] = null;
-            }
-            if(data[i][7] == ''){
-                data[i][7] = null;
-            }
-            if(data[i][10] == ''){
-                data[i][10] = null;
-            }
-            if(data[i][11] == ''){
-                data[i][11] = null;
-            }
-            if(data[i][12] == ''){
-                data[i][12] = null;
-            }
-            if(data[i][13] == ''){
-                data[i][13] = null;
-            }
-            if(data[i][15] == ''){
-                data[i][15] = null;
-            }
+                        var picture_l = null;
+                        var picture_r = null;
+                        var picture_i = null;
 
-            picArr.forEach(function(value, index) {
-                if (value.split('.')[0] == serviceId+"-"+i + "-22" || value.split('.')[0] == serviceId+"-"+i + "-23") {
-                    picture_l = value;
-                }
-                if (value.split('.')[0] == serviceId+"-"+i + "-6" || value.split('.')[0] == serviceId+"-"+i + "-7") {
-                    picture_r = value;
-                }
-                if (value.split('.')[0] == serviceId+"-"+i + "-14" || value.split('.')[0] == serviceId+"-"+i + "-15") {
-                    picture_i = value;
-                }
-                if((index+1) == picArr.length) {
-
-                    var query = mysql.format(dataUpdate, [serviceId, tasklId, taskrId, taskiId,
-                        data[i][18], data[i][2], data[i][10],
-                        data[i][19], data[i][3], data[i][11],
-                        picture_l, picture_r, picture_i,0,0,0,
-                        data[i][20], data[i][4], data[i][12],
-                        20, data[i][21], data[i][5], data[i][13],
-                        data[i][23], data[i][7], data[i][15], 1]);
-
-                    console.log(query);
-                    con.query(query, function (error, results) {
-                        if (error) {
-                            console.error(error);
-                            return deferred.reject(error);
+                        if (data[i][2] !== '') {
+                            tempTask_r = data[i][2];
+                            taskrId = r;
+                            r++;
+                        } else {
+                            if (data[i][3] != '' && tempTask_r != '') {
+                                data[i][2] = tempTask_r;
+                                taskrId = r - 1;
+                            }
                         }
-                    });
-                    if (i == data.length) {
 
-                        deferred.resolve(results);
+                        if (data[i][10] !== '') {
+                            tempTask_i = data[i][10];
+                            taskiId = I;
+                            I++;
+                        } else {
+                            if (data[i][11] != '' && tempTask_i != '') {
+                                data[i][10] = tempTask_i;
+                                taskiId = I - 1;
+                            }
+                        }
+
+                        if (data[i][18] !== '') {
+                            tempTask_l = data[i][18];
+                            tasklId = l;
+                            l++;
+                        } else {
+                            if (data[i][19] != '' && tempTask_l != '') {
+                                data[i][18] = tempTask_l;
+                                tasklId = l - 1;
+                            }
+                        }
+
+                        var dataUpdate = 'Insert into tasks_supreme(serviceId,taskId_l,taskId_r,taskId_i,task_l,task_r,task_i,';
+                        dataUpdate += 'process_l,process_r,process_i,picture_l,picture_r,picture_i,flag_r,flag_i,flag_l,';
+                        dataUpdate += 'measurement_l,measurement_r,measurement_i,';
+                        dataUpdate += 'timeTaken,tools_l,tools_r,tools_i,inference_l,inference_r,inference_i,version,status)';
+                        dataUpdate += ' values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+
+                        console.log('Query template' + dataUpdate);
+
+                        if(data[i][18] == ''){
+                            data[i][18] = null;
+                        }
+                        if(data[i][19] == ''){
+                            data[i][19] = null;
+                        }
+                        if(data[i][20] == ''){
+                            data[i][20] = null;
+                        }
+                        if(data[i][21] == ''){
+                            data[i][21] = null;
+                        }
+                        if(data[i][23] == ''){
+                            data[i][23] = null;
+                        }
+                        if(data[i][2] == ''){
+                            data[i][2] = null;
+                        }
+                        if(data[i][3] == ''){
+                            data[i][3] = null;
+                        }
+                        if(data[i][4] == ''){
+                            data[i][4] = null;
+                        }
+                        if(data[i][5] == ''){
+                            data[i][5] = null;
+                        }
+                        if(data[i][7] == ''){
+                            data[i][7] = null;
+                        }
+                        if(data[i][10] == ''){
+                            data[i][10] = null;
+                        }
+                        if(data[i][11] == ''){
+                            data[i][11] = null;
+                        }
+                        if(data[i][12] == ''){
+                            data[i][12] = null;
+                        }
+                        if(data[i][13] == ''){
+                            data[i][13] = null;
+                        }
+                        if(data[i][15] == ''){
+                            data[i][15] = null;
+                        }
+
+                        picArr.forEach(function(value, index) {
+                            if (value.split('.')[0] == serviceId+"-"+i + "-22" || value.split('.')[0] == serviceId+"-"+i + "-23") {
+                                picture_l = value;
+                            }
+                            if (value.split('.')[0] == serviceId+"-"+i + "-6" || value.split('.')[0] == serviceId+"-"+i + "-7") {
+                                picture_r = value;
+                            }
+                            if (value.split('.')[0] == serviceId+"-"+i + "-14" || value.split('.')[0] == serviceId+"-"+i + "-15") {
+                                picture_i = value;
+                            }
+                            if((index+1) == picArr.length) {
+
+                                var query = mysql.format(dataUpdate, [serviceId, tasklId, taskrId, taskiId,
+                                    data[i][18], data[i][2], data[i][10],
+                                    data[i][19], data[i][3], data[i][11],
+                                    picture_l, picture_r, picture_i,0,0,0,
+                                    data[i][20], data[i][4], data[i][12],
+                                    20, data[i][21], data[i][5], data[i][13],
+                                    data[i][23], data[i][7], data[i][15], Number(version), 'active']);
+
+                                console.log(query);
+                                con.query(query, function (error, results) {
+                                    if (error) {
+                                        console.error(error);
+                                        return deferred.reject(error);
+                                    }
+                                });
+                                if (i == data.length) {
+
+                                    deferred.resolve(results);
+                                }
+
+                            }
+
+                        });
+
                     }
-
                 }
 
             });
 
+        }else{
+            for(var i = 4 ; i < data.length; i++){
+
+                // var dataUpdate = 'Insert into tasks_h(serviceId,task_l,task_r,task_i,';
+                // dataUpdate += 'process_l,process_r,process_i,picture_l,picture_r,picture_i,';
+                // dataUpdate += 'measurement_l,measurement_r,measurement_i,';
+                // dataUpdate += 'timeTaken,tools_l,tools_r,tools_i,inference_l,inference_r,inference_i,version)';
+                // dataUpdate += ' values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+
+                if(data[i][2] !== '' || data[i][10] !== '' || data[i][18] !== '' ||
+                    data[i][3] !== '' || data[i][11] !== '' || data[i][19] !== '') {
+
+                    var taskrId = null;
+                    var tasklId = null;
+                    var taskiId = null;
+
+                    var picture_l = null;
+                    var picture_r = null;
+                    var picture_i = null;
+
+                    if (data[i][2] !== '') {
+                        tempTask_r = data[i][2];
+                        taskrId = r;
+                        r++;
+                    } else {
+                        if (data[i][3] != '' && tempTask_r != '') {
+                            data[i][2] = tempTask_r;
+                            taskrId = r - 1;
+                        }
+                    }
+
+                    if (data[i][10] !== '') {
+                        tempTask_i = data[i][10];
+                        taskiId = I;
+                        I++;
+                    } else {
+                        if (data[i][11] != '' && tempTask_i != '') {
+                            data[i][10] = tempTask_i;
+                            taskiId = I - 1;
+                        }
+                    }
+
+                    if (data[i][18] !== '') {
+                        tempTask_l = data[i][18];
+                        tasklId = l;
+                        l++;
+                    } else {
+                        if (data[i][19] != '' && tempTask_l != '') {
+                            data[i][18] = tempTask_l;
+                            tasklId = l - 1;
+                        }
+                    }
+
+                    var dataUpdate = 'Insert into tasks_supreme(serviceId,taskId_l,taskId_r,taskId_i,task_l,task_r,task_i,';
+                    dataUpdate += 'process_l,process_r,process_i,picture_l,picture_r,picture_i,flag_r,flag_i,flag_l,';
+                    dataUpdate += 'measurement_l,measurement_r,measurement_i,';
+                    dataUpdate += 'timeTaken,tools_l,tools_r,tools_i,inference_l,inference_r,inference_i,version,status)';
+                    dataUpdate += ' values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+
+                    console.log('Query template' + dataUpdate);
+
+                    if(data[i][18] == ''){
+                        data[i][18] = null;
+                    }
+                    if(data[i][19] == ''){
+                        data[i][19] = null;
+                    }
+                    if(data[i][20] == ''){
+                        data[i][20] = null;
+                    }
+                    if(data[i][21] == ''){
+                        data[i][21] = null;
+                    }
+                    if(data[i][23] == ''){
+                        data[i][23] = null;
+                    }
+                    if(data[i][2] == ''){
+                        data[i][2] = null;
+                    }
+                    if(data[i][3] == ''){
+                        data[i][3] = null;
+                    }
+                    if(data[i][4] == ''){
+                        data[i][4] = null;
+                    }
+                    if(data[i][5] == ''){
+                        data[i][5] = null;
+                    }
+                    if(data[i][7] == ''){
+                        data[i][7] = null;
+                    }
+                    if(data[i][10] == ''){
+                        data[i][10] = null;
+                    }
+                    if(data[i][11] == ''){
+                        data[i][11] = null;
+                    }
+                    if(data[i][12] == ''){
+                        data[i][12] = null;
+                    }
+                    if(data[i][13] == ''){
+                        data[i][13] = null;
+                    }
+                    if(data[i][15] == ''){
+                        data[i][15] = null;
+                    }
+
+                    picArr.forEach(function(value, index) {
+                        if (value.split('.')[0] == serviceId+"-"+i + "-22" || value.split('.')[0] == serviceId+"-"+i + "-23") {
+                            picture_l = value;
+                        }
+                        if (value.split('.')[0] == serviceId+"-"+i + "-6" || value.split('.')[0] == serviceId+"-"+i + "-7") {
+                            picture_r = value;
+                        }
+                        if (value.split('.')[0] == serviceId+"-"+i + "-14" || value.split('.')[0] == serviceId+"-"+i + "-15") {
+                            picture_i = value;
+                        }
+                        if((index+1) == picArr.length) {
+
+                            var query = mysql.format(dataUpdate, [serviceId, tasklId, taskrId, taskiId,
+                                data[i][18], data[i][2], data[i][10],
+                                data[i][19], data[i][3], data[i][11],
+                                picture_l, picture_r, picture_i,0,0,0,
+                                data[i][20], data[i][4], data[i][12],
+                                20, data[i][21], data[i][5], data[i][13],
+                                data[i][23], data[i][7], data[i][15], Number(version), 'active']);
+
+                            console.log(query);
+                            con.query(query, function (error, results) {
+                                if (error) {
+                                    console.error(error);
+                                    return deferred.reject(error);
+                                }
+                            });
+                            if (i == data.length) {
+
+                                deferred.resolve(results);
+                            }
+
+                        }
+
+                    });
+
+                }
+            }
         }
-    }
+
+
+    });
 
     return deferred.promise;
 }
@@ -209,7 +386,7 @@ function updateInstructions(instructions) {
     var updateQuery = "Update tasks_supreme set task_l = ?,task_r = ?, task_i = ?,process_l = ?, process_r = ?";
     updateQuery += ",process_i = ?, picture_l=?,picture_r = ?, picture_i = ?,measurement_l = ?, measurement_r = ?";
     updateQuery += ",measurement_i = ?, timeTaken=?,tools_l = ?,tools_r=?,tools_i=?,inference_l = ?,inference_r=?";
-    updateQuery += ",inference_i = ?,version=? where id = ?";
+    updateQuery += ",inference_i = ?,version=? where id = ? and status = ?";
 
     for(var i = 0 ; i < instructions.length; i++){
         var updateQueryDetails = mysql.format(updateQuery,[instructions[i].task_l,instructions[i].task_r,instructions[i].task_i
@@ -217,7 +394,7 @@ function updateInstructions(instructions) {
             ,instructions[i].picture_r,instructions[i].picture_i,instructions[i].measurement_l,instructions[i].measurement_r
             ,instructions[i].measurement_i,instructions[i].timeTaken,instructions[i].tools_l,instructions[i].tools_r
             ,instructions[i].tools_i,instructions[i].inference_l,instructions[i].inference_r,instructions[i].inference_i
-            ,instructions[i].version,instructions[i].id]);
+            ,instructions[i].version,instructions[i].id,'active']);
         con.query(updateQueryDetails, function(error) {
             if (error) {
                 console.error(error);
@@ -236,7 +413,7 @@ function updateImages(fileName,id,selectedField){
 
     var deferred = q.defer();
 
-    var query = 'Update tasks_supreme set '+selectedField+' = "'+fileName+'" where id = '+id;
+    var query = 'Update tasks_supreme set '+selectedField+' = "'+fileName+'" where id = '+id+' and status = "active"';
 
     console.log(query);
     
@@ -318,7 +495,7 @@ function getInstructionData(data) {
     query += 't.picture_r,t.picture_i,t.picture_l,t.flag_r,t.flag_i,t.flag_l,t.tools_r,t.tools_i,t.tools_l,';
     query += 't.timeTaken,t.inference_r,t.inference_i,t.inference_l,t.measurement_r,t.measurement_i,t.measurement_l,t.version';
     query += ',s.service as service,m.modelName as model from tasks_supreme as t,service_type as s,model as m where s.id = serviceId';
-    query += ' and s.modelId = m.id and t.serviceId = '+data.serviceId;
+    query += ' and s.modelId = m.id and t.serviceId = '+data.serviceId+' and t.status = "active"';
 
     // var query = 'Select id,serviceId,taskId,task_r, task_i, task_l, process_r,process_i,process_l,';
     // query += 'picture_r,picture_i,picture_l,flag_r,flag_i,flag_l,tools_r,tools_i,tools_l,';

@@ -3,7 +3,8 @@
  */
 angular.module('toyotaApp',[
     'ngRoute',
-    'ngFileUpload'
+    'ngFileUpload',
+    'ui.bootstrap'
 ]);
 
 

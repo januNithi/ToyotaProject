@@ -28,16 +28,38 @@
         $scope.models = [];
         $scope.services = [];
 
+
+
+        $scope.leftTechnicianInstruction = [];
+        $scope.rightTechnicianInstruction = [];
+        $scope.instructorInstruction = [];
+
+        $scope.noData_l = true;
+        $scope.cur_page_l = 1;
+        $scope.dataFilter_l = [];
+        $scope.items_per_page_l = 4;
+        $scope.totalLength_l = 0;
+        $scope.max_size_l = 6;
+
+        $scope.noData_i = true;
+        $scope.cur_page_i = 1;
+        $scope.dataFilter_i = [];
+        $scope.items_per_page_i = 4;
+        $scope.totalLength_i = 0;
+        $scope.max_size_i = 6;
+
+        $scope.noData_r = true;
+        $scope.cur_page_r = 1;
+        $scope.dataFilter_r = [];
+        $scope.items_per_page_r = 4;
+        $scope.totalLength_r = 0;
+        $scope.max_size_r = 6;
+
         $scope.loadInstruction = false;
-
         $scope.file = defaultProfilePicture;
-
         $scope.instructions = [];
-
         $scope.services = [];
-        
         $scope.choosenModel = 0;
-
         $scope.choosenService = 0;
 
         $scope.getData = function () {
@@ -45,10 +67,71 @@
             instructionManualService.getData($scope.choosenModel,$scope.choosenService).then(function (result) {
                 $scope.instructions = result.data;
                 $scope.loadInstruction = true;
+
+                angular.forEach($scope.instructions,function (value,index) {
+
+                    if(value.taskId_l != null){
+                        $scope.leftTechnicianInstruction.push(value);
+                    }
+                    if(value.taskId_r != null){
+                        $scope.rightTechnicianInstruction.push(value);
+                    }
+                    if(value.taskId_i != null){
+                        $scope.instructorInstruction.push(value);
+                    }
+
+                    if((index +1) == $scope.instructions.length){
+
+                        if ($scope.leftTechnicianInstruction.length > 0) {
+                            $scope.noData_l = false;
+                            $scope.totalLength_l = $scope.leftTechnicianInstruction.length;
+                            $scope.$watch('cur_page_l + items_per_page_l', function() {
+                                var begin = (($scope.cur_page_l - 1) * $scope.items_per_page_l), end = begin + $scope.items_per_page_l;
+                                console.log(begin + ' ' + end);
+                                $scope.dataFilter_l = $scope.leftTechnicianInstruction.slice(begin, end);
+                            });
+                        }
+
+                        if ($scope.instructorInstruction.length > 0) {
+                            $scope.noData_i = false;
+                            $scope.totalLength_i = $scope.instructorInstruction.length;
+                            $scope.$watch('cur_page_i + items_per_page_i', function() {
+                                var begin = (($scope.cur_page_i - 1) * $scope.items_per_page_i), end = begin + $scope.items_per_page_i;
+                                console.log(begin + ' ' + end);
+                                $scope.dataFilter_i = $scope.instructorInstruction.slice(begin, end);
+                            });
+                        }
+
+                        if ($scope.rightTechnicianInstruction.length > 0) {
+                            $scope.noData_r = false;
+                            $scope.totalLength_r = $scope.rightTechnicianInstruction.length;
+                            $scope.$watch('cur_page_r + items_per_page_r', function() {
+                                var begin = (($scope.cur_page_r - 1) * $scope.items_per_page_r), end = begin + $scope.items_per_page_r;
+                                console.log(begin + ' ' + end);
+                                $scope.dataFilter_r = $scope.rightTechnicianInstruction.slice(begin, end);
+                            });
+                        }
+                    }
+
+                });
+
+
             });
 
         };
-        
+
+        $scope.showPagination = function(tech) {
+            if(tech == 'I'){
+                return $scope.noData_i;
+            }
+            if(tech == 'R'){
+                return $scope.noData_r;
+            }
+            if(tech == 'L'){
+                return $scope.l;
+            }
+        };
+
         $scope.modelSelected = function(chsnModel){
             angular.forEach($scope.models,function (value,index) {
           
@@ -188,13 +271,15 @@
         };
 
 
-        $scope.deleteSingleInstruction = function (ins) {
+        $scope.deleteSingleInstruction = function (ins,userMode) {
 
             angular.forEach($scope.instructions,function (value,index) {
 
                 if(value == ins){
                     $scope.instrucions.splice(index,1);
+                    // if(value.ta)
                 }
+                
 
             });
 

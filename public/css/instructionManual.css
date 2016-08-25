@@ -18,7 +18,7 @@ thead th {
 }
 
 tbody {
-    height: 700px;
+    height: 500px;
     overflow-y: auto;
 }
 
@@ -28,6 +28,6 @@ thead {
 
 
 tbody td, thead th {
-    width:11%;
+    width:12%;
     float: left;
 }
