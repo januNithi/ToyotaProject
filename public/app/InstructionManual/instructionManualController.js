@@ -68,53 +68,59 @@
                 $scope.instructions = result.data;
                 $scope.loadInstruction = true;
 
-                angular.forEach($scope.instructions,function (value,index) {
+               $scope.splitInstructions();
 
-                    if(value.taskId_l != null){
-                        $scope.leftTechnicianInstruction.push(value);
-                    }
-                    if(value.taskId_r != null){
-                        $scope.rightTechnicianInstruction.push(value);
-                    }
-                    if(value.taskId_i != null){
-                        $scope.instructorInstruction.push(value);
-                    }
 
-                    if((index +1) == $scope.instructions.length){
+            });
 
-                        if ($scope.leftTechnicianInstruction.length > 0) {
-                            $scope.noData_l = false;
-                            $scope.totalLength_l = $scope.leftTechnicianInstruction.length;
-                            $scope.$watch('cur_page_l + items_per_page_l', function() {
-                                var begin = (($scope.cur_page_l - 1) * $scope.items_per_page_l), end = begin + $scope.items_per_page_l;
-                                console.log(begin + ' ' + end);
-                                $scope.dataFilter_l = $scope.leftTechnicianInstruction.slice(begin, end);
-                            });
-                        }
+        };
 
-                        if ($scope.instructorInstruction.length > 0) {
-                            $scope.noData_i = false;
-                            $scope.totalLength_i = $scope.instructorInstruction.length;
-                            $scope.$watch('cur_page_i + items_per_page_i', function() {
-                                var begin = (($scope.cur_page_i - 1) * $scope.items_per_page_i), end = begin + $scope.items_per_page_i;
-                                console.log(begin + ' ' + end);
-                                $scope.dataFilter_i = $scope.instructorInstruction.slice(begin, end);
-                            });
-                        }
+        $scope.splitInstructions = function(){
+            angular.forEach($scope.instructions,function (value,index) {
 
-                        if ($scope.rightTechnicianInstruction.length > 0) {
-                            $scope.noData_r = false;
-                            $scope.totalLength_r = $scope.rightTechnicianInstruction.length;
-                            $scope.$watch('cur_page_r + items_per_page_r', function() {
-                                var begin = (($scope.cur_page_r - 1) * $scope.items_per_page_r), end = begin + $scope.items_per_page_r;
-                                console.log(begin + ' ' + end);
-                                $scope.dataFilter_r = $scope.rightTechnicianInstruction.slice(begin, end);
-                            });
-                        }
+                if(value.taskId_l != null){
+                    $scope.leftTechnicianInstruction.push(value);
+                }
+                if(value.taskId_r != null){
+                    $scope.rightTechnicianInstruction.push(value);
+                }
+                if(value.taskId_i != null){
+                    $scope.instructorInstruction.push(value);
+                }
+
+                if((index +1) == $scope.instructions.length){
+
+                    if ($scope.leftTechnicianInstruction.length > 0) {
+                        $scope.noData_l = false;
+                        $scope.totalLength_l = $scope.leftTechnicianInstruction.length;
+                        $scope.$watch('cur_page_l + items_per_page_l', function() {
+                            var begin = (($scope.cur_page_l - 1) * $scope.items_per_page_l), end = begin + $scope.items_per_page_l;
+                            console.log(begin + ' ' + end);
+                            $scope.dataFilter_l = $scope.leftTechnicianInstruction.slice(begin, end);
+                        });
                     }
 
-                });
+                    if ($scope.instructorInstruction.length > 0) {
+                        $scope.noData_i = false;
+                        $scope.totalLength_i = $scope.instructorInstruction.length;
+                        $scope.$watch('cur_page_i + items_per_page_i', function() {
+                            var begin = (($scope.cur_page_i - 1) * $scope.items_per_page_i), end = begin + $scope.items_per_page_i;
+                            console.log(begin + ' ' + end);
+                            $scope.dataFilter_i = $scope.instructorInstruction.slice(begin, end);
+                        });
+                    }
 
+                    if ($scope.rightTechnicianInstruction.length > 0) {
+                        $scope.noData_r = false;
+                        $scope.totalLength_r = $scope.rightTechnicianInstruction.length;
+                        $scope.$watch('cur_page_r + items_per_page_r', function() {
+                            var begin = (($scope.cur_page_r - 1) * $scope.items_per_page_r), end = begin + $scope.items_per_page_r;
+                            console.log(begin + ' ' + end);
+                            $scope.dataFilter_r = $scope.rightTechnicianInstruction.slice(begin, end);
+                        });
+                    }
+
+                }
 
             });
 
@@ -131,6 +137,24 @@
                 return $scope.l;
             }
         };
+
+        $scope.getClass = function (tech) {
+            if(tech == 'I'){
+                if($scope.I){
+                    return 'active';
+                }
+            }
+            if(tech == 'LT'){
+                if($scope.LT){
+                    return 'active';
+                }
+            }
+            if(tech == 'RT'){
+                if($scope.RT){
+                    return 'active';
+                }
+            }
+        }
 
         $scope.modelSelected = function(chsnModel){
             angular.forEach($scope.models,function (value,index) {
@@ -207,7 +231,7 @@
 
         $scope.uploadFile = function(image) {
 
-            if ($window.confirm('Are You Sure ! Do you need to update the ProfilPicture?')) {
+            if ($window.confirm('Are You Sure ! Do you need to update the Picture?')) {
 
                 $scope.imageChanged = true;
                 $scope.selectedImage = image[0];
@@ -228,14 +252,37 @@
             });
         };
 
-        $scope.editSingleInstruction = function (ins) {
-            angular.forEach($scope.instructions,function (value,index) {
+        $scope.editSingleInstruction = function (ins,userType) {
+            if(userType == 'I'){
 
-                if(value == ins){
-                    value.isEdit = true;
-                }
+                angular.forEach($scope.dataFilter_i,function (value,index) {
 
-            });
+                    if(value.id == ins.id){
+                        value.isEdit = true;
+                    }
+
+                });
+            }
+            if(userType == 'RT'){
+
+                angular.forEach($scope.dataFilter_r,function (value,index) {
+
+                    if(value.id == ins.id){
+                        value.isEdit = true;
+                    }
+
+                });
+            }
+            if(userType == 'LT'){
+
+                angular.forEach($scope.dataFilter_l,function (value,index) {
+
+                    if(value.id == ins.id){
+                        value.isEdit = true;
+                    }
+
+                });
+            }
         };
 
         $scope.updateSingleInstruction = function (ins) {
@@ -244,44 +291,93 @@
             if ($window.confirm('Are You Sure ! Do you need to update the Data?')) {
 
                 instructionManualService.updateData(data).then(function(result) {
-                    instructionManualService.getData(0,ins.serviceId).then(function (result) {
-                        $scope.instructions = result.data;
-                        $scope.loadInstruction = true;
-                    });
+                    $scope.getData();
                 },function(error){
                     // dashboardService.showError(error.data);
                 });
             }
         };
 
-        $scope.cancelUpdateSingleInstruction = function (ins) {
+        $scope.cancelUpdateSingleInstruction = function (ins,userType) {
 
-            angular.forEach($scope.instructions, function (value,index) {
+            if(userType == 'I'){
 
-                if(value == ins){
-                    value.isEdit = false;
-                    instructionManualService.getData(0,ins.serviceId).then(function (result) {
-                        $scope.instructions = result.data;
-                        $scope.loadInstruction = true;
-                    });
-                }
+                angular.forEach($scope.dataFilter_i,function (value,index) {
 
-            });
+                    if(value.id == ins.id){
+                        value.isEdit = false;
+                        $scope.leftTechnicianInstruction = [];
+                        $scope.rightTechnicianInstruction = [];
+                        $scope.instructorInstruction = [];
+                        $scope.getData();
+                    }
+
+                });
+            }
+            if(userType == 'RT'){
+
+                angular.forEach($scope.dataFilter_r,function (value,index) {
+
+                    if(value.id == ins.id){
+                        value.isEdit = false;
+                        $scope.leftTechnicianInstruction = [];
+                        $scope.rightTechnicianInstruction = [];
+                        $scope.instructorInstruction = [];
+                        $scope.getData();
+                    }
+
+                });
+            }
+            if(userType == 'LT'){
+
+                angular.forEach($scope.dataFilter_l,function (value,index) {
+
+                    if(value.id == ins.id){
+                        value.isEdit = false;
+                        $scope.leftTechnicianInstruction = [];
+                        $scope.rightTechnicianInstruction = [];
+                        $scope.instructorInstruction = [];
+                        $scope.getData();
+                    }
+
+                });
+            }
+            //
+            // angular.forEach($scope.instructions, function (value,index) {
+            //
+            //     if(value.id == ins.id){
+            //         value.isEdit = false;
+            //         instructionManualService.getData(0,ins.serviceId).then(function (result) {
+            //             $scope.instructions = result.data;
+            //             $scope.loadInstruction = true;
+            //         });
+            //     }
+            //
+            // });
 
         };
 
+        $scope.goToDashboard = function () {
+            instructionManualService.goToDashboard();
+        };
 
-        $scope.deleteSingleInstruction = function (ins,userMode) {
 
-            angular.forEach($scope.instructions,function (value,index) {
+        $scope.deleteInstruction = function (ins,userMode) {
 
-                if(value == ins){
-                    $scope.instrucions.splice(index,1);
-                    // if(value.ta)
-                }
-                
+            if ($window.confirm('Do you need to delete the instruction for other two Technicians?')) {
 
-            });
+                instructionManualService.deleteEntireInstruction(ins).then(function (result) {
+                    $scope.getData();
+                });
+
+            }else{
+
+                instructionManualService.deleteSingleInstruction(ins,userMode).then(function (result) {
+                    $scope.getData();
+                });
+
+            }
+          
 
         };
 

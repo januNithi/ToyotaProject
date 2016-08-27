@@ -21,6 +21,12 @@
                 });
 
             },
+            goToDashboard : function () {
+
+                $window.location.href = '/';
+
+            },
+
 
             viewManual : function () {
                 $window.location.href = '/instructionManual';

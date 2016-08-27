@@ -8,9 +8,10 @@
         .factory('modelRegistrationService', modelRegistrationService);
 
     modelRegistrationService.$inject = [
-        '$http'
+        '$http',
+        '$window'
     ];
-    function modelRegistrationService ($http) {
+    function modelRegistrationService ($http,$window) {
         return {
 
             getModels : function () {
@@ -18,6 +19,12 @@
                 return $http.get(
                     '/model/getModel'
                 );
+
+            },
+
+            goToDashboard : function () {
+
+                $window.location.href = '/';
 
             },
 

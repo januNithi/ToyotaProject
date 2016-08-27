@@ -41,6 +41,10 @@
             
         };
 
+        $scope.goToDashboard = function () {
+          loadInputDataService.goToDashboard();
+        };
+
         $scope.serviceSelected = function (chnsService) {
 
             if($scope.choosenModel !=0  && $scope.choosenService != 0) {

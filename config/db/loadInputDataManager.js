@@ -68,10 +68,12 @@ function updateInstructionData(data,serviceId,picArr) {
         if(results && results.length > 0){
 
             version = results[0].version;
-            version = Number(version)+0.1;
 
             qry = "Update tasks_supreme set status = 'Mark as Deleted' where version = "+version+"";
             qry += " and serviceId = "+serviceId+" and status = 'active'";
+
+
+            version = Number(version)+0.1;
 
             con.query(qry,function (error,results) {
 
@@ -413,7 +415,8 @@ function updateImages(fileName,id,selectedField){
 
     var deferred = q.defer();
 
-    var query = 'Update tasks_supreme set '+selectedField+' = "'+fileName+'" where id = '+id+' and status = "active"';
+    var query = 'Update tasks_supreme set '+selectedField+' = "'+fileName+'"';
+    query += ' where id = '+id+' and status = "active"';
 
     console.log(query);
     
@@ -426,6 +429,114 @@ function updateImages(fileName,id,selectedField){
     });
     
     return deferred.promise;
+
+}
+
+function deleteSingleInstruction(data,cb) {
+
+    var query = '';
+    var taskID = 0;
+    var taskModeVar = '';
+    if(data.userMode ==  'I'){
+        taskModeVar = 'taskId_i';
+        taskID = data.ins.taskId_i;
+        query = "Update tasks_supreme set flag_i = ?,inference_i = ?";
+        query += ",measurement_i = ?,picture_i = ?,process_i = ?";
+        query += ",taskId_i = ?, task_i = ?, tools_i = ? where";
+        query += " version = ? and status = ? and id = ?";
+    }else if(data.userMode ==  'LT'){
+        taskModeVar = 'taskId_l';
+        taskID = data.ins.taskId_l;
+        query = "Update tasks_supreme set flag_l = ?,inference_l = ?";
+        query += ",measurement_l = ?,picture_l = ?,process_l = ?";
+        query += ",taskId_l = ?, task_l = ?, tools_l = ? where";
+        query += " version = ? and status = ? and id = ?";
+    }else if(data.userMode ==  'RT'){
+        taskModeVar = 'taskId_r';
+        taskID = data.ins.taskId_r;
+        query = "Update tasks_supreme set flag_r = ?,inference_r = ?";
+        query += ",measurement_r = ?,picture_r = ?,process_r = ?";
+        query += ",taskId_r = ?, task_r = ?, tools_r = ? where";
+        query += " version = ? and status = ? and id = ?";
+    }
+
+    var updateQuery = mysql.format(query,[null,null,null,null,null,null,null,null,
+        data.ins.version,'active',data.ins.id]);
+
+    con.query(updateQuery,function (error,results) {
+
+        if(error){
+            cb(error,results);
+        }
+
+        query = "Update tasks_supreme set "+taskModeVar+" = "+taskModeVar+"-1 where version = ";
+        query += ""+data.ins.version+"  and status = 'active' and "+taskModeVar+" > "+taskID;
+
+        con.query(query,function (err,rslt) {
+
+            if(err){
+                cb(err,rslt);
+            }
+
+            cb(err,rslt);
+
+        });
+
+
+    });
+
+
+}
+
+function deleteEntireInstruction(data,cb) {
+    var query = '';
+    var taskId_i = data.taskId_i;
+    var taskId_l = data.taskId_l;
+    var taskId_r = data.taskId_r;
+    var taskModeVar = '';
+    query = "Update tasks_supreme set status = 'Mark as deleted',taskId_i = 0,taskId_r = 0,taskId_l = 0 where id = "+data.id;
+    query += " and status = 'active'";
+    con.query(query,function (error,results) {
+
+        if(error){
+            cb(error,results);
+        }
+
+        query = "Update tasks_supreme set taskId_i= taskId_i-1 where version = ";
+        query += ""+data.version+"  and status = 'active' and taskId_i > "+taskId_i;
+
+        con.query(query,function (err,rslt) {
+
+            if(err){
+                cb(err,rslt);
+            }
+
+            query = "Update tasks_supreme set taskId_r= taskId_r-1 where version = ";
+            query += ""+data.version+"  and status = 'active' and taskId_r > "+taskId_r;
+            con.query(query,function (er,rsl) {
+
+                if(er){
+                    cb(er,rsl);
+                }
+
+                query = "Update tasks_supreme set taskId_l= taskId_l-1 where version = ";
+                query += ""+data.version+"  and status = 'active' and taskId_l > "+taskId_l;
+                con.query(query,function (e,rs) {
+
+                    if(e){
+                        cb(e,rs);
+                    }
+
+                    cb(e,rs);
+
+                });
+
+            });
+        });
+
+
+    });
+
 
 }
 
@@ -522,5 +633,7 @@ module.exports = {
     updateImages:updateImages,
     updateInstructions:updateInstructions,
     getInstructions:getInstructions,
-    updateWorkCheckInstructions:updateWorkCheckInstructions
+    updateWorkCheckInstructions:updateWorkCheckInstructions,
+    deleteSingleInstruction:deleteSingleInstruction,
+    deleteEntireInstruction:deleteEntireInstruction
 };

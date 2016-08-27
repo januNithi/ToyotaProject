@@ -1,9 +1,21 @@
-
-
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+<nav class="navbar navbar-default">
+    <div class="navbar-header">
         <ul class="nav navbar-nav">
-            <li ><a href="#">Model</a></li>
+            <li><a href="#">Model</a> </li>
+
+        </ul>
+    </div>
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li class='pull-right'>
+
+                <a ng-click='goToDashboard()'>
+
+                    <i class="fa fa-reply" aria-hidden="true"></i>
+
+                </a>
+
+            </li>
         </ul>
     </div>
 </nav>
@@ -13,10 +25,7 @@
     <div class="row">
         <div class="col-md-12">
             <h4 class="page-head-line">Model</h4>
-            <a data-toggle="modal" data-target="#addModel">
-                <span class="pull-right">Add Model</span>
-            </a>
-        </div>
+         </div>
 
     </div>
 
@@ -66,21 +75,21 @@
 
                                     <div ng-show="showEditable(mdl)">
                                         <input type="text" ng-model="service.serviceName">
-                                        <a ng-click="removeAService(mdl,service)"><span class="glyphicon glyphicon-remove"></span></a>
+                                        <a ng-click="removeAService(mdl,service)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
                                     </div>
 
                                 </div>
-                                <a ng-show="showEditable(mdl)"ng-click="addNewService(mdl)"><span class="glyphicon glyphicon-plus"></span></a>
+                                <a ng-show="showEditable(mdl)"ng-click="addNewService(mdl)"><i class="fa fa-plus-circle" aria-hidden="true">Add Service</i></a>
 
 
                             </td>
 
                             <td>
 
-                                <a ng-hide="showEditable(mdl)" ng-click="editModel(mdl)"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a ng-hide="showEditable(mdl)" ng-click="deleteModel(mdl)"><span class="glyphicon glyphicon-minus"></span></a>
-                                <a ng-show="showEditable(mdl)" ng-click="updateModel(mdl)"><span class="glyphicon glyphicon-ok"></span></a>
-                                <a ng-show="showEditable(mdl)" ng-click="cancelEdit(mdl)"><span class="glyphicon glyphicon-remove"></span></a>
+                                <a ng-hide="showEditable(mdl)" ng-click="editModel(mdl)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
+                                <a ng-hide="showEditable(mdl)" ng-click="deleteModel(mdl)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                                <a ng-show="showEditable(mdl)" ng-click="updateModel(mdl)"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                <a ng-show="showEditable(mdl)" ng-click="cancelEdit(mdl)"><i class="fa fa-close" aria-hidden="true"></i></a>
 
                             </td>
 
@@ -93,39 +102,6 @@
 
 
             </div>
-
-    </div>
-
-    <div id="addModel" class="modal fade" role="dialog">
-
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-
-                <div class="form">
-
-                    <div class="form-group">
-
-                        <label class="control-label">Model</label>
-
-                        <input type="text" class="form-control" ng-model="model">
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <button class="btn btn-success" ng-click="addModel()"> Add </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
 
     </div>
 

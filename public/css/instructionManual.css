@@ -1,33 +1,33 @@
-table {
-    width: 100%;
-}
+/*.i_table {*/
+    /*width: 100%;*/
+/*}*/
 
-thead, tbody, tr, td, th { display: block; }
+/*.i_thead, .i_tbody, .i_tr, .i_td, .i_th { display: block; }*/
 
-tr:after {
-    content: ' ';
-    display: block;
-    visibility: hidden;
-    clear: both;
-}
+/*.i_tr:after {*/
+    /*content: ' ';*/
+    /*display: block;*/
+    /*visibility: hidden;*/
+    /*clear: both;*/
+/*}*/
 
-thead th {
-    height: 60px;
+/*.i_thead th {*/
+    /*height: 60px;*/
 
-    /*text-align: left;*/
-}
+    /*!*text-align: left;*!*/
+/*}*/
 
-tbody {
-    height: 500px;
-    overflow-y: auto;
-}
+/*.i_tbody {*/
+    /*height: 500px;*/
+    /*overflow-y: auto;*/
+/*}*/
 
-thead {
-    /* fallback */
-}
+/*.i_thead {*/
+    /*!* fallback *!*/
+/*}*/
 
 
-tbody td, thead th {
-    width:12%;
-    float: left;
-}
+/*.i_tbody .i_td, .i_thead .i_th {*/
+    /*width:12%;*/
+    /*float: left;*/
+/*}*/

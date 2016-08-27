@@ -164,6 +164,18 @@ exports.uploadImages = function (req,res) {
 
 };
 
+exports.deleteSingleInstruction = function (req,res) {
+    storageManager.deleteSingleInstruction(req.body,function (result) {
+
+    });
+};
+
+exports.deleteEntireInstruction = function (req,res) {
+    storageManager.deleteEntireInstruction(req.body,function (result) {
+
+    });
+};
+
 exports.getInstruction = function(req,res){
 
     storageManager.getInstructions(req.query).then(function(result){

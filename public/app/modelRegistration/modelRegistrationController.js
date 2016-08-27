@@ -32,7 +32,13 @@
                 }
 
             });
-        }
+        };
+
+
+        $scope.goToDashboard = function () {
+            modelRegistrationService.goToDashboard();
+        };
+
 
         $scope.cancelEdit = function(mdl){
             angular.forEach($scope.model,function (value,index) {
