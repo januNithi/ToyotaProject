@@ -11,10 +11,10 @@
     function loadInputDataService (Upload,$window) {
         return {
 
-            uploadData : function (files,serviceId) {
+            uploadData : function (files,service,model) {
 
                 return Upload.upload({
-                    url: '/connect/loadData?serviceId='+serviceId,
+                    url: '/connect/loadData?service='+service+'&model='+model,
 
                     data: {file: files}
 

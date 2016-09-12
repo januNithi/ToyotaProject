@@ -40,7 +40,7 @@
 
                 <select id="model" ng-model="choosenModel" ng-change="modelSelected(choosenModel)" class="form-control">
 
-                    <option ng-value="mdl.id" ng-repeat="mdl in models">{{mdl.modelName}}</option>
+                    <option ng-value="mdl.modelName" ng-repeat="mdl in models">{{mdl.modelName}}</option>
 
                 </select>
 
@@ -52,7 +52,7 @@
 
                 <select id="serviceType" ng-model="choosenService" ng-change="serviceSelected(choosenService)" class="form-control">
 
-                    <option ng-value="service.serviceId" ng-repeat="service in services">{{service.serviceName}}</option>
+                    <option ng-value="service.serviceName" ng-repeat="service in services">{{service.serviceName}}</option>
 
                 </select>
 
@@ -153,7 +153,7 @@
 
                             <div class="container col-md-12" style="max-height: 500px;overflow-y: scroll;border: groove;word-wrap: break-word">
 
-                                <div class="row" ng-repeat="instruction in dataFilter_l"  style="border: groove">
+                                <div class="row" ng-repeat="instruction in dataFilter_l "  style="border: groove">
 
                                         <div class="col-xs-1" ng-show="instruction.taskId_l">
 

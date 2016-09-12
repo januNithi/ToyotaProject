@@ -23,9 +23,9 @@
 
         $scope.services = [];
         
-        $scope.choosenModel = 0;
+        $scope.choosenModel = '';
         
-        $scope.choosenService = 0;
+        $scope.choosenService = '';
 
         $scope.loadExcel = false;
 
@@ -35,7 +35,7 @@
             
             $scope.loadedData = files[0];
 
-            loadInputDataService.uploadData(files[0],$scope.choosenService).then(function (result) {
+            loadInputDataService.uploadData(files[0],$scope.choosenService,$scope.choosenModel).then(function (result) {
                 loadInputDataService.viewManual();
             });
             
@@ -47,7 +47,7 @@
 
         $scope.serviceSelected = function (chnsService) {
 
-            if($scope.choosenModel !=0  && $scope.choosenService != 0) {
+            if($scope.choosenModel !=''  && $scope.choosenService != '') {
                 $scope.loadExcel = true;
             }
 
@@ -56,7 +56,7 @@
         $scope.modelSelected = function(chsnModel){
             angular.forEach($scope.models,function (value,index) {
 
-                if(chsnModel == value.id){
+                if(chsnModel == value.modelName){
 
                     $scope.services = value.services;
 

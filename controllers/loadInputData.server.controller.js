@@ -20,9 +20,9 @@ var storage = multer.diskStorage({ //multers disk storage settings
         var datetimestamp = Date.now();
         console.log("req.body"+req.body.file);
         // cb(null, file.fieldname + '-' + file.originalname);
-        cb(null, 'excel-'+req.query.serviceId+"."+file.originalname.split('.')[1]);
+        cb(null, 'excel-'+req.query.service+"."+file.originalname.split('.')[1]);
         //
-        var path = "public/uploads/"+file.fieldname + "-" + file.originalname;
+        var path = "public/uploads/"+'excel-'+req.query.service+"."+file.originalname.split('.')[1];
        
         // var excel = require('excel-stream');
         // var fs = require('fs');
@@ -39,7 +39,7 @@ var storage = multer.diskStorage({ //multers disk storage settings
         var picArr;
 
         var exec = require('child_process').exec;
-        var child = exec('java -jar ./javaLib/jar/excelJar.jar ' +req.query.serviceId,
+        var child = exec('java -jar ./javaLib/jar/excelJar.jar ' +req.query.service+" "+req.query.model,
             function (error, stdout, stderr){
                 console.log('Output -> ' + stdout);
                 picArr = stdout.split("\r\n");
@@ -63,7 +63,7 @@ var storage = multer.diskStorage({ //multers disk storage settings
                                 serviceId : req.query.serviceId
                             }
                             req.session.data = data;
-                            storageManager.updateInstructionData(records,req.query.serviceId,picArr);
+                            storageManager.updateInstructionData(records,req.query.service,req.query.model,picArr);
                         });
                     }
                 });

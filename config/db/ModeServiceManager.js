@@ -6,47 +6,65 @@ var q = require('q');
 var db = require('./../db');
 var con = mysql.createConnection(db);
 
+var sqlDb = require('./../sqlDb');
+
+var sql = require('mssql');
+
+
 var loadDataManager = require('./loadInputDataManager.js');
 
 function getModels(){
+
     var deferred = q.defer();
 
-    var query = "Select modelName,id from model where status = 'active'";
+    var query = "Select Distinct(MName) as modelName from Toyota_Model";
 
     var models = [];
 
-    con.query(query,function (error,results) {
+    var connection = new sql.Connection(sqlDb);
 
-        if(error){
-            return deferred.reject(error);
-        }
+    connection.connect().then(function () {
+        var request = new sql.Request(connection);
 
-        if(results && results.length > 0){
+        request.query(query).then(function (recordset,err) {
 
-            var data = results;
+            if(err){
+                connection.close();
+                return deferred.reject(err);
+            }
 
-            data.forEach(function(value, index) {
+            if(recordset && recordset.length > 0) {
 
-                var qry = "select service as serviceName,id as serviceId from service_type where modelId = "+value.id;
-                qry += " and status = 'active'";
+                var data = recordset;
 
-                con.query(qry,function (err,rslt) {
+                data.forEach(function (value, index) {
 
-                    if(err){
-                        return deferred.reject(err);
-                    }
-                    value.services = rslt;
-                    value.isEdit = false;
-                    models.push(value);
-                    if((index + 1) >= data.length){
-                        deferred.resolve(models);
-                    }
+                    var qry = "select MType as serviceName from Toyota_Model where MName = '" + value.modelName+"'";
+
+
+                    request.query(qry).then(function (records,err) {
+
+                        if(err){
+                            connection.close();
+                            return deferred.reject(err);
+                        }
+
+                        if(records && records.length > 0){
+                            value.services = records;
+                            value.isEdit = false;
+                            models.push(value);
+                            if ((index + 1) >= data.length) {
+                                connection.close();
+                                deferred.resolve(models);
+                            }
+                        }
+
+                    });
+
                 });
+            }
 
-            });
-
-        }
-
+        });
     });
 
     return deferred.promise;

@@ -159,7 +159,7 @@
         $scope.modelSelected = function(chsnModel){
             angular.forEach($scope.models,function (value,index) {
           
-                if(chsnModel == value.id){
+                if(chsnModel == value.modelName){
 
                     $scope.services = value.services;
                     
@@ -202,7 +202,7 @@
 
         $scope.showImage = function(image){
             if(image != null){
-                return uploadedExcelImagePath+image;
+                return "data:image/jpeg;base64,"+image;
             }
             return $scope.file;
         };
