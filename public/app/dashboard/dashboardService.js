@@ -18,6 +18,10 @@
                 $window.location.href = '/modelRegistration';
             },
 
+            goToReportGeneration : function () {
+                $window.location.href = '/reportGeneration';
+            },
+
             goToInstructions : function () {
                 $window.location.href = '/instructionManual';
             },
@@ -31,6 +35,18 @@
             },
             loadData : function () {
                 $window.location.href = '/loadInputData';
+            },
+
+            goToAdditionals : function () {
+
+                $window.location.href = '/additionals';
+
+            },
+
+            goToMeasures : function () {
+
+                $window.location.href = '/measures';
+
             },
 
             registerService : function (data) {

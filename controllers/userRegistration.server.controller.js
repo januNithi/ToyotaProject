@@ -89,7 +89,9 @@ exports.saveNewEmployeeRegDetails=function (req,res) {
         data.Bay_No = fields.Bay_No;
         data.Flag = fields.Flag;
         data.Photo=fields.Photo;
-        data.id=fields.id;
+        if(fields.id) {
+            data.id = fields.id;
+        }
 
     storageManager.NewEmployeeRegDetails(data).then(function(result){
         res.send(result);

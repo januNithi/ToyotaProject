@@ -52,7 +52,9 @@
                     saveEmployeeRegDetails:function(data){
 
                         var fd = new FormData();
-                        fd.append('id',data.id);
+                        if(data.id) {
+                            fd.append('id', data.id);
+                        }
                         fd.append('Name', data.Name);
                         fd.append('Designation', data.Designation);
                         fd.append('Username', data.Username);

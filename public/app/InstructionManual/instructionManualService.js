@@ -23,6 +23,12 @@
 
             },
 
+            getMeasures : function(){
+
+                return $http.get('/connect/getMeasures');
+
+            },
+
             goToDashboard : function () {
 
                 $window.location.href = '/';

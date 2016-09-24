@@ -16,6 +16,22 @@
             dashboardService.goToModels();
         };
 
+        $scope.goToReportGeneration = function () {
+
+            dashboardService.goToReportGeneration();
+
+        };
+        
+        $scope.goToAdditionals = function () {
+          
+            dashboardService.goToAdditionals();
+            
+        };
+
+        $scope.goToMeasures = function () {
+            dashboardService.goToMeasures();
+        };
+
         $scope.goToInstructions = function () {
             dashboardService.goToInstructions();
         };

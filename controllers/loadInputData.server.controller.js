@@ -165,14 +165,18 @@ exports.uploadImages = function (req,res) {
 };
 
 exports.deleteSingleInstruction = function (req,res) {
-    storageManager.deleteSingleInstruction(req.body,function (result) {
-
+    storageManager.deleteSingleInstruction(req.body).then(function (result) {
+        res.send(result);
+    },function (error) {
+        res.send(500,{error:error});
     });
 };
 
 exports.deleteEntireInstruction = function (req,res) {
-    storageManager.deleteEntireInstruction(req.body,function (result) {
-
+    storageManager.deleteEntireInstruction(req.body).then(function (result) {
+        res.send(result);
+    },function (error) {
+        res.send(500,{error:error});
     });
 };
 
@@ -196,10 +200,99 @@ exports.getInstruction = function(req,res){
 
 };
 
+exports.getWorkCompleted = function (req,res) {
+
+    storageManager.getWorkCompleted(req.query.serviceId).then(function (result) {
+
+        res.send(result);
+
+    },function (error) {
+        res.send(500,{error:error});
+    });
+    
+};
+
+exports.getMeasures = function (req,res) {
+
+    storageManager.getMeasures().then(function (result) {
+
+        res.send(result);
+
+    },function (error) {
+        res.send(500,{error:error});
+    });
+
+};
+
+exports.getRegisteredService = function (req,res) {
+
+    storageManager.getRegisteredService().then(function (result) {
+
+        res.send(result);
+
+    },function (error) {
+        res.send(500,{error:error});
+    });
+
+};
+
+
+exports.getAdditionalData = function (req,res) {
+
+    storageManager.getAdditional().then(function (result) {
+
+        res.send(result);
+
+    },function (error) {
+        res.send(500,{error:error});
+    });
+
+};
+
+exports.deleteAdditionals = function (req,res) {
+
+    storageManager.deleteAdditional(req.body).then(function (result) {
+        res.send(result);
+    },function (error) {
+        res.send(500,{error:error});
+    });
+
+};
+
+exports.updateAdditionals = function (req,res) {
+    storageManager.updateAdditional(req.body).then(function (result) {
+        res.send(result);
+    },function (error) {
+        res.send(500,{error:error});
+    });
+};
+
+
+exports.deleteMeasure = function (req,res) {
+
+    storageManager.deleteMeasure(req.body).then(function (result) {
+        res.send(result);
+    },function (error) {
+        res.send(500,{error:error});
+    });
+
+};
+
+exports.updateMeasure = function (req,res) {
+    storageManager.updateMeasure(req.body).then(function (result) {
+        res.send(result);
+    },function (error) {
+        res.send(500,{error:error});
+    });
+};
+
+
 exports.updateInstructions = function (req,res) {
 
     storageManager.updateInstructions(req.body).then(function (result) {
         res.send(result);
+    },function (error) {
+        res.send(500,{error:error});
     });
 
 };

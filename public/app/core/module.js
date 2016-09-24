@@ -5,9 +5,7 @@ angular.module('toyotaApp',[
 
     'ngRoute',
     'ngFileUpload',
-    'ui.bootstrap',
-    'ngMaterial',
-     'ngMessages'
+    'ui.bootstrap'
 
 ]);
 

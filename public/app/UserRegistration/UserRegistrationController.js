@@ -16,6 +16,7 @@
         $scope.myDate = new Date();
         $scope.name=true;
 
+        $scope.isEdit = false;
 
         
         $scope.cur_page= 1;
@@ -48,7 +49,7 @@
                     $scope.dataFilter = $scope.employeeRegDetails.slice(begin, end);
                 });
 
-                
+                $scope.isEdit = false;
                 
             });
 
@@ -57,8 +58,8 @@
 
 
         $scope.encodeImage=function(encodeImage){
-               
-            return "data:image/jpeg;base64,"+encodeImage;
+
+           return "data:image/jpeg;base64,"+encodeImage;
 
         };
 
@@ -68,11 +69,11 @@
 
           angular.element('#f1').trigger('click');
           if ($window.confirm('Do you need to edit?')) {
-
+                $scope.isEdit = true;
               $scope.selectUserdetails=data;
               angular.forEach($scope.employeeRegDetails, function (value, index) {
 
-                  if (value.DMI_No == data.DMI_No) {
+                  if (value.id == data.id) {
                       value.isEdit = true;
                   }
 
@@ -89,14 +90,6 @@
         };
 
 
-        $scope.uploadedFiles = function(element) {
-            $scope.name=false;
-            $scope.$apply(function($scope) {
-
-                $scope.Editfiles = element.files;
-
-            });
-        };
 
     $scope.updateEmployeeReg=function()
     {
@@ -114,7 +107,7 @@
         }
         angular.forEach($scope.employeeRegDetails, function (value, index) {
 
-            if(value.DMI_No != $scope.selectUserdetails.DMI_No) {
+            if(value.id != $scope.selectUserdetails.id) {
 
                 if (value.Bay_No == $scope.selectUserdetails.Bay_No) {
                     $scope.i = $scope.i + 1;
@@ -148,6 +141,7 @@
         $scope.uploadedFile = function(element) {
             $scope.$apply(function($scope) {
                 $scope.files = element.files;
+                $scope.isEdit = false;
             });
         };
 
@@ -155,34 +149,20 @@
 
 
         $scope.saveNewEmployee=function() {
-                $scope.i=0;
-            if($scope.selectUserdetails.Flag=="Active"){
 
-                $scope.selectUserdetails.Flag=1;
-
-            }
-            else {
-
-                $scope.selectUserdetails.Flag=0;
-            }
-            angular.forEach($scope.employeeRegDetails, function (value, index) {
-
-
-                if(value.Bay_No==$scope.selectUserdetails.Bay_No){
-                    $scope.i =$scope.i+1;
-
-                }
-
-            });
+            // if($scope.selectUserdetails.Flag=="Active"){
+            //
+            //     $scope.selectUserdetails.Flag=1;
+            //
+            // }
+            // else {
+            //
+            //     $scope.selectUserdetails.Flag=0;
+            // }
 
 
-            if ($scope.i >= 3) {
 
-                alert('Already BayNo Exits...!');
-                $scope.data=null;
-                $scope.selectUserdetails=null;
 
-            }else{
                 //$scope.data=$scope.data.BayNo;
                 $scope.selectUserdetails.files=$scope.files;
                 if ($window.confirm('Do you need to save?')) {
@@ -197,15 +177,30 @@
 
                     });
                 }
-            }
 
         };
 
+        $scope.isBayNoValid = function (bayNo) {
+
+            $scope.i=0;
+
+            angular.forEach($scope.employeeRegDetails, function (value, index) {
+
+
+                if(value.Bay_No==bayNo.$modelValue){
+                    $scope.i =$scope.i+1;
+
+                }
+
+            });
+
+            return ($scope.i >= 3);
+
+
+        };
         $scope.cancelEmployeeReg = function () {
 
-                    $scope.getEmployeeRegDetails();
-
-
+            $scope.getEmployeeRegDetails();
 
         };
         $scope.deleteEmployeeReg = function (data) {
@@ -233,7 +228,8 @@
 
             $scope.data=null;
             $scope.selectUserdetails=null;
-
+            $scope.isEdit = false;
+            $scope.getEmployeeRegDetails();
 
 
         };

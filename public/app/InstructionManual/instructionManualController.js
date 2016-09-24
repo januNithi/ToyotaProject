@@ -62,6 +62,13 @@
         $scope.choosenModel = 0;
         $scope.choosenService = 0;
 
+        $scope.flags = [
+            {id:'1',value:'Active'},
+            {id:'0',value:'In-Active'}
+        ];
+
+        $scope.measuresData = [];
+
         $scope.getData = function () {
 
             instructionManualService.getData($scope.choosenModel,$scope.choosenService).then(function (result) {
@@ -69,6 +76,12 @@
                 $scope.loadInstruction = true;
 
                $scope.splitInstructions();
+
+                instructionManualService.getMeasures().then(function (result) {
+
+                    $scope.measuresData = result.data;
+
+                });
 
 
             });
@@ -216,8 +229,11 @@
             if ($window.confirm('Are You Sure ! Do you need to update the Data?')) {
 
                 instructionManualService.updateData($scope.instructions).then(function(result) {
-                    
+                    console.log("Result"+JSON.stringify(result));
+                    $scope.getData();
                 },function(error){
+                    console.log("error"+JSON.stringify(error));
+                    $scope.getData();
                     // dashboardService.showError(error.data);
                 });
             }
@@ -366,13 +382,17 @@
 
             if ($window.confirm('Do you need to delete the instruction for other two Technicians?')) {
 
-                instructionManualService.deleteEntireInstruction(ins).then(function (result) {
+                instructionManualService.deleteEntireInstruction(ins).then(function (error) {
+                    console.log(error);
+                },function(result){
                     $scope.getData();
                 });
 
             }else{
 
-                instructionManualService.deleteSingleInstruction(ins,userMode).then(function (result) {
+                instructionManualService.deleteSingleInstruction(ins,userMode).then(function (error) {
+                    console.log(error);
+                },function (result) {
                     $scope.getData();
                 });
 

@@ -15,7 +15,6 @@ function getEmployeeRegDetails(){
 
     var deferred=q.defer();
 
-
     var query = "select id,DMI_No,Name,Designation,Photo,Username,Password,Bay_No,Flag,Date from Toyota_Employee order by DMI_No ASC ";
     console.log(query);
     var connection = new sql.Connection(sqlDb);
@@ -23,28 +22,14 @@ function getEmployeeRegDetails(){
         var request = new sql.Request(connection);
 
         request.query(query,function(err,result){
-
             
-            
-            if(err){
-
-                deferred.reject(err);
-
-                   }
-            else   {
-
-                //for(i=0;i<result.length;i++){
-
-                    //result[i].isEdit =false;
-
-
-                    //if((i + 1) == result.length){
-
-                        deferred.resolve(result);
-
-                //}
-                
-                    }
+            if(err) {
+                connection.close();
+                return deferred.reject(err);
+            }else{
+                connection.close();
+                deferred.resolve(result);
+            }
 
         });
     });
@@ -95,7 +80,9 @@ function NewEmployeeRegDetails(data){
     if(data.id) {
         var my_date= new Date().toISOString().slice(0, 19).replace('T', ' ');
         var deferred=q.defer();
-        var query = "UPDATE Toyota_Employee SET DMI_No = '"+data.DMI_NO+"',Name='"+data.Name+"',Designation='"+data.Designation+"',Photo='"+data.encode+"',Username='"+data.Username+"',Password='"+data.Password+"',Bay_No='"+data.Bay_No+"',Flag='"+data.Flag+"',Date='"+my_date+"' WHERE DMI_No = '"+data.DMI_NO+"'";
+        var query = "UPDATE Toyota_Employee SET DMI_No = '"+data.DMI_NO+"',Name='"+data.Name+"',Designation='"+data.Designation+"',Photo='";
+        query += data.encode+"',Username='"+data.Username+"',Password='"+data.Password+"',Bay_No='";
+        query += data.Bay_No+"',Flag='"+data.Flag+"',Date='"+my_date+"' WHERE id = "+data.id
         console.log(query);
         var connection = new sql.Connection(sqlDb);
         connection.connect().then(function () {
@@ -129,7 +116,7 @@ function NewEmployeeRegDetails(data){
     else {
         var my_date = new Date().toISOString().slice(0, 19).replace('T', ' ');
         console.log(my_date);
-        var query = "INSERT INTO Toyota_Employee (Name,Designation,Photo,Username,Password,Bay_No,Flag,Date) VALUES('" + data.Name + "','" + data.Designation + "','" + data.encode + "','" + data.Username + "','" + data.Password + "','" + data.Bay_No + "','" + data.Flag + "','" + my_date + "')";
+        var query = "INSERT INTO Toyota_Employee (DMI_No,Name,Designation,Photo,Username,Password,Bay_No,Flag,Date) VALUES('"+data.DMI_No+"','" + data.Name + "','" + data.Designation + "','" + data.encode + "','" + data.Username + "','" + data.Password + "','" + data.Bay_No + "','" + data.Flag + "','" + my_date + "')";
         console.log(query);
         var connection = new sql.Connection(sqlDb);
         connection.connect().then(function () {

@@ -39,7 +39,6 @@
         <!-- Modal -->
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
-                <ng-form name="numberForm">
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
@@ -48,53 +47,52 @@
                         </div>
                         <div class="modal-body">
 
-                            <!--<div class="form-group">-->
-                            <!--<label>DMI NO:</label>-->
-                            <!--<input type="text" ng-model="DMI_NO" class="form-control">-->
-                            <!--</div>-->
+                            <ng-form name="numberForm">
 
+                                <div class="form-group">
+                                    <label for="dmi_no">DMI NO:</label>
+                                    <input type="text" id="DMI_NO" ng-model="selectUserdetails.DMI_No" class="form-control">
+                                </div>
 
-                            <div class="form-group">
-                                <label>Name:</label>
-                                <input type="text" name="Name" ng-model="selectUserdetails.Name" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Designation:</label>
-                                <input type="text" ng-model="selectUserdetails.Designation" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>UserName:</label>
-                                <input type="text" ng-model="selectUserdetails.Username" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Password:</label>
-                                <input type="password" ng-model="selectUserdetails.Password" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>BayNo:</label>
-                                <input type="text" class="form-control" ng-model="selectUserdetails.Bay_No" name="number" ng-pattern="re" required/><br />
-                                <span ng-show="numberForm.number.$error.pattern" style="color:red">Hey! No letters, buddy!.</span>
-                                <!--<input type="text" ng-model="theValue" ng-model="data.BayNo" class="form-control" type="number" required/>-->
-                                <!--<span ng-show="theValue.$error.number">Hey! No letters, buddy!</span>-->
-                                <!--<input type="text" ng-model="data.BayNo" class="form-control">-->
-                            </div>
-                            <div class="form-group">
-                                <label>Flag:</label>
-                                <select  ng-model="selectUserdetails.Flag" class="form-control">
-                                    <option selected disabled>Choose Flag</option>
-                                    <option value={{data.id}} ng-repeat="data in Flags">{{data.value}}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                            <label class="custom-file">
-                                <input type="file" ng-show="(selectUserdetails.Photo==null)" ngf-select ng-model="selectUserdetails.Photo" name="imageFile" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="fileInput" onchange="angular.element(this).scope().uploadedFile(this)" required/>
-                            </label>
-                            <img style='display:block;width:70px;' ng-show="(selectUserdetails.Photo!=null)" ng-hide="showImage()" ngf-src="encodeImage(selectUserdetails.Photo)" id='base64image'/>
-                            <label class="custom-file">
-                            <input type="file" id="f2" ng-show="(selectUserdetails.Photo!=null)" ngf-select ng-model="selectUserdetails.Photo" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="fileInputs" onchange="angular.element(this).scope().uploadedFile(this)"/>
-                            </label>
-                            </div>
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="Name" name="Name" ng-model="selectUserdetails.Name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="designation">Designation:</label>
+                                    <input type="text" id="designation" ng-model="selectUserdetails.Designation" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userName">UserName:</label>
+                                    <input type="text" id="userName" ng-model="selectUserdetails.Username" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input type="password" id="password" ng-model="selectUserdetails.Password" class="form-control" required>
+                                </div>
+                                <div class="form-group" ng-class = "{'has-error':isBayNoValid(numberForm.number),'has-success':isBayNoValid(numberForm.number)}">
+                                    <label for="bayNo">BayNo:</label>
+                                    <input type="text" id="bayNo" class="form-control" ng-model="selectUserdetails.Bay_No" name="number" ng-pattern="re" required/><br />
+                                    <span ng-show="numberForm.number.$error.pattern" style="color:red">Only Numbers Accepted</span>
 
+                                </div>
+                                <div class="form-group">
+                                    <label for="flag">Flag:</label>
+                                    <select id="flag" class="form-control" ng-model="selectUserdetails.Flag">
+                                        <option selected disabled>Choose Flag</option>
+                                        <option value={{data.id}} ng-repeat="data in Flags">{{data.value}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+
+                                    <img style='display:block;width:70px;' ng-if="isEdit" ngf-src="encodeImage(selectUserdetails.Photo)" id='base64image'/>
+                                    <label for="fileInput" class="custom-file">
+                                        <input type="file" ngf-select ng-model="selectUserdetails.Photo" name="imageFile" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="fileInput" onchange="angular.element(this).scope().uploadedFile(this)" required/>
+                                    </label>
+
+                                </div>
+
+                            </ng-form>
 
                         </div>
                         <div class="modal-footer">
@@ -103,13 +101,13 @@
                         </div>
 
                     </div>
-                </ng-form>
             </div>
         </div>
 
 
     <div class="panel panel-primary">
-        <div class="panel-heading">Employee Registration Ledger
+        <div class="panel-heading">
+            Employee Registration Ledger
             <div class="pull-right">
                 <a data-toggle="modal" id="f1" data-target="#myModal"><i class="fa fa-book" style="color: HighlightText" aria-hidden="true">Add Employee</i></a>
             </div>
@@ -118,209 +116,82 @@
         <div class="panel-body">
 
             <div class="col-md-12" offset="" style="border: groove;word-wrap: break-word">
-           <div class="row">
+                <div class="row">
 
+                    <div class="col-md-6">
+                        <div class="col-xs-2"><strong>DMI NO</strong></div>
+                        <div class="col-xs-2"><strong>Name</strong></div>
+                        <div class="col-xs-3"><strong>Designation</strong></div>
+                        <div class="col-xs-3"><strong>UserName</strong></div>
+                        <div class="col-xs-2"><strong>Password</strong></div>
 
-                        <div class="col-md-6">
-                            <div class="col-xs-2"><strong>DMI NO</strong></div>
-                            <div class="col-xs-2"><strong>Name</strong></div>
-                            <div class="col-xs-3"><strong>Designation</strong></div>
-                            <div class="col-xs-3"><strong>UserName</strong></div>
-                            <div class="col-xs-2"><strong>Password</strong></div>
+                    </div>
 
-                        </div>
+                    <div class="col-md-6">
 
-                  <div class="col-md-6">
-
-                      <div class="col-xs-2"><strong>Bay_No</strong></div>
-                      <div class="col-xs-3"><strong>Flag</strong></div>
-                      <div class="col-xs-2"><strong>Date</strong></div>
-                      <div class="col-xs-2"><strong>Photo</strong></div>
-                    <!--<th>I-Flag</th>-->
-                    <div class="col-xs-3" ng-show="!onEdit"><strong>Edit /Delete</strong></div>
-            </div>
-           </div>
+                        <div class="col-xs-2"><strong>Bay_No</strong></div>
+                        <div class="col-xs-3"><strong>Flag</strong></div>
+                        <div class="col-xs-2"><strong>Date</strong></div>
+                        <div class="col-xs-2"><strong>Photo</strong></div>
+                        <div class="col-xs-3" ng-show="!onEdit"><strong>Edit /Delete</strong></div>
+                    </div>
                 </div>
+            </div>
 
 
-                <div class="col-md-12" style="max-height: 500px;overflow-y: scroll;border: groove;word-wrap: break-word">
+            <div class="col-md-12" style="max-height: 500px;overflow-y: scroll;border: groove;word-wrap: break-word">
 
                 <div class="row" ng-repeat="userRegDetails in dataFilter "  style="border: groove">
 
-                    <!--<div id="{{userRegDetails.DMI_No}}" class="modal fade">-->
-                        <!--<div class="modal-dialog">-->
-                            <!--<div class="modal-content">-->
-                                <!--&lt;!&ndash;<ng-form name="numberForm1">&ndash;&gt;-->
-                                <!--<div class="modal-header">-->
+                    <div class="col-md-6">
 
-                                    <!--<h4 class="modal-title">Edit Employee</h4>-->
-                                <!--</div>-->
-                                <!--<div class="modal-body">-->
+                        <div class="col-xs-2">
+                            {{userRegDetails.DMI_No}}
+                        </div>
+                        <div class="col-xs-2">
+                            {{userRegDetails.Name}}
+                        </div>
+                        <div class="col-xs-3">
+                            {{userRegDetails.Designation}}
+                        </div>
+                        <div class="col-xs-3">
+                           {{userRegDetails.Username}}
+                        </div>
 
-                                    <!--<div class="form-group">-->
-                                    <!--DMI_No: <input type="text" class="form-control" ng-model="userRegDetails.DMI_No"/>-->
-                                    <!--</div>-->
-                                    <!--<div class="form-group">-->
-                                    <!--Name:<input type="text" class="form-control" ng-model="userRegDetails.Name"/>-->
-                                    <!--</div>-->
-                                    <!--<div class="form-group">-->
-                                    <!--Designation:<input type="text" class="form-control" ng-model="userRegDetails.Designation"/>-->
-                                    <!--</div>-->
-                                    <!--<div class="form-group">-->
-                                    <!--Username:<input type="text" class="form-control" ng-model="userRegDetails.Username"/>-->
-                                    <!--</div>-->
-                                    <!--<div class="form-group">-->
-                                    <!--Password:<input type="text" class="form-control" ng-model="userRegDetails.Password"/>-->
-                                    <!--</div>-->
-                                    <!--<div class="form-group">-->
-                                    <!--Bay_No:<input type="text" name="number1" class="form-control"  ng-model="userRegDetails.Bay_No" required/>-->
-                                        <!--&lt;!&ndash;<span ng-show="numberForm1.number1.$error.pattern" style="color:red">Hey! No letters, buddy!.</span>&ndash;&gt;-->
-                                    <!--</div>-->
-                                    <!--<div class="form-group">-->
-                                    <!--Flag:<select  ng-model="userRegDetails.Flag"  class="form-control">-->
-                                        <!--<option value={{data.id}} ng-repeat="data in Flags">{{data.value}}</option>-->
-                                    <!--</select>-->
-                                    <!--</div>-->
-                                    <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
-                                                    <!--&lt;!&ndash;<md-datepicker&ndash;&gt;-->
-                                                            <!--&lt;!&ndash;ng-model="userRegDetails.Date"&ndash;&gt;-->
-                                                            <!--&lt;!&ndash;md-placeholder="Enter date" required>{{userRegDetails.Date}}</md-datepicker>&ndash;&gt;-->
-
-
-                                        <!--&lt;!&ndash;<input type="text"  md-placeholder="Enter date" ng-model="userRegDetails.Date">&ndash;&gt;-->
-
-                                        <!--&lt;!&ndash;&lt;!&ndash;<md-content>&ndash;&gt;&ndash;&gt;-->
-                                            <!--&lt;!&ndash;&lt;!&ndash;<md-datepicker ng-model="userRegDetails.Date" md-placeholder="Enter date"></md-datepicker>&ndash;&gt;&ndash;&gt;-->
-                                                <!--&lt;!&ndash;&lt;!&ndash;<md-datepicker&ndash;&gt;&ndash;&gt;-->
-                                                        <!--&lt;!&ndash;&lt;!&ndash;ng-model="userRegDetails.Date"&ndash;&gt;&ndash;&gt;-->
-                                                        <!--&lt;!&ndash;&lt;!&ndash;md-placeholder="Enter date" required></md-datepicker>&ndash;&gt;&ndash;&gt;-->
-                                        <!--&lt;!&ndash;&lt;!&ndash;</md-content>&ndash;&gt;&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                    <!--<div class="form-group">-->
-                                    <!--<img style='display:block;  width:70px;' ng-hide="showImage()" ngf-src="encodeImage(userRegDetails.Photo)" id='base64image'/>-->
-                                    <!--<label class="custom-file">-->
-                                        <!--<input type="file" id="f2" ngf-select ng-model="userRegDetails.Photo" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="fileInputs" onchange="angular.element(this).scope().uploadedFiles(this)"/>-->
-                                    <!--</label>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="modal-footer">-->
-                                    <!--<button type="button"  class="btn btn-primary" data-dismiss="modal" ng-click="updateEmployeeReg()">Save</Button>-->
-                                    <!--<button type="button" class="btn btn-primary" ng-click="close()"  data-dismiss="modal">Close</button>-->
-                                    <!--&lt;!&ndash;<button type="button"  class="btn btn-primary"  ng-show="userRegDetails.isEdit" data-dismiss="modal" ng-click="cancelEmployeeReg()">Cancel</button>&ndash;&gt;-->
-                                <!--</div>-->
-
-                            <!--</div>-->
-
-                            <!--&lt;!&ndash; /.modal-content &ndash;&gt;-->
-                        <!--</div>-->
-
-                        <!--&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-                    <!--</div>-->
-
-
-                  <div class="col-md-6">
-
-                      <div class="col-xs-2">
-
-                          <div>{{userRegDetails.DMI_No}}</div>
-                          <!--<div ng-show="userRegDetails.isEdit">-->
-
-                              <!--<input type="text" class="form-control" ng-model="userRegDetails.DMI_No"/>-->
-
-                          <!--</div>-->
-                          </div>
-                    <div class="col-xs-2">
-                        <div>{{userRegDetails.Name}}</div>
-                        <!--<div ng-show="userRegDetails.isEdit">-->
-
-                            <!--<input type="text" class="form-control" ng-model="userRegDetails.Name"/>-->
-
-                        <!--</div>-->
+                        <div class="col-xs-2">
+                            {{userRegDetails.Password}}
+                        </div>
                     </div>
-                    <div class="col-xs-3">
-                        <div>{{userRegDetails.Designation}}</div>
-                        <!--<div ng-show="userRegDetails.isEdit">-->
-
-                            <!--<input type="text" class="form-control" ng-model="userRegDetails.Designation"/>-->
-
-                        <!--</div>-->
-                    </div>
-                    <div class="col-xs-3">
-                        <div>{{userRegDetails.Username}}</div>
-                        <!--<div ng-show="userRegDetails.isEdit">-->
-
-                            <!--<input type="text" class="form-control" ng-model="userRegDetails.Username"/>-->
-
-                        <!--</div>-->
-                    </div>
-
-                    <div class="col-xs-2">
-                        <div>{{userRegDetails.Password}}</div>
-                        <!--<div ng-show="userRegDetails.isEdit">-->
-
-                            <!--<input type="text" class="form-control" ng-model="userRegDetails.Password"/>-->
-
-                        <!--</div>-->
-                    </div>
-                  </div>
 
                     <div class="col-md-6">
                         <div class="col-xs-2">
-                            <div>{{userRegDetails.Bay_No}}</div>
-                            <!--<div ng-show="userRegDetails.isEdit">-->
-
-
-                                <!--<input type="text" class="form-control" ng-model="userRegDetails.Bay_No"/>-->
-
-                            <!--</div>-->
+                            {{userRegDetails.Bay_No}}
                         </div>
 
                         <div class="col-xs-3">
-                            <div>{{userRegDetails.Flag==1 ? 'Active' :'In-Active'}}</div>
-                            <!--<div ng-show="userRegDetails.isEdit">-->
-                                <!--<select  ng-model="userRegDetails.Flag"  class="form-control">-->
-                                <!--<option value={{data.id}} ng-repeat="data in Flags">{{data.value}}</option>-->
-                                <!--</select>-->
-
-                            <!--</div>-->
+                            {{userRegDetails.Flag==1 ? 'Active' :'In-Active'}}
                         </div>
 
                         <div class="col-xs-2">
-                            <div>{{userRegDetails.Date | date:"dd-M-yy"}}
+                            {{userRegDetails.Date | date:"dd-M-yy"}}
 
-                            </div>
-                            <!--<div ng-show="userRegDetails.isEdit">-->
-                                           <!--<input type="text" ng-model="userRegDetails.Date">-->
-                                            <!--&lt;!&ndash;md-placeholder="Enter date" required></md-datepicker>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<input type="text" class="form-control" ng-model="userRegDetails.Date"/>&ndash;&gt;&ndash;&gt;-->
-
-                            <!--</div>-->
                         </div>
 
 
                         <div class="col-xs-2">
                             <img style='display:block;  width:70px;' ngf-src="encodeImage(userRegDetails.Photo)" id='base64image'/>
 
-                            <!--<div ng-show="userRegDetails.isEdit">-->
+                        </div>
+                        <div class="col-xs-3">
 
-                            <!--<label class="custom-file">-->
-                                <!--<input type="file" id="f2"  ngf-select ng-model="userRegDetails.Photo" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="fileInputs" onchange="angular.element(this).scope().uploadedFiles(this)"/>-->
-                            <!--</label>-->
-                            <!--</div>-->
+                           <center> <a ng-click="editEmployeeReg(userRegDetails)"><i class="fa fa-pencil-square-o" aria-hidden="false"></i></a></center>
+                            <center><a ng-click="deleteEmployeeReg(userRegDetails)"><i class="fa fa-times-circle" aria-hidden="true"></i></a></center>
 
                         </div>
-                    <!--</td>-->
-                    <div class="col-xs-3">
-
-                       <center> <a data-toggle="modal"
-                                   data-target="{{'#'+userRegDetails.DMI_No}}" ng-click="editEmployeeReg(userRegDetails)"><i class="fa fa-pencil-square-o" aria-hidden="false"></i></a></center>
-                        <center><a ng-click="deleteEmployeeReg(userRegDetails)"><i class="fa fa-times-circle" aria-hidden="true"></i></a></center>
-                        <!--<center> <a ng-show="userRegDetails.isEdit" ng-click="updateEmployeeReg()"><i class="fa fa-check" aria-hidden="true"></i></a></center>-->
-                        <!--<center><a ng-show="userRegDetails.isEdit" ng-click="cancelEmployeeReg(userRegDetails)"><i class="fa fa-close" aria-hidden="true"></i></a></center>-->
 
                     </div>
-
                 </div>
+
             </div>
 
         </div>
@@ -335,7 +206,9 @@
                     boundary-links="true">
             </pagination></center>
 
-            </div>
+        </div>
+
+    </div>
 
 </div>
 
