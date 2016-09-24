@@ -47,6 +47,9 @@ module.exports = function() {
     require('../routes/loadInputData.server.route')(app);
     require('../routes/modelRegistration.server.route')(app);
     require('../routes/java.server.route')(app);
+    require('../routes/userRegistration.server.route')(app);
+    require('../routes/jobRegistration.server.route')(app);
+
 
     require('../routes/layout.server.route')(app);	//Layout page route
 

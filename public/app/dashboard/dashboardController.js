@@ -19,7 +19,16 @@
         $scope.goToInstructions = function () {
             dashboardService.goToInstructions();
         };
+        
+        $scope.goToRegistration=function(){
+            
+            dashboardService.goToRegistration();
+        };
+        $scope.goTojobRegistration=function(){
 
+            dashboardService.goTojobRegistration();
+        };
+        
         $scope.loadData = function () {
             dashboardService.loadData();
         }

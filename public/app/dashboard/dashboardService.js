@@ -21,7 +21,14 @@
             goToInstructions : function () {
                 $window.location.href = '/instructionManual';
             },
+            goToRegistration: function(){
 
+                $window.location.href='/employeeRegistration';
+             },
+            goTojobRegistration: function(){
+
+                $window.location.href='/jobRegistration';
+            },
             loadData : function () {
                 $window.location.href = '/loadInputData';
             },
