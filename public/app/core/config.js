@@ -23,7 +23,13 @@
         }).when('/modelRegistration', {
             templateUrl: '../app/modelRegistration/registerModel.html',
             controller: 'modelRegistrationController'
-        }).otherwise({
+        }).when('/employeeRegistration', {
+            templateUrl: '../app/UserRegistration/UserRegistration.html',
+            controller: 'userRegistrationController'
+        }).when('/jobRegistration', {
+            templateUrl: '../app/job Registration/jobRegistration.html',
+            controller: 'jobRegistrationController'
+}       ).otherwise({
             redirectTo: '/'
         });
 
