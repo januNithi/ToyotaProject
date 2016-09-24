@@ -1,0 +1,322 @@
+
+<nav class="navbar navbar-default">
+    <div class="navbar-header">
+        <ul class="nav navbar-nav">
+            <li><a href="#">job Registration</a></li>
+
+        </ul>
+    </div>
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li class='pull-right'>
+
+                <a ng-click='goToDashboard()'>
+
+                    <i class="fa fa-reply" aria-hidden="true"></i>
+
+                </a>
+
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="page-head-line">Service Registration</h2>
+
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <ng-form name="numberForm">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="color: blue">New Registration:</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <!--<div class="form-group">-->
+                        <!--<label>DMI NO:</label>-->
+                        <!--<input type="text" ng-model="DMI_NO" class="form-control">-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label>Service Order Code:</label>
+                            <input type="text" ng-model="data.OrderCode"  class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>ModelName:</label>
+                            <!--<input type="text" ng-model="data.ModelName" class="form-control">-->
+                            <select  ng-model="choosenModel" ng-change="modelSelected(choosenModel)" class="form-control">
+                                <option ng-value="mdl.id" ng-repeat="mdl in models">{{mdl.modelName}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ModelType:</label>
+                            <!--<input type="text" ng-model="data.ModelType" class="form-control">-->
+                            <select id="serviceType" ng-model="choosenService" ng-change="serviceSelected(choosenService)" class="form-control">
+
+                                <option ng-value="service.serviceName" ng-repeat="service in services">{{service.serviceName}}</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Vehicle No:</label>
+                            <input type="text" ng-model="data.Vehicle_No" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Vehicle Milege:</label>
+                            <input type="text" ng-model="data.VehicleMilege" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Bay No:</label>
+                            <input type="text" ng-model="data.Bay_No" class="form-control">
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-disabled="numberForm.$invalid" ng-click="saveNewJob(data)" data-dismiss="modal">Save</button>
+                        <button type="button" class="btn btn-primary" ng-click="close()" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </ng-form>
+        </div>
+    </div>
+
+    <!--&lt;!&ndash; Modal &ndash;&gt;-->
+    <!--<div class="modal fade" id="myModal" role="dialog">-->
+        <!--<div class="modal-dialog">-->
+
+            <!--<ng-form name="myForm">-->
+                <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                        <!--<h4 class="modal-title" style="color: blue">New Registration:</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<form name="myForm">-->
+                            <!--<div class="form-group">-->
+                                <!--<label>Service Order Code:</label>-->
+                                <!--<input type="text" ng-model="data.OrderCode"  class="form-control">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label>ModelName:</label>-->
+                                <!--&lt;!&ndash;<input type="text" ng-model="data.ModelName" class="form-control">&ndash;&gt;-->
+                                <!--<select  ng-model="choosenModel" ng-change="modelSelected(choosenModel)" class="form-control">-->
+                                    <!--<option ng-value="mdl.id" ng-repeat="mdl in models">{{mdl.modelName}}</option>-->
+                                    <!--</select>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label>ModelType:</label>-->
+                                <!--&lt;!&ndash;<input type="text" ng-model="data.ModelType" class="form-control">&ndash;&gt;-->
+                                <!--<select id="serviceType" ng-model="choosenService" ng-change="serviceSelected(choosenService)" class="form-control">-->
+
+                                    <!--<option ng-value="service.serviceName" ng-repeat="service in services">{{service.serviceName}}</option>-->
+
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label>Vehicle No:</label>-->
+                                <!--<input type="password" ng-model="data.Vehicle_No" class="form-control">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label>Vehicle Milege:</label>-->
+                                <!--<input type="text" ng-model="data.VehicleMilege" class="form-control">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label>Bay No:</label>-->
+                                <!--<input type="text" ng-model="data.Bay_No" class="form-control">-->
+                            <!--</div>-->
+
+                            <!--<div class="modal-footer">-->
+                                <!--<button type="button" class="btn btn-primary" ng-disabled="myForm.$invalid" ng-click="saveNewJob(data)" data-dismiss="modal">Save</button>-->
+                                <!--<button type="button" class="btn btn-primary" ng-click="close()" data-dismiss="modal">Close</button>-->
+                            <!--</div>-->
+
+
+                    <!--</div>-->
+                    <!--</form>-->
+
+                <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Service Ledger
+            <div class="pull-right">
+                <a data-toggle="modal" data-target="#myModal"><i class="fa fa-book" style="color: HighlightText" aria-hidden="true">Add Service Registration</i></a>
+            </div>
+
+        </div>
+
+
+    <div class="panel-body">
+
+        <div class="col-md-12" offset="" style="border: groove;word-wrap: break-word">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="col-xs-3"><strong>Order Code</strong></div>
+                        <div class="col-xs-3"><strong>ModelName</strong></div>
+                        <div class="col-xs-3"><strong>ModelType</strong></div>
+                        <div class="col-xs-3"><strong>Vehicle No</strong></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-xs-3"><strong>Vehicle Milege</strong></div>
+                        <div class="col-xs-3"><strong>Bay No</strong></div>
+                        <div class="col-xs-3" ng-show="!onEdit"><strong>Edit /Delete</strong></div>
+                    </div>
+
+                </div>
+        </div>
+        <div class="col-md-12" style="max-height: 500px;overflow-y: scroll;border: groove;word-wrap: break-word">
+
+            <div class="row" ng-repeat="JobRegDetails in serviceRegDetails "  style="border: groove">
+                <div class="col-md-6">
+
+                    <div class="col-xs-3">
+
+                        <div ng-hide="JobRegDetails.isEdit">{{JobRegDetails.Sid}}</div>
+                        <div ng-show="JobRegDetails.isEdit">
+                            <input type="text" class="form-control" ng-model="JobRegDetails.Sid"/>
+                        </div>
+                     </div>
+
+                        <div class="col-xs-3">
+                            <div ng-hide="JobRegDetails.isEdit" >{{JobRegDetails.Mid}}</div>
+                            <div ng-show="JobRegDetails.isEdit">
+
+                                <select  ng-model="JobRegDetails.Mid" ng-change="modelSelected(JobRegDetails.Mid)" class="form-control">
+                                    <option ng-value="mdl.modelName" ng-repeat="mdl in models">{{mdl.modelName}}</option>
+                                </select>
+                                <!--<input type="text" class="form-control" ng-model="JobRegDetails.Mid"/>-->
+                            </div>
+                         </div>
+
+                            <div class="col-xs-3">
+                                <div ng-hide="JobRegDetails.isEdit">{{JobRegDetails.MType}}</div>
+                                <div ng-show="JobRegDetails.isEdit">
+                                    <select id="serviceType" ng-model="JobRegDetails.MType" ng-change="serviceSelected(choosenService)" class="form-control">
+
+                                        <option ng-value="service.serviceName" ng-repeat="service in services">{{service.serviceName}}</option>
+
+                                    </select>
+                                    <!--<input type="text" class="form-control" ng-model="JobRegDetails.MType"/>-->
+
+                                </div>
+                            </div>
+
+                            <div class="col-xs-3">
+                                <center><div ng-hide="JobRegDetails.isEdit">{{JobRegDetails.VNo}}</div></center>
+                                <div ng-show="JobRegDetails.isEdit">
+
+                                    <input type="text" class="form-control" ng-model="JobRegDetails.VNo"/>
+
+                                </div>
+                            </div>
+                </div>
+
+                <div class="col-md-6">
+
+                        <div class="col-xs-3">
+                         <center><div ng-hide="JobRegDetails.isEdit">{{JobRegDetails.VMilege}}</div></center>
+                            <div ng-show="JobRegDetails.isEdit">
+
+                            <input type="text" class="form-control" ng-model="JobRegDetails.VMilege"/>
+
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3">
+                        <center><div ng-hide="JobRegDetails.isEdit">{{JobRegDetails.Bayno}}</div></center>
+                        <div ng-show="JobRegDetails.isEdit">
+
+                            <input type="text" class="form-control" ng-model="JobRegDetails.Bayno"/>
+
+                        </div>
+                    </div>
+
+                    <div class="col-xs-3">
+
+                    <center> <a ng-hide="JobRegDetails.isEdit" ng-click="editJobReg(JobRegDetails)"><i class="fa fa-pencil-square-o" aria-hidden="false"></i></a></center>
+                    <center><a ng-hide="JobRegDetails.isEdit" ng-click="deleteJobReg(JobRegDetails)"><i class="fa fa-times-circle" aria-hidden="true"></i></a></center>
+                    <center> <a ng-show="JobRegDetails.isEdit" ng-click="updateJobReg(JobRegDetails)"><i class="fa fa-check" aria-hidden="true"></i></a></center>
+                    <center><a ng-show="JobRegDetails.isEdit" ng-click="cancelJobReg(JobRegDetails)"><i class="fa fa-close" aria-hidden="true"></i></a></center>
+
+                    </div>
+
+                </div>
+
+                    <!--<div class="col-xs-3">-->
+                        <!--<div ng-hide="userRegDeatails.isEdit">{{JobRegDetails.Bayno}}</div>-->
+                        <!--<div ng-show="userRegDeatails.isEdit">-->
+
+                            <!--<input type="text" class="form-control" ng-model="JobRegDetails.Bayno"/>-->
+
+                        <!--</div>-->
+
+
+                    <!--<div class="col-xs-3">-->
+                        <!--<img style='display:block;  width:70px;' ngf-src="encodeImage(userRegDeatails.Photo)" id='base64image'/>-->
+
+                        <!--<div ng-show="userRegDeatails.isEdit">-->
+
+                            <!--<label class="custom-file">-->
+                                <!--<input type="file" id="f2"  ngf-select ng-model="userRegDeatails.Photo" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="fileInputs" onchange="angular.element(this).scope().uploadedFiles(this)"/>-->
+                            <!--</label>-->
+                        <!--</div>-->
+                        <!--<img class="image-holder img-responsive"  src="{{}}" ng-click="triggerUpload(instruction,'picture_r',instruction.id+'-RT')" width = '100'/>-->
+
+                        <!--&lt;!&ndash;<input type="file" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" id="{{instruction.id + '-RT'}}" style="display:none" onchange="angular.element(this).scope().uploadFile(this.files)"/>&ndash;&gt;-->
+
+                        <!--</div>-->
+                        <!--<td ng-show="instruction.taskId_r">-->
+                        <!--<div ng-hide="onEdit || instruction.isEdit" >{{instruction.flag_r}}</div>-->
+                        <!--<div ng-show="onEdit || instruction.isEdit" >-->
+
+                        <!--<textarea rows="5" class="form-control" ng-model="instruction.flag_r"></textarea>-->
+
+
+                    <!--</td>-->
+                    <!--<div class="col-xs-3">-->
+
+                        <!--<center> <a ng-hide="userRegDeatails.isEdit" ng-click="editEmployeeReg(userRegDeatails)"><i class="fa fa-pencil-square-o" aria-hidden="false"></i></a></center>-->
+                        <!--<center><a ng-hide="userRegDeatails.isEdit" ng-click="deleteEmployeeReg(userRegDeatails)"><i class="fa fa-times-circle" aria-hidden="true"></i></a></center>-->
+                        <!--<center> <a ng-show="userRegDeatails.isEdit" ng-click="updateEmployeeReg()"><i class="fa fa-check" aria-hidden="true"></i></a></center>-->
+                        <!--<center><a ng-show="userRegDeatails.isEdit" ng-click="cancelEmployeeReg(userRegDeatails)"><i class="fa fa-close" aria-hidden="true"></i></a></center>-->
+
+                    <!--</div>-->
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel-footer">
+
+            <center><pagination
+                    ng-model="cur_page"
+                    total-items="totalLength"
+                    items-per-page="items_per_page"
+                    max-size="max_size"
+                    boundary-links="true">
+            </pagination></center>
+
+        </div>
+
+    </div>
+
+
+</div>
+
