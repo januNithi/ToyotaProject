@@ -31,3 +31,17 @@
     /*width:12%;*/
     /*float: left;*/
 /*}*/
+.datepickerdemoBasicUsage md-content {
+    padding-bottom: 200px; }
+.datepickerdemoBasicUsage .validation-messages {
+    font-size: 12px;
+    color: #dd2c00;
+    margin-left: 15px; }
+
+.select {
+    width: 20.66666667%;
+}
+
+.placeholder {
+    display: none;
+}
