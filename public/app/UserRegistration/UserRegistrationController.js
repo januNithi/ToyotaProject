@@ -150,21 +150,14 @@
 
         $scope.saveNewEmployee=function() {
 
-            // if($scope.selectUserdetails.Flag=="Active"){
-            //
-            //     $scope.selectUserdetails.Flag=1;
-            //
-            // }
-            // else {
-            //
-            //     $scope.selectUserdetails.Flag=0;
-            // }
+            if($scope.isEdit)
+            {
 
-
-
-
-                //$scope.data=$scope.data.BayNo;
                 $scope.selectUserdetails.files=$scope.files;
+
+
+            }
+
                 if ($window.confirm('Do you need to save?')) {
                     userRegistrationService.saveEmployeeRegDetails($scope.selectUserdetails).then(function (data) {
 

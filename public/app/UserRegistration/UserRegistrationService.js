@@ -62,7 +62,9 @@
                         fd.append('Bay_No', data.Bay_No);
                         fd.append('Flag', data.Flag);
                         fd.append('Photo',data.Photo);
-                        fd.append('file', data.files[0]);
+                        if(data.files) {
+                            fd.append('file', data.files[0]);
+                        }
                         return $http({
 
                             method:'POST',

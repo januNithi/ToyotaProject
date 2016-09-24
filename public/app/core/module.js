@@ -5,7 +5,8 @@ angular.module('toyotaApp',[
 
     'ngRoute',
     'ngFileUpload',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'angularSpinners'
 
 ]);
 

@@ -7,10 +7,13 @@
 
     dashboardController.$inject = [
         '$scope',
-        'dashboardService'
+        'dashboardService',
+        'spinnerService'
     ];
 
-    function dashboardController($scope,dashboardService) {
+    function dashboardController($scope,dashboardService,spinnerService) {
+
+
 
         $scope.goToModels = function(){
             dashboardService.goToModels();
@@ -37,7 +40,8 @@
         };
         
         $scope.goToRegistration=function(){
-            
+
+
             dashboardService.goToRegistration();
         };
         $scope.goTojobRegistration=function(){
