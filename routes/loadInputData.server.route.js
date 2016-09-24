@@ -9,7 +9,7 @@ module.exports = function(app) {
     app.post('/uploadImage',loadInput.uploadImages);
     app.post('/connect/updateData',loadInput.updateInstructions);
     app.get('/connect/getInstruction',loadInput.getInstruction);
-
+    
     app.post('/deleteEntireInstruction',loadInput.deleteEntireInstruction);
     app.post('/deleteSingleInstruction',loadInput.deleteSingleInstruction);
 
