@@ -1,5 +1,5 @@
 /**
- * Created by CSS on 26-09-2016.
+ * Created by CSS on 29-07-2016.
  */
 var mysql = require('mysql');
 var q = require('q');
@@ -11,8 +11,7 @@ var sql = require('mssql');
 var fs = require('fs');
 var con = mysql.createConnection(db);
 
-function updateInstructionData(data,service,model,picArr) {
-    var deferred = q.defer();
+function updateInstructionData(data,service,model,picArr,cb) {
 
     var tempTask_i = '';
     var tempTask_r = '';
@@ -50,7 +49,7 @@ function updateInstructionData(data,service,model,picArr) {
                     if(error){
                         connection.close();
                         console.log("Error1---->In updateInstructionsData"+error);
-                        return deferred.reject(error);
+                        cb(error,null);
                     }
 
 
@@ -226,19 +225,28 @@ function updateInstructionData(data,service,model,picArr) {
                                                 if (error) {
                                                     connection.close();
                                                     console.log("Error3---->In updateInstructions"+error);
-                                                    return deferred.reject(error);
+                                                    cb(error,results);
                                                 }
                                                 ps.unprepare(function(err) {
                                                     if(err){
                                                         console.log("Error4---->In updateInstructionsData"+err);
-                                                        return deferred.reject(error);
+                                                        cb(err,results);
                                                     }
 
                                                 });
                                             });
                                             if ((index+1) == data.length) {
 
-                                                deferred.resolve(ps.lastRequest.rowsAffected);
+                                                deleteTaskFin(service,model,function(result,error){
+
+                                                    if(error){
+                                                        connection.close();
+                                                        console.log("Error5---->In updateInstructionsData"+error);
+                                                        cb(error,result);
+                                                    }
+
+                                                    cb(error,ps.lastRequest.rowsAffected);
+                                                });
                                             }
 
 
@@ -417,7 +425,7 @@ function updateInstructionData(data,service,model,picArr) {
                                         if(err){
                                             connection.close();
                                             console.log("Error7---->In updateInstructions"+error);
-                                            return deferred.reject(err);
+                                            cb(err,null);
                                         }
                                         ps.execute({service: service,model:model,taskId_l:  tasklId,
                                             taskId_r:  taskrId, taskId_i: taskiId, task_l : data[index][18],
@@ -433,19 +441,29 @@ function updateInstructionData(data,service,model,picArr) {
                                             if (error) {
                                                 console.log("Error8---->In updateInstructionsData"+error);
                                                 connection.close();
-                                                return deferred.reject(error);
+                                                cb(error,results);
                                             }
                                             ps.unprepare(function(err) {
                                                 if(err){
                                                     console.log("Error9---->In updateInstructionsData"+error);
-                                                    return deferred.reject(err);
+                                                    cb(err,null);
                                                 }
 
                                             });
                                         });
                                         if ((index+1) == data.length) {
 
-                                                deferred.resolve(ps.lastRequest.rowsAffected);
+                                            deleteTaskFin(service,model,function(result,error){
+
+                                                if(error){
+                                                    connection.close();
+                                                    console.log("Error10---->In updateInstructionsData"+error);
+                                                    cb(error,result);
+                                                }
+
+                                                cb(error,result);
+
+                                            });
                                         }
 
 
@@ -467,21 +485,20 @@ function updateInstructionData(data,service,model,picArr) {
         }).catch(function (err) {
             console.log("Error12---->In updateInstructionsData"+err);
             connection.close();
-            return deferred.reject(err);
+            cb(err,null);
         });
     }).catch(function (err) {
         console.log("Error13---->In updateInstructionsData"+err);
         connection.close();
-        return deferred.reject(err);
+        cb(err,null);
     });
 
-    return deferred.promise;
 }
 
 
-function updateTaskFin(service,model){
+function updateTaskFin(service,model,cb){
 
-    var deferred = q.defer();
+
 
     var tasks = [];
 
@@ -498,7 +515,7 @@ function updateTaskFin(service,model){
             if(err){
                 connection.close();
                 console.log("Error1---->In updateTaskFin"+error);
-                return deferred.reject(err);
+                cb(err,recordset);
             }
 
             if(recordset && recordset.length > 0) {
@@ -517,7 +534,7 @@ function updateTaskFin(service,model){
                         if (err) {
                             connection.close();
                             console.log("Error2---->In updateTaskFin"+err);
-                            return deferred.reject(err);
+                            cb(err,records);
                         }
                         if (records && records.length > 0) {
 
@@ -604,7 +621,7 @@ function updateTaskFin(service,model){
                             if (err) {
                                 connection.close();
                                 console.log("Error3---->In updateTaskFin"+err);
-                                return deferred.reject(err);
+                                cb(err,recordset);
                             }
 
                             if (recordset && recordset.length > 0) {
@@ -623,7 +640,7 @@ function updateTaskFin(service,model){
                                         if (err) {
                                             connection.close();
                                             console.log("Error4---->In updateTaskFin"+err);
-                                            return deferred.reject(err);
+                                            cb(err,records);
                                         }
                                         if (records && records.length > 0) {
                                             var data = {};
@@ -711,7 +728,7 @@ function updateTaskFin(service,model){
                                             if (err) {
                                                 connection.close();
                                                 console.log("Error5---->In updateTaskFin"+err);
-                                                return deferred.reject(err);
+                                                cb(err,recordset);
                                             }
 
                                             if (recordset && recordset.length > 0) {
@@ -730,7 +747,7 @@ function updateTaskFin(service,model){
                                                         if (err) {
                                                             connection.close();
                                                             console.log("Error6---->In updateTaskFin"+err);
-                                                            return deferred.reject(err);
+                                                            cb(err,records);
                                                         }
                                                         if (records && records.length > 0) {
                                                             var data = {};
@@ -801,7 +818,7 @@ function updateTaskFin(service,model){
                                                                 if ((index1 + 1) == records.length) {
                                                                     tasks.push(data);
                                                                     if ((index3 + 1) == data3.length) {
-                                                                        deferred.resolve(tasks);
+                                                                        cb(null,tasks);
 
 
                                                                     }
@@ -840,16 +857,13 @@ function updateTaskFin(service,model){
     }).catch(function (err) {
         console.log("Error8---->In updateTaskFin"+err);
         connection.close();
-        return deferred.reject(err);
+        cb(err,null);
     });
 
-    return deferred.promise;
 }
 
 
-function deleteTaskFin(service,model){
-
-    var deferred = q.defer();
+function deleteTaskFin(service,model,cb){
 
     var connection = new sql.Connection(sqlDb);
 
@@ -864,25 +878,22 @@ function deleteTaskFin(service,model){
             if(err){
                 connection.close();
                 console.log("Error1---->In deleteTaskFin"+err);
-                return deferred.reject(err);
+                cb(err,records);
             }
             connection.close();
-            deferred.resolve(request.rowsAffected);
+            cb(err,request.rowsAffected);
 
         });
     }).catch(function(err){
         connection.close();
         console.log("Error2---->In deleteTaskFin"+err);
-        return deferred.reject(err);
+        cb(err,null);
     });
-
-    return deferred.promise;
 
 }
 
-function updateTaskFinTable(data) {
+function updateTaskFinTable(data,cb) {
 
-    var deferred = q.defer();
     var connection = new sql.Connection(sqlDb);
 
     connection.connect().then(function() {
@@ -968,7 +979,7 @@ function updateTaskFinTable(data) {
                 if (err) {
                     connection.close();
                     console.log("Error1---->In updateTaskFinTable"+err);
-                    return deferred.reject(err);
+                    cb(err,null);
                 }
                 ps.execute({
                     SNo: (index + 1), MName: value.MName, MType: value.MType, Task_id: value.Task_id, Task: value.Task
@@ -982,12 +993,12 @@ function updateTaskFinTable(data) {
                     if (error) {
                         console.log("Error2---->In updateTaskFinTable"+error);
                         connection.close();
-                        return deferred.reject(error);
+                        cb(error,results);
                     }
                     ps.unprepare(function (err) {
                         if (err) {
                             console.log("Error3---->In updateTaskFinTable"+err);
-                            return deferred.reject(err);
+                            cb(err,null);
                         }
 
                     });
@@ -995,7 +1006,7 @@ function updateTaskFinTable(data) {
 
                 if ((index + 1) == data.length) {
                     connection.close();
-                    deferred.resolve(ps.lastRequest.rowsAffected);
+                    cb(null,ps.lastRequest.rowsAffected);
                 }
 
             });
@@ -1006,17 +1017,15 @@ function updateTaskFinTable(data) {
     }).catch(function (err) {
 
         connection.close();
-        return deferred.reject(err);
+        cb(err,null);
 
     });
 
-    return deferred.promise;
 
 }
 
-function updateInstructions(instructions) {
+function updateInstructions(instructions,cb) {
 
-    var deferred = q.defer();
 
     var connection = new sql.Connection(sqlDb);
 
@@ -1074,7 +1083,7 @@ function updateInstructions(instructions) {
                 if(err){
                     connection.close();
                     console.log("Error1---->In updateInstructions"+err);
-                    return deferred.reject(err);
+                    cb(err,null);
                 }
                 ps.execute({id:value.id,task_l:value.task_l,task_r:value.task_r,task_i:value.task_i
                         ,process_l:value.process_l,process_r:value.process_r,process_i:value.process_i,picture_l:value.picture_l
@@ -1089,19 +1098,19 @@ function updateInstructions(instructions) {
                         if (error) {
                             connection.close();
                             console.log("Error2---->In updateInstructions"+error);
-                            return deferred.reject(error);
+                            cb(error,results);
                         }
                         ps.unprepare(function(err) {
                             if(err){
                                 console.log("Error3---->In updateInstructions"+err);
-                                return deferred.reject(error);
+                                cb(err,null);
                             }
 
                         });
                         if((index+1)==instructions.length){
                             connection.close();
 
-                            deferred.resolve(ps.lastRequest.rowsAffected);
+                            cb(null,ps.lastRequest.rowsAffected);
 
                         }
                     });
@@ -1112,17 +1121,15 @@ function updateInstructions(instructions) {
     }).catch(function (err) {
         console.log("Error6---->In updateInstructions"+error);
         connection.close();
-        return deferred.reject(err);
+        cb(err,null);
     });
 
 
-    return deferred.promise;
 }
 
 
-function updateImages(fileName,id,selectedField){
+function updateImages(fileName,id,selectedField,cb){
 
-    var deferred = q.defer();
 
     var connection = new sql.Connection(sqlDb);
 
@@ -1145,12 +1152,12 @@ function updateImages(fileName,id,selectedField){
                 if (error) {
                     connection.close();
                     console.log("Error2---->In updateInstructions" + error);
-                    return deferred.reject(error);
+                    cb(error,results);
                 }
                 ps.unprepare(function (err) {
                     if (err) {
                         console.log("Error3---->In updateInstructions" + err);
-                        return deferred.reject(error);
+                        cb(err,null);
                     }
 
                 });
@@ -1162,24 +1169,22 @@ function updateImages(fileName,id,selectedField){
             if (error) {
                 console.error(error);
                 connection.close();
-                return deferred.reject(error);
+                cb(error,results);
             }
             connection.close();
-            deferred.resolve(request.rowsAffected);
+            cb(null,request.rowsAffected);
         });
     }).catch(function(err){
         console.error(err);
         connection.close();
-        return deferred.reject(error);
+        cb(err,null);
     });
 
-    return deferred.promise;
 
 }
 
 function deleteSingleInstruction(data,cb) {
 
-    var deferred = q.defer();
 
     var query = '';
     var taskID = 0;
@@ -1239,7 +1244,7 @@ function deleteSingleInstruction(data,cb) {
                 if (err) {
                     connection.close();
                     console.log("Error1---->In deleteSingleInstructions"+err);
-                    return deferred.reject(err);
+                    cb(err,null);
                 }
                 ps.execute({
                         id:data.ins.id,Iflag_i: null, inference_i: null, measurement_i: null, picture_i: null
@@ -1250,12 +1255,12 @@ function deleteSingleInstruction(data,cb) {
                         if (error) {
                             connection.close();
                             console.log("Error2---->In deleteSingleInstructions"+error);
-                            return deferred.reject(error);
+                            cb(error,results);
                         }
                         ps.unprepare(function (err) {
                             if (err) {
                                 console.log("Error3---->In deleteSingleInstructions"+err);
-                                return deferred.reject(err);
+                                cb(err,null);
                             }
 
                         });
@@ -1267,10 +1272,10 @@ function deleteSingleInstruction(data,cb) {
                             if (err) {
                                 connection.close();
                                 console.log("Error4---->In deleteSingleInstructions"+err);
-                                return deferred.reject(err);
+                                cb(err,rslt);
                             }
                             connection.close();
-                            deferred.resolve(request.rowsAffected);
+                            cb(null,request.rowsAffected);
                         });
                     });
 
@@ -1289,7 +1294,7 @@ function deleteSingleInstruction(data,cb) {
                     connection.close();
                     console.log("Error5---->In deleteSingleInstructions"+err);
 
-                    return deferred.reject(err);
+                    cb(err,null);
                 }
                 ps.execute({
                         id:data.ins.id,Iflag_l: null,Lflag_l:null, inference_l: null, measurement_l: null, picture_l: null
@@ -1300,13 +1305,13 @@ function deleteSingleInstruction(data,cb) {
                         if (error) {
                             connection.close();
                             console.log("Error6---->In deleteSingleInstructions"+error);
-                            return deferred.reject(error);
+                            cb(error,results);
                         }
                         ps.unprepare(function (err) {
                             if (err) {
                                 console.log("Error7---->In deleteSingleInstructions"+err);
 
-                                return deferred.reject(err);
+                                cb(err,null);
                             }
 
                         });
@@ -1318,12 +1323,12 @@ function deleteSingleInstruction(data,cb) {
                             if (err) {
                                 connection.close();
                                 console.log("Error8---->In deleteSingleInstructions"+err);
-                                return deferred.reject(err);
+                                cb(err,null);
                             }
 
                             connection.close();
 
-                            deferred.resolve(request.rowsAffected);
+                            cb(null,request.rowsAffected);
 
                         });
                     });
@@ -1342,7 +1347,7 @@ function deleteSingleInstruction(data,cb) {
                 if (err) {
                     connection.close();
                     console.log("Error9---->In deleteSingleInstructions"+err);
-                    return deferred.reject(err);
+                    cb(err,null);
                 }
                 ps.execute({
                         id:data.ins.id,Iflag_r: null,Rflag_r : null, inference_r: null, measurement_r: null, picture_r: null
@@ -1353,12 +1358,12 @@ function deleteSingleInstruction(data,cb) {
                         if (error) {
                             console.log("Error10---->In deleteSingleInstructions"+error);
                             connection.close();
-                            return deferred.reject(error);
+                            cb(error,results);
                         }
                         ps.unprepare(function (err) {
                             if (err) {
                                 console.log("Error11---->In deleteSingleInstructions"+err);
-                                return deferred.reject(err);
+                                cb(err,null);
                             }
 
                         });
@@ -1371,11 +1376,11 @@ function deleteSingleInstruction(data,cb) {
                             if (err) {
                                 connection.close();
                                 console.log("Error12---->In deleteSingleInstructions"+err);
-                                return deferred.reject(err);
+                                cb(err,rslt);
                             }
 
                             connection.close();
-                            deferred.resolve(reques.rowsAffected);
+                            cb(null,ps.lastRequest.rowsAffected);
 
                         });
                     });
@@ -1386,17 +1391,15 @@ function deleteSingleInstruction(data,cb) {
     }).catch(function(err){
         connection.close();
         console.log("Error13---->In deleteSingleInstructions"+err);
-        return deferred.reject(err);
+        cb(err,null);
     });
 
 
-    return deferred.promise;
 
 }
 
-function deleteEntireInstruction(data) {
+function deleteEntireInstruction(data,cb) {
 
-    var deferred = q.defer();
 
     var query = '';
     var taskId_i = data.taskId_i;
@@ -1416,7 +1419,7 @@ function deleteEntireInstruction(data) {
             if(error){
                 connection.close();
                 console.log("Error1---->In deleteEntireInstructions"+error);
-                return deferred.reject(error);
+                cb(error,results);
             }
 
             query = "Update toyota_tasks_supreme set taskId_i= taskId_i-1 where version = ";
@@ -1429,7 +1432,7 @@ function deleteEntireInstruction(data) {
                 if(err){
                     connection.close();
                     console.log("Error2---->In deleteEntireInstructions"+err);
-                    return deferred.reject(err);
+                    cb(err,rslt);
                 }
 
                 query = "Update toyota_tasks_supreme set taskId_r= taskId_r-1 where version = ";
@@ -1442,7 +1445,7 @@ function deleteEntireInstruction(data) {
                     if(er){
                         connection.close();
                         console.log("Error3---->In deleteEntireInstructions"+er);
-                        return deferred.reject(er);
+                        cb(er,rsl);
                     }
 
                     query = "Update toyota_tasks_supreme set taskId_l= taskId_l-1 where version = ";
@@ -1455,10 +1458,10 @@ function deleteEntireInstruction(data) {
                         if(error){
                             connection.close();
                             console.log("Error4---->In deleteEntireInstructions"+error);
-                            return deferred.reject(error);
+                            cb(error,recordset);
                         }
                         connection.close();
-                        deferred.resolve(request.rowsAffected);
+                        cb(null,request.rowsAffected);
 
                     });
 
@@ -1471,17 +1474,13 @@ function deleteEntireInstruction(data) {
 
         connection.close();
         console.log("Error5---->In deleteEntireInstructions"+err);
-        return deferred.reject(err);
+        cb(err,null);
 
     });
 
-    return deferred.promise;
-
-
 }
 
-function getInstructionData(data) {
-    var deferred = q.defer();
+function getInstructionData(data,cb) {
 
     var connection = new sql.Connection(sqlDb);
 
@@ -1509,7 +1508,7 @@ function getInstructionData(data) {
             if (error) {
                 console.log("Error1---->In getInstructionData"+error);
                 connection.close();
-                return deferred.reject(error);
+                cb(error,results);
             }
             results.forEach(function(value,index){
 
@@ -1518,7 +1517,7 @@ function getInstructionData(data) {
                 if((index + 1) == results.length){
 
                     connection.close();
-                    deferred.resolve(results);
+                    cb(null,results);
                 }
 
             });
@@ -1527,16 +1526,13 @@ function getInstructionData(data) {
     }).catch(function (err) {
         connection.close();
         console.log("Error2---->In getInstructionData"+error);
-        return deferred.reject(err);
+        cb(err,null);
     });
 
-
-    return deferred.promise;
 }
 
 function updateAdditional(data){
 
-    var deferred = q.defer();
 
     var connection = new sql.Connection(sqlDb);
 
@@ -1560,7 +1556,7 @@ function updateAdditional(data){
                     connection.close();
                     console.log("Error1---->In updateAdditional"+error);
 
-                    return deferred.reject(err);
+                    cb(err,null);
                 }
                 ps.execute({
                         Aid: data.Aid, Additional: data.Additional, Purpose: data.Purpose
@@ -1570,17 +1566,17 @@ function updateAdditional(data){
                         if (error) {
                             connection.close();
                             console.log("Error2---->In updateAdditional"+error);
-                            return deferred.reject(err);
+                            cb(err,results);
                         }
                         ps.unprepare(function (err) {
                             if (err) {
                                 console.log("Error3---->In updateAdditional"+err);
-                                return deferred.reject(err);
+                                cb(err,null);
                             }
 
                         });
                         connection.close();
-                        deferred.resolve(ps.lastRequest.rowsAffected);
+                        cb(null,ps.lastRequest.rowsAffected);
                     });
             });
 
@@ -1596,7 +1592,7 @@ function updateAdditional(data){
                     connection.close();
                     console.log("Error4---->In updateAdditional"+err);
 
-                    return deferred.reject(err);
+                    cb(err,null);
                 }
                 ps.execute({
                         Additional: data.Additional, Purpose: data.Purpose
@@ -1606,17 +1602,17 @@ function updateAdditional(data){
                         if (error) {
                             connection.close();
                             console.log("Error5---->In updateAdditional"+error);
-                            return deferred.reject(err);
+                            cb(err,results);
                         }
                         ps.unprepare(function (err) {
                             if (err) {
                                 console.log("Error6---->In updateAdditional"+err);
 
-                                return deferred.reject(err);
+                                cb(err,null);
                             }
 
                         });
-                        deferred.resolve(ps.lastRequest.rowsAffected);
+                        cb(null,ps.lastRequest.rowsAffected);
                     });
             });
 
@@ -1625,16 +1621,14 @@ function updateAdditional(data){
     }).catch(function (err) {
         connection.close();
         console.log("Error7---->In updateAdditional"+err);
-        return deferred.reject(err);
+        cb(err,null);
     });
 
-    return deferred.promise;
 
 }
 
-function updateMeasure(data){
+function updateMeasure(data,cb){
 
-    var deferred = q.defer();
 
     var connection = new sql.Connection(sqlDb);
 
@@ -1658,8 +1652,7 @@ function updateMeasure(data){
                 if (err) {
                     connection.close();
                     console.log("Error1---->In updateMeasure"+error);
-
-                    return deferred.reject(err);
+                    cb(err,null);
                 }
                 ps.execute({
                         MName:data.MName,Start:data.Start,start1:data.start1,
@@ -1669,17 +1662,17 @@ function updateMeasure(data){
                         if (error) {
                             connection.close();
                             console.log("Error2---->In updateMeasure"+error);
-                            return deferred.reject(err);
+                            cb(err,results);
                         }
                         ps.unprepare(function (err) {
                             if (err) {
                                 console.log("Error3---->In updateMeasure"+err);
-                                return deferred.reject(err);
+                                cb(err,null);
                             }
 
                         });
                         connection.close();
-                        deferred.resolve(ps.lastRequest.rowsAffected);
+                        cb(null,ps.lastRequest.rowsAffected);
                     });
             });
 
@@ -1695,7 +1688,7 @@ function updateMeasure(data){
                     connection.close();
                     console.log("Error4---->In updateMeasure"+err);
 
-                    return deferred.reject(err);
+                    cb(err,null);
                 }
                 ps.execute({
                         MName:data.MName,Start:data.Start,start1:data.start1,
@@ -1705,17 +1698,17 @@ function updateMeasure(data){
                         if (error) {
                             connection.close();
                             console.log("Error5---->In updateMeasure"+error);
-                            return deferred.reject(err);
+                            cb(err,results);
                         }
                         ps.unprepare(function (err) {
                             if (err) {
                                 console.log("Error6---->In updateMeasure"+err);
 
-                                return deferred.reject(err);
+                                cb(err,null);
                             }
 
                         });
-                        deferred.resolve(ps.lastRequest.rowsAffected);
+                        cb(null,ps.lastRequest.rowsAffected);
                     });
             });
 
@@ -1724,65 +1717,41 @@ function updateMeasure(data){
     }).catch(function (err) {
         connection.close();
         console.log("Error7---->In updateMeasure"+err);
-        return deferred.reject(err);
+        cb(err,null);
     });
-
-    return deferred.promise;
 
 }
 
 
-function getWorkCompleted(serviceId) {
-
-    var deferred = q.defer();
+function getWorkCompleted(serviceId,cb) {
 
     var connection = new sql.Connection(sqlDb);
 
     connection.connect().then(function () {
-        // var query = "Select t.Mid,t.MType,t.Tid,t.Task,t.Type,";
-        // query += "t.RSummary,t.ISummary,t.LSummary,t.values6,t.Additional,t.Status,";
-        // query += "t.value,(select MName from Toyota_Measures where Mid = t.value) as value_name,";
-        // query += "(select Start from Toyota_Measures where Mid = t.value) as value_Start,";
-        // query += "(select start1 from Toyota_Measures where Mid = t.value) as value_start1,";
-        // query += "t.values1,(select MName from Toyota_Measures where Mid = t.value1) as value1_name,";
-        // query += "(select Start from Toyota_Measures where Mid = t.value1) as value1_Start,";
-        // query += "(select start1 from Toyota_Measures where Mid = t.value1) as value1_start1,";
-        // query += "t.values2,(select MName from Toyota_Measures where Mid = t.value2) as value2_name,";
-        // query += "(select Start from Toyota_Measures where Mid = t.value2) as value2_Start,";
-        // query += "(select start1 from Toyota_Measures where Mid = t.value2) as value2_start1,";
-        // query += "t.values3,(select MName from Toyota_Measures where Mid = t.value3) as value3_name,";
-        // query += "(select Start from Toyota_Measures where Mid = t.value3) as value3_Start,";
-        // query += "(select start1 from Toyota_Measures where Mid = t.value3) as value3_start1,";
-        // query += "t.values4,(select MName from Toyota_Measures where Mid = t.value4) as value4_name,";
-        // query += "(select Start from Toyota_Measures where Mid = t.value4) as value4_Start,";
-        // query += "(select start1 from Toyota_Measures where Mid = t.value4) as value4_start1,";
-        // query += "t.values5,(select MName from Toyota_Measures where Mid = t.value5) as value5_name,";
-        // query += "(select Start from Toyota_Measures where Mid = t.value5) as value5_Start,";
-        // query += "(select start1 from Toyota_Measures where Mid = t.value5) as value5_start1,";
-        // query += "t.values6,(select MName from Toyota_Measures where Mid = t.value6) as value6_name,";
-        // query += "(select Start from Toyota_Measures where Mid = t.value6) as value6_Start,";
-        // query += "(select start1 from Toyota_Measures where Mid = t.value6) as value6_start1 ";
-        // query += "from Toyota_FINWorkcheck as t where t.Status = 'Completed' and t.Sid = '"+serviceId+"'";
-
-
-        var query = "Select t.Tid as Task_Id,t.Task,t.Type as userMode,";
-        query += " t.RSummary,t.ISummary,t.LSummary,t.values6 as cameraCapture,t.Additional,t.Status,";
-        query += "t.[values] as value,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' +";
-        query += "Cast(start1 as nvarchar(max)) from Toyota_Measures where Mid = t.value)  as value1_Start_End,";
-        query += "t.values1,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value1) as value2_Start_End,";
-        query  += "t.values2,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value2) as value3_Start_End,";
-        query += "t.values3,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value3) as value4_Start_End,";
-        query += "t.values4,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value4) as value5_Start_End,";
-        query += "t.values5,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value5) as value6_Start_End,";
-        query += "t.values6,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value6) as value7_Start_End ";
-        query += "from Toyota_FINWorkcheck as t where t.Sid = '"+serviceId+"'";
-
+        var query = "Select t.Mid,t.MType,t.Tid,t.Task,t.Type,";
+        query += "t.RSummary,t.ISummary,t.LSummary,t.values6,t.Additional,t.Status,";
+        query += "t.value,(select MName from Toyota_Measures where Mid = t.value) as value_name,";
+        query += "(select Start from Toyota_Measures where Mid = t.value) as value_Start,";
+        query += "(select start1 from Toyota_Measures where Mid = t.value) as value_start1,";
+        query += "t.values1,(select MName from Toyota_Measures where Mid = t.value1) as value1_name,";
+        query += "(select Start from Toyota_Measures where Mid = t.value1) as value1_Start,";
+        query += "(select start1 from Toyota_Measures where Mid = t.value1) as value1_start1,";
+        query += "t.values2,(select MName from Toyota_Measures where Mid = t.value2) as value2_name,";
+        query += "(select Start from Toyota_Measures where Mid = t.value2) as value2_Start,";
+        query += "(select start1 from Toyota_Measures where Mid = t.value2) as value2_start1,";
+        query += "t.values3,(select MName from Toyota_Measures where Mid = t.value3) as value3_name,";
+        query += "(select Start from Toyota_Measures where Mid = t.value3) as value3_Start,";
+        query += "(select start1 from Toyota_Measures where Mid = t.value3) as value3_start1,";
+        query += "t.values4,(select MName from Toyota_Measures where Mid = t.value4) as value4_name,";
+        query += "(select Start from Toyota_Measures where Mid = t.value4) as value4_Start,";
+        query += "(select start1 from Toyota_Measures where Mid = t.value4) as value4_start1,";
+        query += "t.values5,(select MName from Toyota_Measures where Mid = t.value5) as value5_name,";
+        query += "(select Start from Toyota_Measures where Mid = t.value5) as value5_Start,";
+        query += "(select start1 from Toyota_Measures where Mid = t.value5) as value5_start1,";
+        query += "t.values6,(select MName from Toyota_Measures where Mid = t.value6) as value6_name,";
+        query += "(select Start from Toyota_Measures where Mid = t.value6) as value6_Start,";
+        query += "(select start1 from Toyota_Measures where Mid = t.value6) as value6_start1 ";
+        query += "from Toyota_FINWorkcheck as t where t.Status = 'Completed' and t.Sid = '"+serviceId+"'";
         var request = new sql.Request(connection);
 
         console.log(query);
@@ -1790,19 +1759,17 @@ function getWorkCompleted(serviceId) {
             if (error) {
                 console.log("Error1---->In getWorkCompleted"+error);
                 connection.close();
-                return deferred.reject(error);
+                cb(error,results);
             }
             connection.close();
-            deferred.resolve(results);
+            cb(null,results);
         });
 
     }).catch(function (err) {
         connection.close();
         console.log("Error2---->In getWorkCompleted"+error);
-        return deferred.reject(err);
+        cb(err,null);
     });
-
-    return deferred.promise;
 
 }
 
@@ -1965,6 +1932,7 @@ function getRegisteredService(){
 }
 
 
+
 module.exports = {
     updateInstructionData: updateInstructionData,
     getInstructionData: getInstructionData,
@@ -1984,3 +1952,4 @@ module.exports = {
     deleteMeasure:deleteMeasure,
     getRegisteredService:getRegisteredService
 };
+

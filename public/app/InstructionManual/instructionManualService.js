@@ -72,6 +72,11 @@
                 return $http.post('/connect/updateData',instructions);
 
             },
+            updateTaskFin : function (model,service) {
+
+                return $http.get('/connect/updateTaskFin?service='+service+'&model='+model);
+
+            },
             getModels : function () {
 
                 return $http.get(

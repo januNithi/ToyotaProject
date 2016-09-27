@@ -64,6 +64,7 @@ var storage = multer.diskStorage({ //multers disk storage settings
                             }
                             req.session.data = data;
                             storageManager.updateInstructionData(records,req.query.service,req.query.model,picArr);
+
                         });
                     }
                 });
@@ -153,6 +154,26 @@ exports.getInputData = function(req,res){
     
 };
 
+exports.updateTaskFin = function(req,res){
+    storageManager.deleteTaskFin(req.query.service,req.query.model).then(function (result,error) {
+
+        if(error){
+            res.send(500,{ error: error });
+        }
+
+        storageManager.updateTaskFin(req.query.service,req.query.model).then(function (result,error) {
+            if(error){
+                res.send(500,{error:error});
+            }
+            storageManager.updateTaskFinTable(result).then(function (result) {
+                res.send(result);
+            },function (error) {
+                res.send(500,{error:error});
+            });
+        });
+    });
+};
+
 exports.uploadImages = function (req,res) {
 
     uploadImage(req,res,function () {
@@ -166,7 +187,20 @@ exports.uploadImages = function (req,res) {
 
 exports.deleteSingleInstruction = function (req,res) {
     storageManager.deleteSingleInstruction(req.body).then(function (result) {
-        res.send(result);
+        storageManager.deleteTaskFin(req.body[0].service,req.body[0].model).then(function (result,error) {
+
+            if(error){
+                res.send(500,{error:error});
+            }
+
+            storageManager.updateTaskFin(req.body[0].service,req.body[0].model).then(function (result,error) {
+                if(error){
+                    res.send(500,{error:error});
+                }
+                res.send(result);
+            });
+
+        });
     },function (error) {
         res.send(500,{error:error});
     });
@@ -174,7 +208,20 @@ exports.deleteSingleInstruction = function (req,res) {
 
 exports.deleteEntireInstruction = function (req,res) {
     storageManager.deleteEntireInstruction(req.body).then(function (result) {
-        res.send(result);
+        storageManager.deleteTaskFin(req.body[0].service,req.body[0].model).then(function (result,error) {
+
+            if(error){
+                res.send(500,{error:error});
+            }
+
+            storageManager.updateTaskFin(req.body[0].service,req.body[0].model).then(function (result,error) {
+                if(error){
+                    res.send(500,{error:error});
+                }
+                res.send(result);
+            });
+
+        });
     },function (error) {
         res.send(500,{error:error});
     });

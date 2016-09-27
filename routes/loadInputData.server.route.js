@@ -6,6 +6,9 @@ module.exports = function(app) {
     var loadInput = require('../controllers/loadInputData.server.controller');
     app.post('/connect/loadData',loadInput.loadInputData);
     app.get('/connect/getData',loadInput.getInputData);
+    app.get('/connect/updateTaskFin',loadInput.updateTaskFin);
+    
+    
     app.post('/uploadImage',loadInput.uploadImages);
     app.post('/connect/updateData',loadInput.updateInstructions);
     app.get('/connect/getInstruction',loadInput.getInstruction);

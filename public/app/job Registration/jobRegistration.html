@@ -1,11 +1,3 @@
-<spinner name="html5spinner" ng-cloak="">
-    <div class="overlay"></div>
-    <div class="spinner">
-        <div class="double-bounce1"></div>
-        <div class="double-bounce2"></div>
-    </div>
-    <div class="please-wait">Please Wait...</div>
-</spinner>
 
 <nav class="navbar navbar-default">
     <div class="navbar-header">
@@ -28,7 +20,6 @@
         </ul>
     </div>
 </nav>
-
 
 
 
@@ -216,7 +207,7 @@
                             <div class="col-xs-3">
                                 <div ng-hide="JobRegDetails.isEdit">{{JobRegDetails.MType}}</div>
                                 <div ng-show="JobRegDetails.isEdit">
-                                    <select id="serviceType" ng-model="JobRegDetails.MType" ng-change="serviceSelected(choosenService)" class="form-control">
+                                    <select id="service_type" ng-model="JobRegDetails.MType" ng-change="serviceSelected(choosenService)" class="form-control">
 
                                         <option ng-value="service.serviceName" ng-repeat="service in services">{{service.serviceName}}</option>
 

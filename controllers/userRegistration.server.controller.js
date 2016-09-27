@@ -34,7 +34,7 @@ exports.updateEmployeeRegDetails=function(req,res) {
 
         }
 
-        datas.DMI_NO=fields.DMI_NO;
+        datas.DMI_No=fields.DMI_No;
         datas.Name = fields.Name;
         datas.Designation = fields.Designation;
         datas.Username = fields.Username;
@@ -81,7 +81,7 @@ exports.saveNewEmployeeRegDetails=function (req,res) {
 
         }
 
-
+        data.DMI_No = fields.DMI_No;
         data.Name = fields.Name;
         data.Designation = fields.Designation;
         data.Username = fields.Username;

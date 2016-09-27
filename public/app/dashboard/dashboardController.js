@@ -16,41 +16,50 @@
 
 
         $scope.goToModels = function(){
+            spinnerService.show('html5spinner');
             dashboardService.goToModels();
+            spinnerService.hide('html5spinner');
         };
 
         $scope.goToReportGeneration = function () {
-
+            spinnerService.show('html5spinner');
             dashboardService.goToReportGeneration();
-
+            spinnerService.hide('html5spinner');
         };
         
         $scope.goToAdditionals = function () {
-          
+            spinnerService.show('html5spinner');
             dashboardService.goToAdditionals();
-            
+            spinnerService.hide('html5spinner');
         };
 
         $scope.goToMeasures = function () {
+            spinnerService.show('html5spinner');
             dashboardService.goToMeasures();
+            spinnerService.hide('html5spinner');
         };
 
         $scope.goToInstructions = function () {
+            spinnerService.show('html5spinner');
             dashboardService.goToInstructions();
+            spinnerService.hide('html5spinner');
         };
         
         $scope.goToRegistration=function(){
-
-
+            spinnerService.show('html5spinner');
             dashboardService.goToRegistration();
+            spinnerService.hide('html5spinner');
         };
         $scope.goTojobRegistration=function(){
-
+            spinnerService.show('html5spinner');
             dashboardService.goTojobRegistration();
+            spinnerService.hide('html5spinner');
         };
         
         $scope.loadData = function () {
+            spinnerService.show('html5spinner');
             dashboardService.loadData();
+            spinnerService.hide('html5spinner');
         }
 
         $scope.registerOrder = function(){

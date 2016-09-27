@@ -23,7 +23,7 @@
                     },
                     postUpdateEmployeeDetails:function(data)
                     {   var fd = new FormData();
-                        fd.append('DMI_NO',data.DMI_No);
+                        fd.append('DMI_No',data.DMI_No);
                         fd.append('Name', data.Name);
                         fd.append('Designation', data.Designation);
                         fd.append('Username', data.Username);
@@ -55,6 +55,7 @@
                         if(data.id) {
                             fd.append('id', data.id);
                         }
+                        fd.append('DMI_No',data.DMI_No);
                         fd.append('Name', data.Name);
                         fd.append('Designation', data.Designation);
                         fd.append('Username', data.Username);

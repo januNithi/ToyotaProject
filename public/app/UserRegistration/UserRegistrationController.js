@@ -3,9 +3,9 @@
     angular.module('toyotaApp')
            .controller('userRegistrationController',userRegistrationController);
 
-    userRegistrationController.$inject=['$scope','userRegistrationService','$window','instructionManualService'];
+    userRegistrationController.$inject=['$scope','userRegistrationService','$window','instructionManualService','spinnerService'];
 
-    function userRegistrationController($scope,userRegistrationService,$window,instructionManualService){
+    function userRegistrationController($scope,userRegistrationService,$window,instructionManualService,spinnerService){
         
         $scope.employeeRegDetails=[];
         $scope.files='';
@@ -36,7 +36,7 @@
 
 
         $scope.getEmployeeRegDetails=function(){
-
+            spinnerService.show('html5spinner');
             userRegistrationService.getEmployeeRegDetails().then(function(data){
 
                 console.log(data.data);
@@ -48,9 +48,8 @@
                     console.log(begin + ' ' + end);
                     $scope.dataFilter = $scope.employeeRegDetails.slice(begin, end);
                 });
-
                 $scope.isEdit = false;
-                
+                spinnerService.hide('html5spinner');
             });
 
         };
@@ -68,7 +67,6 @@
       $scope.editEmployeeReg=function(data){
 
           angular.element('#f1').trigger('click');
-          if ($window.confirm('Do you need to edit?')) {
                 $scope.isEdit = true;
               $scope.selectUserdetails=data;
               angular.forEach($scope.employeeRegDetails, function (value, index) {
@@ -78,11 +76,12 @@
                   }
 
               });
-          }
 
       };
         $scope.goToDashboard = function () {
+            spinnerService.show('html5spinner');
             instructionManualService.goToDashboard();
+            spinnerService.hide('html5spinner');
         };
 
         $scope.showImage=function(){
@@ -97,12 +96,9 @@
         $scope.i=0;
         console.log($scope.selectUserdetails);
         if($scope.selectUserdetails.Flag=="Active"){
-
             $scope.selectUserdetails.Flag=1;
-
         }
         else {
-
             $scope.selectUserdetails.Flag=0;
         }
         angular.forEach($scope.employeeRegDetails, function (value, index) {
@@ -179,10 +175,18 @@
 
             angular.forEach($scope.employeeRegDetails, function (value, index) {
 
+                if($scope.isEdit){
 
-                if(value.Bay_No==bayNo.$modelValue){
-                    $scope.i =$scope.i+1;
+                    if (value.Bay_No == bayNo.$modelValue && value.id != $scope.selectUserdetails.id) {
+                        $scope.i = $scope.i + 1;
+                    }
 
+                }else {
+
+                    if (value.Bay_No == bayNo.$modelValue) {
+                        $scope.i = $scope.i + 1;
+
+                    }
                 }
 
             });

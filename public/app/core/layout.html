@@ -11,12 +11,24 @@
     <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="../../css/dashboardStyles.css"/>
     <link rel="stylesheet" type="text/css" href="../../css/instructionManual.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
     <!-- BASE URL -->
     <base href="/"/>
 
 </head>
 
 <body ng-app="toyotaApp">
+
+
+    <spinner name="html5spinner" ng-cloak="">
+        <div class="overlay"></div>
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+        <div class="please-wait">Please Wait...</div>
+    </spinner>
+
 
     <ng-view></ng-view>
 

@@ -6,9 +6,10 @@
 
     loadInputDataService.$inject = [
         'Upload',
-        '$window'
+        '$window',
+        '$http'
     ];
-    function loadInputDataService (Upload,$window) {
+    function loadInputDataService (Upload,$window,$http) {
         return {
 
             uploadData : function (files,service,model) {
@@ -19,6 +20,11 @@
                     data: {file: files}
 
                 });
+
+            },
+            updateTaskFin : function (model,service) {
+
+                return $http.get('/connect/updateTaskFin?service='+service+'&model='+model);
 
             },
             goToDashboard : function () {

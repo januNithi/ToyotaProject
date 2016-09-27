@@ -80,7 +80,7 @@ function NewEmployeeRegDetails(data){
     if(data.id) {
         var my_date= new Date().toISOString().slice(0, 19).replace('T', ' ');
         var deferred=q.defer();
-        var query = "UPDATE Toyota_Employee SET DMI_No = '"+data.DMI_NO+"',Name='"+data.Name+"',Designation='"+data.Designation+"',Photo='";
+        var query = "UPDATE Toyota_Employee SET DMI_No = '"+data.DMI_No+"',Name='"+data.Name+"',Designation='"+data.Designation+"',Photo='";
         query += data.encode+"',Username='"+data.Username+"',Password='"+data.Password+"',Bay_No='";
         query += data.Bay_No+"',Flag='"+data.Flag+"',Date='"+my_date+"' WHERE id = "+data.id
         console.log(query);

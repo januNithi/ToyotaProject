@@ -11,10 +11,11 @@
         '$scope',
         'loadInputDataService',
         'instructionManualService',
-        '$window'
+        '$window',
+        'spinnerService'
     ];
 
-    function loadInputDataController($scope,loadInputDataService,instructionManualService,$window) {
+    function loadInputDataController($scope,loadInputDataService,instructionManualService,$window,spinnerService) {
 
         
         $scope.loadedData = [];
@@ -34,9 +35,14 @@
         $scope.loadData = function (files) {
             
             $scope.loadedData = files[0];
+            spinnerService.show('html5spinner');
+            loadInputDataService.uploadData(files[0],$scope.choosenService,$scope.choosenModel).then(function (error) {
+                //loadInputDataService.updateTaskFin($scope.choosenModel,$scope.choosenService);
 
-            loadInputDataService.uploadData(files[0],$scope.choosenService,$scope.choosenModel).then(function (result) {
+                spinnerService.hide('html5spinner');
                 loadInputDataService.viewManual();
+            },function(result){
+                console.log(error);
             });
             
         };
