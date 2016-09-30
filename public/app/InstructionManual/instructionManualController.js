@@ -252,7 +252,7 @@
                     spinnerService.hide('html5spinner');
 
                     splitInstructions();
-                    instructionManualService.updateTaskFin($scope.choosenModel,$scope.choosenService);
+                    //instructionManualService.updateTaskFin($scope.choosenModel,$scope.choosenService);
 
                     // dashboardService.showError(error.data);
                 });

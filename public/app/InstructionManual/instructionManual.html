@@ -88,12 +88,6 @@
 
                     </div>
 
-                    <div class="col-md-3">
-
-                        Time Allotted: {{instructions[0].timeTaken}}
-
-                    </div>
-
                     <div class="col-md-2">
 
                         <a ng-hide="onEdit" ng-click="editData()"><i class="fa fa-pencil-square-o" aria-hidden="true">Edit All</i></a>
@@ -131,8 +125,8 @@
                                         <div class="col-xs-2"><strong>L-Flag</strong></div>
                                         <div class="col-xs-2"><strong>I-Flag</strong></div>
                                         <div class="col-xs-3"><strong>value</strong></div>
-                                        <!--<th>L-Flag</th>-->
-                                        <div class="col-xs-2" ng-show="!onEdit"><strong>Edit /Delete</strong></div>
+                                        <div class="col-xs-1"><strong>Time</strong></div>
+                                        <div class="col-xs-1" ng-show="!onEdit"><strong>Edit /Delete</strong></div>
                                     </div>
                                 </div>
                             </div>
@@ -252,6 +246,20 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-xs-1" ng-show="instruction.taskId_l">
+
+                                            <div ng-hide="onEdit || instruction.isEdit" >{{instruction.timeTaken_l}}</div>
+                                            <div ng-show="onEdit || instruction.isEdit" >
+
+                                                <div ng-show="onEdit || instruction.isEdit" >
+
+                                                    <textarea rows="5" class="form-control" ng-model="instruction.timeTaken_l"></textarea>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
                                         <div class="col-xs-1" ng-show="instruction.taskId_l && !onEdit">
 
                                             <a ng-hide="instruction.isEdit" ng-click="editSingleInstruction(instruction,'LT')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -343,7 +351,7 @@
                                         <div class="col-xs-3"><strong>Measurement</strong></div>
                                         <div class="col-xs-2"><strong>I-Flag</strong></div>
                                         <div class="col-xs-3"><strong>value</strong></div>
-                                        <!--<th>I-Flag</th>-->
+                                        <div class="col-xs-1"><strong>Time</strong></div>
                                         <div class="col-xs-2" ng-show="!onEdit"><strong>Edit /Delete</strong></div>
 
                                     </div>
@@ -427,7 +435,7 @@
                                             <div ng-hide="onEdit || instruction.isEdit" >{{instruction.add_value_i}}</div>
                                             <div ng-show="onEdit || instruction.isEdit" >
 
-                                                <select class="form-control" ng-model="instruction.value_i">
+                                                <select  class="form-control" ng-model="instruction.value_i">
 
                                                     <option value="" disabled selected>Select Measures</option>
 
@@ -437,14 +445,19 @@
 
                                             </div>
                                         </div>
-                                        <!--<td ng-show="instruction.taskId_i">-->
-                                        <!--<div ng-hide="onEdit || instruction.isEdit" >{{instruction.flag_i}}</div>-->
-                                        <!--<div ng-show="onEdit || instruction.isEdit" >-->
+                                        <div class="col-xs-1" ng-show="instruction.taskId_i">
 
-                                        <!--<textarea rows="5" class="form-control" ng-model="instruction.flag_i"></textarea>-->
+                                            <div ng-hide="onEdit || instruction.isEdit" >{{instruction.timeTaken_i}}</div>
+                                            <div ng-show="onEdit || instruction.isEdit" >
 
-                                        <!--</div>-->
-                                        <!--</td>-->
+                                                <div ng-show="onEdit || instruction.isEdit" >
+
+                                                    <textarea rows="5" class="form-control" ng-model="instruction.timeTaken_i"></textarea>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
                                         <div class="col-xs-1" ng-show="instruction.taskId_i && !onEdit">
 
                                             <a ng-hide="instruction.isEdit" ng-click="editSingleInstruction(instruction,'I')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -505,8 +518,8 @@
                                         <div class="col-xs-2"><strong>R-Flag</strong></div>
                                         <div class="col-xs-2"><strong>I-Flag</strong></div>
                                         <div class="col-xs-3"><strong>value</strong></div>
-                                        <!--<th>I-Flag</th>-->
-                                        <div class="col-xs-2" ng-show="!onEdit"><strong>Edit /Delete</strong></div>
+                                        <div class="col-xs-1"><strong>Time</strong></div>
+                                        <div class="col-xs-1" ng-show="!onEdit"><strong>Edit /Delete</strong></div>
                                     </div>
 
                                 </div>
@@ -602,9 +615,7 @@
                                             <div ng-hide="onEdit || instruction.isEdit" >{{instruction.add_value_r}}</div>
                                             <div ng-show="onEdit || instruction.isEdit" >
 
-                                                <select class="form-control" ng-model="instruction.value_r">
-
-                                                    <option value="" disabled selected>Select Measures</option>
+                                                <select  class="form-control" ng-model="instruction.value_r">
 
                                                     <option value="{{mData.Mid}}" ng-repeat="mData in measuresData">{{mData.MName}}</option>
 
@@ -613,14 +624,20 @@
                                             </div>
                                         </div>
 
-                                        <!--<td ng-show="instruction.taskId_r">-->
-                                        <!--<div ng-hide="onEdit || instruction.isEdit" >{{instruction.flag_r}}</div>-->
-                                        <!--<div ng-show="onEdit || instruction.isEdit" >-->
+                                        <div class="col-xs-1" ng-show="instruction.taskId_r">
 
-                                        <!--<textarea rows="5" class="form-control" ng-model="instruction.flag_r"></textarea>-->
+                                            <div ng-hide="onEdit || instruction.isEdit" >{{instruction.timeTaken_r}}</div>
+                                            <div ng-show="onEdit || instruction.isEdit" >
 
-                                        <!--</div>-->
-                                        <!--</td>-->
+                                                <div ng-show="onEdit || instruction.isEdit" >
+
+                                                    <textarea rows="5" class="form-control" ng-model="instruction.timeTaken_r"></textarea>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
                                         <div class="col-xs-1" ng-show="instruction.taskId_r && !onEdit">
 
                                             <a ng-hide="instruction.isEdit" ng-click="editSingleInstruction(instruction,'RT')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>

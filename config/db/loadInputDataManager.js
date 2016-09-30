@@ -104,61 +104,61 @@ function updateInstructionData(data,service,model,picArr) {
 
                                 var dataUpdate = 'Insert into toyota_tasks_supreme(service,model,taskId_l,taskId_r,taskId_i,task_l,task_r,task_i,';
                                 dataUpdate += 'process_l,process_r,process_i,picture_l,picture_r,picture_i,Iflag_r,Rflag_r,Iflag_i,Lflag_l,Iflag_l,';
-                                dataUpdate += 'measurement_l,measurement_r,measurement_i,';
+                                dataUpdate += 'measurement_l,measurement_r,measurement_i,value_r,value_i,value_l,';
                                 dataUpdate += 'tools_l,tools_r,tools_i,inference_l,inference_r,inference_i,version,status)';
                                 dataUpdate += ' values(@service,@model,@taskId_l,@taskId_r,@taskId_i,@task_l,@task_r,@task_i,';
                                 dataUpdate += '@process_l,@process_r,@process_i,@picture_l,@picture_r,@picture_i,@Iflag_r,@Rflag_r,@Iflag_i,@Lflag_l,@Iflag_l,';
-                                dataUpdate += '@measurement_l,@measurement_r,@measurement_i,';
+                                dataUpdate += '@measurement_l,@measurement_r,@measurement_i,@value_r,@value_i,@value_l,';
                                 dataUpdate += '@tools_l,@tools_r,@tools_i,@inference_l,@inference_r,@inference_i,@version,@status)';
 
 
                                 console.log('Query template' + dataUpdate);
 
-                                if(data[index][18] == ''){
-                                    data[index][18] = null;
-                                }
-                                if(data[index][19] == ''){
-                                    data[index][19] = null;
-                                }
-                                if(data[index][20] == ''){
-                                    data[index][20] = null;
-                                }
-                                if(data[index][21] == ''){
-                                    data[index][21] = null;
-                                }
-                                if(data[index][23] == ''){
-                                    data[index][23] = null;
-                                }
-                                if(data[index][2] == ''){
-                                    data[index][2] = null;
-                                }
-                                if(data[index][3] == ''){
-                                    data[index][3] = null;
-                                }
-                                if(data[index][4] == ''){
-                                    data[index][4] = null;
-                                }
-                                if(data[index][5] == ''){
-                                    data[index][5] = null;
-                                }
-                                if(data[index][7] == ''){
-                                    data[index][7] = null;
-                                }
-                                if(data[index][10] == ''){
-                                    data[index][10] = null;
-                                }
-                                if(data[index][11] == ''){
-                                    data[index][11] = null;
-                                }
-                                if(data[index][12] == ''){
-                                    data[index][12] = null;
-                                }
-                                if(data[index][13] == ''){
-                                    data[index][13] = null;
-                                }
-                                if(data[index][15] == ''){
-                                    data[index][15] = null;
-                                }
+                                // if(data[index][18] == ''){
+                                //     data[index][18] = null;
+                                // }
+                                // if(data[index][19] == ''){
+                                //     data[index][19] = null;
+                                // }
+                                // if(data[index][20] == ''){
+                                //     data[index][20] = null;
+                                // }
+                                // if(data[index][21] == ''){
+                                //     data[index][21] = null;
+                                // }
+                                // if(data[index][23] == ''){
+                                //     data[index][23] = null;
+                                // }
+                                // if(data[index][2] == ''){
+                                //     data[index][2] = null;
+                                // }
+                                // if(data[index][3] == ''){
+                                //     data[index][3] = null;
+                                // }
+                                // if(data[index][4] == ''){
+                                //     data[index][4] = null;
+                                // }
+                                // if(data[index][5] == ''){
+                                //     data[index][5] = null;
+                                // }
+                                // if(data[index][7] == ''){
+                                //     data[index][7] = null;
+                                // }
+                                // if(data[index][10] == ''){
+                                //     data[index][10] = null;
+                                // }
+                                // if(data[index][11] == ''){
+                                //     data[index][11] = null;
+                                // }
+                                // if(data[index][12] == ''){
+                                //     data[index][12] = null;
+                                // }
+                                // if(data[index][13] == ''){
+                                //     data[index][13] = null;
+                                // }
+                                // if(data[index][15] == ''){
+                                //     data[index][15] = null;
+                                // }
 
                                 picArr.forEach(function(value1, index1) {
                                     if (value1.split('.')[0] == service+"-"+model+"-"+index + "-22" || value1.split('.')[0] == service+"-"+model+"-"+index + "-23") {
@@ -217,8 +217,8 @@ function updateInstructionData(data,service,model,picArr) {
                                                 task_r: data[index][2],task_i: data[index][10], process_l: data[index][19],
                                                 process_r :  data[index][3], process_i :  data[index][11],
                                                 picture_l : picture_l, picture_r : picture_r,picture_i: picture_i,
-                                                Iflag_r:'0',Rflag_r:'0',Lflag_l : '0',
-                                                Iflag_l:'0',Iflag_i : '0', measurement_l : data[index][20],
+                                                Iflag_r:'0',Rflag_r:'1',Lflag_l : '1',Iflag_l:'0',Iflag_i : '1',
+                                                measurement_l : data[index][20],value_r:'0',value_i:'0',value_l:'0',
                                                 measurement_r:data[index][4],measurement_i: data[index][12],
                                                 tools_l: data[index][21], tools_r: data[index][5], tools_i : data[index][13],
                                                 inference_l : data[index][23],inference_r: data[index][7], inference_i :data[index][15],
@@ -309,62 +309,62 @@ function updateInstructionData(data,service,model,picArr) {
 
                             var dataUpdate = 'Insert into toyota_tasks_supreme(service,model,taskId_l,taskId_r,taskId_i,task_l,task_r,task_i,';
                             dataUpdate += 'process_l,process_r,process_i,picture_l,picture_r,picture_i,Iflag_r,Rflag_r,Iflag_i,Lflag_l,Iflag_l,';
-                            dataUpdate += 'measurement_l,measurement_r,measurement_i,';
+                            dataUpdate += 'measurement_l,measurement_r,measurement_i,value_r,value_i,value_l,';
                             dataUpdate += 'tools_l,tools_r,tools_i,inference_l,inference_r,inference_i,version,status)';
                             dataUpdate += ' values(@service,@model,@taskId_l,@taskId_r,@taskId_i,@task_l,@task_r,@task_i,';
                             dataUpdate += '@process_l,@process_r,@process_i,@picture_l,@picture_r,@picture_i,@Iflag_r,@Rflag_r,@Iflag_i,@Lflag_l,@Iflag_l,';
-                            dataUpdate += '@measurement_l,@measurement_r,@measurement_i,';
+                            dataUpdate += '@measurement_l,@measurement_r,@measurement_i,@value_r,@value_i,@value_l,';
                             dataUpdate += '@tools_l,@tools_r,@tools_i,@inference_l,@inference_r,@inference_i,@version,@status)';
 
 
 
                             console.log('Query template' + dataUpdate);
 
-                            if(data[index][18] == ''){
-                                data[index][18] = null;
-                            }
-                            if(data[index][19] == ''){
-                                data[index][19] = null;
-                            }
-                            if(data[index][20] == ''){
-                                data[index][20] = null;
-                            }
-                            if(data[index][21] == ''){
-                                data[index][21] = null;
-                            }
-                            if(data[index][23] == ''){
-                                data[index][23] = null;
-                            }
-                            if(data[index][2] == ''){
-                                data[index][2] = null;
-                            }
-                            if(data[index][3] == ''){
-                                data[index][3] = null;
-                            }
-                            if(data[index][4] == ''){
-                                data[index][4] = null;
-                            }
-                            if(data[index][5] == ''){
-                                data[index][5] = null;
-                            }
-                            if(data[index][7] == ''){
-                                data[index][7] = null;
-                            }
-                            if(data[index][10] == ''){
-                                data[index][10] = null;
-                            }
-                            if(data[index][11] == ''){
-                                data[index][11] = null;
-                            }
-                            if(data[index][12] == ''){
-                                data[index][12] = null;
-                            }
-                            if(data[index][13] == ''){
-                                data[index][13] = null;
-                            }
-                            if(data[index][15] == ''){
-                                data[index][15] = null;
-                            }
+                            // if(data[index][18] == ''){
+                            //     data[index][18] = null;
+                            // }
+                            // if(data[index][19] == ''){
+                            //     data[index][19] = null;
+                            // }
+                            // if(data[index][20] == ''){
+                            //     data[index][20] = null;
+                            // }
+                            // if(data[index][21] == ''){
+                            //     data[index][21] = null;
+                            // }
+                            // if(data[index][23] == ''){
+                            //     data[index][23] = null;
+                            // }
+                            // if(data[index][2] == ''){
+                            //     data[index][2] = null;
+                            // }
+                            // if(data[index][3] == ''){
+                            //     data[index][3] = null;
+                            // }
+                            // if(data[index][4] == ''){
+                            //     data[index][4] = null;
+                            // }
+                            // if(data[index][5] == ''){
+                            //     data[index][5] = null;
+                            // }
+                            // if(data[index][7] == ''){
+                            //     data[index][7] = null;
+                            // }
+                            // if(data[index][10] == ''){
+                            //     data[index][10] = null;
+                            // }
+                            // if(data[index][11] == ''){
+                            //     data[index][11] = null;
+                            // }
+                            // if(data[index][12] == ''){
+                            //     data[index][12] = null;
+                            // }
+                            // if(data[index][13] == ''){
+                            //     data[index][13] = null;
+                            // }
+                            // if(data[index][15] == ''){
+                            //     data[index][15] = null;
+                            // }
 
                             picArr.forEach(function(value1, index1) {
                                 if (value1.split('.')[0] == service+"-"+model+"-"+index + "-22" || value1.split('.')[0] == service+"-"+model+"-"+index + "-23") {
@@ -410,13 +410,16 @@ function updateInstructionData(data,service,model,picArr) {
                                     ps.input('inference_l',sql.NVarChar);
                                     ps.input('inference_r',sql.NVarChar);
                                     ps.input('inference_i',sql.NVarChar);
+                                    ps.input('value_l',sql.NVarChar);
+                                    ps.input('value_r',sql.NVarChar);
+                                    ps.input('value_i',sql.NVarChar);
                                     ps.input('version',sql.NVarChar);
                                     ps.input('status',sql.NVarChar);
                                     ps.prepare(dataUpdate, function(err) {
                                         // ... error checks
                                         if(err){
                                             connection.close();
-                                            console.log("Error7---->In updateInstructions"+error);
+                                            console.log("Error7---->In updateInstructions"+err);
                                             return deferred.reject(err);
                                         }
                                         ps.execute({service: service,model:model,taskId_l:  tasklId,
@@ -424,8 +427,8 @@ function updateInstructionData(data,service,model,picArr) {
                                             task_r: data[index][2],task_i: data[index][10], process_l: data[index][19],
                                             process_r :  data[index][3], process_i :  data[index][11],
                                             picture_l : picture_l, picture_r : picture_r,picture_i: picture_i,
-                                            Iflag_r:'0',Rflag_r:'0',Lflag_l : '0',
-                                            Iflag_l:'0',Iflag_i : '0', measurement_l : data[index][20],
+                                            Iflag_r:'0',Rflag_r:'1',Lflag_l : '1',Iflag_l:'0',Iflag_i : '1',
+                                            measurement_l : data[index][20],value_r:'0',value_i:'0',value_l:'0',
                                             measurement_r:data[index][4],measurement_i: data[index][12],
                                             tools_l: data[index][21], tools_r: data[index][5], tools_i : data[index][13],
                                             inference_l : data[index][23],inference_r: data[index][7], inference_i :data[index][15],
@@ -556,6 +559,7 @@ function updateTaskFin(service,model){
                                     data.Rflag = value1.Rflag;
                                     data.Image = value1.Image;
                                     data.value1 = value1.value;
+                                    data.TTime = value1.timeTaken_r;
                                 }
 
                                 if (index1 == 1) {
@@ -660,6 +664,7 @@ function updateTaskFin(service,model){
                                                     data.Iflag = value1.Iflag;
                                                     data.Image = value1.Image;
                                                     data.value1 = value1.value;
+                                                    data.TTime = value1.timeTaken_i;
                                                 }
 
                                                 if (index1 == 1) {
@@ -768,6 +773,7 @@ function updateTaskFin(service,model){
                                                                     data.Lflag = value1.Lflag;
                                                                     data.Image = value1.Image;
                                                                     data.value1 = value1.value;
+                                                                    data.TTime = value1.timeTaken_l;
                                                                 }
 
                                                                 if (index1 == 1) {
@@ -1028,6 +1034,7 @@ function updateInstructions(instructions) {
         updateQuery += ",tools_l = @tools_l,tools_r = @tools_r,tools_i = @tools_i,inference_l = @inference_l,";
         updateQuery += "inference_r = @inference_r,inference_i = @inference_i,value_l=@value_l,";
         updateQuery += "value_r=@value_r,value_i = @value_i,Iflag_r = @Iflag_r, Rflag_r = @Rflag_r, ";
+        updateQuery += "timeTaken_r=@timeTaken_r,timeTaken_i = @timeTaken_i,timeTaken_l = @timeTaken_l, ";
         updateQuery += "Iflag_l = @Iflag_l, Lflag_l = @Lflag_l, Iflag_i = @Iflag_i,version=@version where status = @status";
         updateQuery += " and model = @model and service = @service and id=@id";
 
@@ -1062,6 +1069,9 @@ function updateInstructions(instructions) {
         ps.input('inference_l',sql.NVarChar);
         ps.input('inference_r',sql.NVarChar);
         ps.input('inference_i',sql.NVarChar);
+        ps.input('timeTaken_l',sql.NVarChar);
+        ps.input('timeTaken_r',sql.NVarChar);
+        ps.input('timeTaken_i',sql.NVarChar);
         ps.input('value_l',sql.NVarChar);
         ps.input('value_r',sql.NVarChar);
         ps.input('value_i',sql.NVarChar);
@@ -1080,8 +1090,8 @@ function updateInstructions(instructions) {
                         ,process_l:value.process_l,process_r:value.process_r,process_i:value.process_i,picture_l:value.picture_l
                         ,picture_r:value.picture_r,picture_i:value.picture_i,measurement_l:value.measurement_l,measurement_r:value.measurement_r
                         ,measurement_i:value.measurement_i,tools_l:value.tools_l,tools_r:value.tools_r
-                        ,Iflag_r : value.Iflag_r,Rflag_r : value.Rflag_r,Iflag_l : value.Iflag_l
-                        , Lflag_l : value.Lflag_l, Iflag_i : value.Iflag_i
+                        ,Iflag_r : value.Iflag_r,Rflag_r : value.Rflag_r,Iflag_l : value.Iflag_l, Lflag_l : value.Lflag_l,
+                        Iflag_i : value.Iflag_i,timeTaken_r:value.timeTaken_r,timeTaken_l:value.timeTaken_l,timeTaken_i:value.timeTaken_i
                         ,tools_i:value.tools_i,inference_l:value.inference_l,inference_r:value.inference_r,inference_i:value.inference_i
                         ,version:value.version,status:'active',model:value.model,service:value.service,value_l:value.value_l
                         ,value_i:value.value_i,value_r:value.value_r},
@@ -1490,9 +1500,10 @@ function getInstructionData(data) {
         query += "t.task_l, t.process_r,t.process_i,t.process_l,";
         query += "t.picture_r,t.picture_i,t.picture_l,t.Iflag_r,t.Rflag_r,t.Iflag_i,t.Lflag_l,t.Iflag_l,t.tools_r,t.tools_i,t.tools_l,";
         query += "t.inference_r,t.inference_i,t.inference_l,t.measurement_r,t.measurement_i,t.measurement_l,";
-        query += "t.value_r,(select MName from Toyota_Measures where Mid = t.value_r) as add_value_r,t.value_r,";
+        query += "(select MName from Toyota_Measures where Mid = t.value_r) as add_value_r,t.value_r,";
         query += "(select MName from Toyota_Measures where Mid = t.value_l) as add_value_l,t.value_l,";
         query += "(select MName from Toyota_Measures where Mid = t.value_i) as add_value_i,t.value_i,t.version";
+        query += ",t.timeTaken_r,t.timeTaken_l,t.timeTaken_i";
         query += ",t.model as model from toyota_tasks_supreme as t ";
         query += " where t.model = '"+data.modelId+"' and t.service = '"+data.serviceId+"' and t.status = 'active'";
 

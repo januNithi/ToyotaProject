@@ -2,8 +2,6 @@
  * Created by CSS on 26-07-2016.
  */
 
-// var XLSX = require('xlsx');
-
 var multer = require('multer');
 
 var storageManager = require("../config/db/loadInputDataManager");
@@ -24,18 +22,6 @@ var storage = multer.diskStorage({ //multers disk storage settings
         //
         var path = "public/uploads/"+'excel-'+req.query.service+"."+file.originalname.split('.')[1];
        
-        // var excel = require('excel-stream');
-        // var fs = require('fs');
-        //
-        // req.session.data = [];
-        //
-        // fs.createReadStream(path)
-        //     .pipe(excel())  // same as excel({sheetIndex: 0})
-        //     .on('data', function(result){
-        //         req.session.data.push(result);
-        //         console.log(result);
-        //     });
-
         var picArr;
 
         var exec = require('child_process').exec;
@@ -63,44 +49,25 @@ var storage = multer.diskStorage({ //multers disk storage settings
                                 serviceId : req.query.serviceId
                             }
                             req.session.data = data;
-                            storageManager.updateInstructionData(records,req.query.service,req.query.model,picArr);
+                            storageManager.updateInstructionData(records,req.query.service,req.query.model,picArr).then(function () {
+
+                                storageManager.deleteTaskFin(req.query.service,req.query.model).then(function (result,error) {
+
+                                    storageManager.updateTaskFin(req.query.service,req.query.model).then(function (result,error) {
+                                        if(error){
+                                           console.log(error);
+                                        }
+                                        storageManager.updateTaskFinTable(result);
+                                    });
+                                });
+
+                            });
 
                         });
                     }
                 });
 
             });
-
-
-
-        // var Excel = require('exceljs');
-        //
-        // var workbook = new Excel.Workbook();
-        // workbook.xlsx.readFile(path)
-        //     .then(function(result) {
-        //         for(var i = 1 ; i <= result._worksheets.length; i++){
-        //             var worksheet = result._worksheets[i];
-        //             if(worksheet) {
-        //                 worksheet.eachRow({includeEmpty: true}, function (row, rowNumber) {
-        //                     console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
-        //                 });
-        //             }
-        //         }
-        //
-        //     },function(error){
-        //         console.log(error);
-        //     });
-
-        // EXCEl EXTRACT
-        // var XLSX = require('xlsx-extract').XLSX;
-        // //convert to json-file (sheet info is not written to file)
-        // new XLSX().convert(path,'new.json')
-        //     .on('error', function (err) {
-        //         console.error(err);
-        //     })
-        //     .on('end', function () {
-        //         console.log('written');
-        //     })
     }
 });
 
@@ -337,6 +304,15 @@ exports.updateMeasure = function (req,res) {
 exports.updateInstructions = function (req,res) {
 
     storageManager.updateInstructions(req.body).then(function (result) {
+        storageManager.deleteTaskFin(req.body[0].service,req.body[0].model).then(function (result,error) {
+
+            storageManager.updateTaskFin(req.body[0].service,req.body[0].model).then(function (result,error) {
+                if(error){
+                    console.log(error);
+                }
+                storageManager.updateTaskFinTable(result);
+            });
+        });
         res.send(result);
     },function (error) {
         res.send(500,{error:error});
