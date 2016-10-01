@@ -512,7 +512,7 @@ function updateTaskFin(service,model){
 
                     query = "Select taskId_r as Task_id,task_r as Task,service as MType,model as MName";
                     query += ", picture_r as Image, process_r as Process, tools_r as Tools, inference_r";
-                    query += " as Inference, value_r as value, Iflag_r as Iflag, Rflag_r as Rflag";
+                    query += " as Inference, value_r as value, Iflag_r as Iflag, Rflag_r as Rflag, timeTaken_r as TTime ";
                     query += " from toyota_tasks_supreme where taskId_r = " + value.taskId_r + " and status = 'active'";
 
                     request.query(query).then(function (records, err) {
@@ -559,7 +559,9 @@ function updateTaskFin(service,model){
                                     data.Rflag = value1.Rflag;
                                     data.Image = value1.Image;
                                     data.value1 = value1.value;
-                                    data.TTime = value1.timeTaken_r;
+                                    if(value1.TTime) {
+                                        data.TTime = value1.TTime;
+                                    }
                                 }
 
                                 if (index1 == 1) {
@@ -586,9 +588,9 @@ function updateTaskFin(service,model){
                                     data.Image6 = value1.Image;
                                 }
 
-                                data.Tools = data.Tools + value1.Tools;
-                                data.Process = data.Process + value1.Process;
-                                data.Inference = data.Inference + value1.Inference;
+                                data.Tools = '\n'+data.Tools +'\n' + value1.Tools;
+                                data.Process ='\n'+ data.Process +'\n'+ value1.Process;
+                                data.Inference ='\n'+ data.Inference +'\n'+ value1.Inference;
 
                                 if ((index1 + 1) == d.length) {
                                     tasks.push(data);
@@ -619,7 +621,7 @@ function updateTaskFin(service,model){
 
                                     query = "Select taskId_i as Task_id,task_i as Task,service as MType,model as MName";
                                     query += ", picture_i as Image, process_i as Process, tools_i as Tools, inference_i";
-                                    query += " as Inference, value_r as value, Iflag_i as Iflag"
+                                    query += " as Inference, value_i as value, Iflag_i as Iflag, timeTaken_i as TTime "
                                     query += " from toyota_tasks_supreme where taskId_i = " + value2.taskId_i + " and status = 'active'";
 
                                     request.query(query).then(function (records, err) {
@@ -664,7 +666,9 @@ function updateTaskFin(service,model){
                                                     data.Iflag = value1.Iflag;
                                                     data.Image = value1.Image;
                                                     data.value1 = value1.value;
-                                                    data.TTime = value1.timeTaken_i;
+                                                    if(value1.TTime) {
+                                                        data.TTime = value1.TTime;
+                                                    }
                                                 }
 
                                                 if (index1 == 1) {
@@ -690,10 +694,9 @@ function updateTaskFin(service,model){
                                                 if (index1 == 6) {
                                                     data.Image6 = value1.Image;
                                                 }
-
-                                                data.Tools = data.Tools + value1.Tools;
-                                                data.Process = data.Process + value1.Process;
-                                                data.Inference = data.Inference + value1.Inference;
+                                                data.Tools = '\n'+data.Tools +'\n' + value1.Tools;
+                                                data.Process ='\n'+ data.Process +'\n'+ value1.Process;
+                                                data.Inference ='\n'+ data.Inference +'\n'+ value1.Inference;
 
                                                 if ((index1 + 1) == records.length) {
                                                     tasks.push(data);
@@ -727,7 +730,7 @@ function updateTaskFin(service,model){
 
                                                     query = "Select taskId_l as Task_id,task_l as Task,service as MType,model as MName";
                                                     query += ", picture_l as Image, process_l as Process, tools_l as Tools, inference_l";
-                                                    query += " as Inference, value_l as value, Iflag_l as Iflag, Lflag_l as Lflag"
+                                                    query += " as Inference, value_l as value, Iflag_l as Iflag, Lflag_l as Lflag, timeTaken_l as TTime "
                                                     query += " from toyota_tasks_supreme where taskId_l = " + value3.taskId_l + " and status = 'active'";
 
                                                     request.query(query).then(function (records, err) {
@@ -773,7 +776,9 @@ function updateTaskFin(service,model){
                                                                     data.Lflag = value1.Lflag;
                                                                     data.Image = value1.Image;
                                                                     data.value1 = value1.value;
-                                                                    data.TTime = value1.timeTaken_l;
+                                                                    if(value1.TTime) {
+                                                                        data.TTime = value1.TTime;
+                                                                    }
                                                                 }
 
                                                                 if (index1 == 1) {
@@ -800,9 +805,9 @@ function updateTaskFin(service,model){
                                                                     data.Image6 = value1.Image;
                                                                 }
 
-                                                                data.Tools = data.Tools + value1.Tools;
-                                                                data.Process = data.Process + value1.Process;
-                                                                data.Inference = data.Inference + value1.Inference;
+                                                                data.Tools = '\n'+data.Tools +'\n' + value1.Tools;
+                                                                data.Process ='\n'+ data.Process +'\n'+ value1.Process;
+                                                                data.Inference ='\n'+ data.Inference +'\n'+ value1.Inference;
 
                                                                 if ((index1 + 1) == records.length) {
                                                                     tasks.push(data);

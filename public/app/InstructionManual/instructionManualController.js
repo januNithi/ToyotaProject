@@ -338,7 +338,7 @@
                 },function(result){
                     spinnerService.hide('html5spinner');
                     $scope.getData();
-                    instructionManualService.updateTaskFin($scope.choosenModel,$scope.choosenService);
+                    // instructionManualService.updateTaskFin($scope.choosenModel,$scope.choosenService);
 
                 });
             }
