@@ -51,7 +51,7 @@
 
                 <select id="model" ng-model="choosenModel" ng-change="modelSelected(choosenModel)" class="form-control">
 
-                    <option ng-value="mdl.modelName" ng-repeat="mdl in models">{{mdl.modelName}}</option>
+                    <option ng-value="mdl.MName" ng-repeat="mdl in models">{{mdl.MName}}</option>
 
                 </select>
 
@@ -63,7 +63,7 @@
 
                 <select id="serviceType" ng-model="choosenService" ng-change="serviceSelected(choosenService)" class="form-control">
 
-                    <option ng-value="service.serviceName" ng-repeat="service in services">{{service.serviceName}}</option>
+                    <option ng-value="service.MType" ng-repeat="service in services">{{service.MType}}</option>
 
                 </select>
 

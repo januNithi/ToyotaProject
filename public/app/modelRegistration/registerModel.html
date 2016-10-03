@@ -38,13 +38,25 @@
 
     </div>
 
-    <div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Models
+            <div class="pull-right">
+                <a  id="addModel" ng-click="addNewModel()">
+                    <i class="fa fa-book" style="color: HighlightText" aria-hidden="true">Add Model</i>
+                </a>
+            </div>
 
-            <div>
+        </div>
 
-                <table class="table">
+        <div class="panel-body">
 
-                    <thead>
+            <div class="row">
+
+                <div>
+
+                    <table class="table">
+
+                        <thead>
 
                         <tr>
 
@@ -54,9 +66,9 @@
 
                         </tr>
 
-                    </thead>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
                         <tr ng-repeat="mdl in model">
 
@@ -64,13 +76,13 @@
 
                                 <div ng-hide="showEditable(mdl)">
 
-                                    {{mdl.modelName}}
+                                    {{mdl.MName}}
 
                                 </div>
 
                                 <div ng-show="showEditable(mdl)">
 
-                                    <input type="text" ng-model="mdl.modelName">
+                                    <input type="text" ng-model="mdl.MName">
 
                                 </div>
 
@@ -80,10 +92,21 @@
 
                                 <div ng-repeat="service in mdl.services">
 
-                                    <div ng-hide="showEditable(mdl)">{{service.serviceName}}</div>
+                                    <div class="row">
+                                        <div class="col-xs-4" ng-hide="showEditable(mdl)">{{service.MType}}</div>
+                                        <div class="col-xs-4" ng-hide="showEditable(mdl)">{{service.Employee}}</div>
+                                        <div class="col-xs-4" ng-hide="showEditable(mdl)">
+                                            {{(service.Flag == '0')?'InActive':'Active'}}
+                                        </div>
+                                    </div>
+                                    <div ng-show="showEditable(mdl)" class="row">
+                                        <input type="text" placeholder="Service Type" ng-model="service.MType">
+                                        <input type="text"  placeholder="Employee" ng-model="service.Employee">
+                                        <select ng-model = "service.Flag">
 
-                                    <div ng-show="showEditable(mdl)">
-                                        <input type="text" ng-model="service.serviceName">
+                                            <option value="{{a.id}}" ng-repeat="a in flags">{{a.value}}</option>
+
+                                        </select>
                                         <a ng-click="removeAService(mdl,service)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
                                     </div>
 
@@ -104,13 +127,17 @@
 
                         </tr>
 
-                    </tbody>
+                        </tbody>
 
 
-                </table>
+                    </table>
 
+
+                </div>
 
             </div>
+
+        </div>
 
     </div>
 

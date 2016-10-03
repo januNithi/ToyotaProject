@@ -14,9 +14,9 @@ var con = mysql.createConnection(db);
 function updateInstructionData(data,service,model,picArr) {
     var deferred = q.defer();
 
-    var tempTask_i = '';
-    var tempTask_r = '';
-    var tempTask_l = '';
+    var tempTask_i = "";
+    var tempTask_r = "";
+    var tempTask_l = "";
 
     var r = 1;
     var l = 1;
@@ -58,8 +58,10 @@ function updateInstructionData(data,service,model,picArr) {
 
                         if(index > 4){
 
-                            if(data[index][2] !== '' || data[index][10] !== '' || data[index][18] !== '' ||
-                                data[index][3] !== '' || data[index][11] !== '' || data[index][19] !== '') {
+                            if(data[index][2] !== "" || data[index][10] !== "" || data[index][18] !== "" ||
+                                data[index][3] !== "" || data[index][11] !== "" || data[index][19] !== "" ||
+                                data[index][2] !== " " || data[index][10] !== " " || data[index][18] !== " " ||
+                                data[index][3] !== " " || data[index][11] !== " " || data[index][19] !== " ") {
 
                                 var taskrId = null;
                                 var tasklId = null;
@@ -69,34 +71,34 @@ function updateInstructionData(data,service,model,picArr) {
                                 var picture_r = null;
                                 var picture_i = null;
 
-                                if (data[index][2] !== '') {
+                                if (data[index][2] !== "" && data[index][2] !== " ") {
                                     tempTask_r = data[index][2];
                                     taskrId = r;
                                     r++;
                                 } else {
-                                    if (data[index][3] != '' && tempTask_r != '') {
+                                    if (data[index][3] != " " && tempTask_r != "" && data[index][3] != "") {
                                         data[index][2] = tempTask_r;
                                         taskrId = r - 1;
                                     }
                                 }
 
-                                if (data[index][10] !== '') {
+                                if (data[index][10] !== "" && data[index][10] !== " ") {
                                     tempTask_i = data[index][10];
                                     taskiId = I;
                                     I++;
                                 } else {
-                                    if (data[index][11] != '' && tempTask_i != '') {
+                                    if (data[index][11] != "" && data[index][11] != " "  && tempTask_i != "") {
                                         data[index][10] = tempTask_i;
                                         taskiId = I - 1;
                                     }
                                 }
 
-                                if (data[index][18] !== '') {
+                                if (data[index][18] !== "" && data[index][18] !== " ") {
                                     tempTask_l = data[index][18];
                                     tasklId = l;
                                     l++;
                                 } else {
-                                    if (data[index][19] != '' && tempTask_l != '') {
+                                    if (data[index][19] != "" && data[index][19] != " "  && tempTask_l != "") {
                                         data[index][18] = tempTask_l;
                                         tasklId = l - 1;
                                     }
@@ -231,15 +233,16 @@ function updateInstructionData(data,service,model,picArr) {
                                                 ps.unprepare(function(err) {
                                                     if(err){
                                                         console.log("Error4---->In updateInstructionsData"+err);
-                                                        return deferred.reject(error);
+
                                                     }
 
                                                 });
-                                            });
-                                            if ((index+1) == data.length) {
 
-                                                deferred.resolve(ps.lastRequest.rowsAffected);
-                                            }
+                                                if ((index+1) == data.length) {
+
+                                                    deferred.resolve(ps.lastRequest.rowsAffected);
+                                                }
+                                            });
 
 
                                         });
@@ -263,8 +266,10 @@ function updateInstructionData(data,service,model,picArr) {
 
                     if(index > 4){
 
-                        if(data[index][2] !== '' || data[index][10] !== '' || data[index][18] !== '' ||
-                            data[index][3] !== '' || data[index][11] !== '' || data[index][19] !== '') {
+                        if(data[index][2] !== "" || data[index][10] !== "" || data[index][18] !== "" ||
+                            data[index][3] !== "" || data[index][11] !== "" || data[index][19] !== "" ||
+                            data[index][2] !== " " || data[index][10] !== " " || data[index][18] !== " " ||
+                            data[index][3] !== " " || data[index][11] !== " " || data[index][19] !== " ") {
 
                             var taskrId = null;
                             var tasklId = null;
@@ -274,38 +279,39 @@ function updateInstructionData(data,service,model,picArr) {
                             var picture_r = null;
                             var picture_i = null;
 
-                            if (data[index][2] !== '') {
+                            if (data[index][2] !== "" && data[index][2] !== " ") {
                                 tempTask_r = data[index][2];
                                 taskrId = r;
                                 r++;
                             } else {
-                                if (data[index][3] != '' && tempTask_r != '') {
+                                if (data[index][3] != " " && tempTask_r != "" && data[index][3] != "") {
                                     data[index][2] = tempTask_r;
                                     taskrId = r - 1;
                                 }
                             }
 
-                            if (data[index][10] !== '') {
+                            if (data[index][10] !== "" && data[index][10] !== " ") {
                                 tempTask_i = data[index][10];
                                 taskiId = I;
                                 I++;
                             } else {
-                                if (data[index][11] != '' && tempTask_i != '') {
+                                if (data[index][11] != "" && data[index][11] != " "  && tempTask_i != "") {
                                     data[index][10] = tempTask_i;
                                     taskiId = I - 1;
                                 }
                             }
 
-                            if (data[index][18] !== '') {
+                            if (data[index][18] !== "" && data[index][18] !== " ") {
                                 tempTask_l = data[index][18];
                                 tasklId = l;
                                 l++;
                             } else {
-                                if (data[index][19] != '' && tempTask_l != '') {
+                                if (data[index][19] != "" && data[index][19] != " "  && tempTask_l != "") {
                                     data[index][18] = tempTask_l;
                                     tasklId = l - 1;
                                 }
                             }
+
 
                             var dataUpdate = 'Insert into toyota_tasks_supreme(service,model,taskId_l,taskId_r,taskId_i,task_l,task_r,task_i,';
                             dataUpdate += 'process_l,process_r,process_i,picture_l,picture_r,picture_i,Iflag_r,Rflag_r,Iflag_i,Lflag_l,Iflag_l,';
@@ -441,15 +447,16 @@ function updateInstructionData(data,service,model,picArr) {
                                             ps.unprepare(function(err) {
                                                 if(err){
                                                     console.log("Error9---->In updateInstructionsData"+error);
-                                                    return deferred.reject(err);
+
                                                 }
 
                                             });
-                                        });
-                                        if ((index+1) == data.length) {
+                                            if ((index+1) == data.length) {
 
                                                 deferred.resolve(ps.lastRequest.rowsAffected);
-                                        }
+                                            }
+                                        });
+
 
 
                                     });
@@ -514,6 +521,7 @@ function updateTaskFin(service,model){
                     query += ", picture_r as Image, process_r as Process, tools_r as Tools, inference_r";
                     query += " as Inference, value_r as value, Iflag_r as Iflag, Rflag_r as Rflag, timeTaken_r as TTime ";
                     query += " from toyota_tasks_supreme where taskId_r = " + value.taskId_r + " and status = 'active'";
+                    query += " and model = '"+model+"' and service = '"+service+"'";
 
                     request.query(query).then(function (records, err) {
 
@@ -526,9 +534,9 @@ function updateTaskFin(service,model){
 
                             var d = records;
                             var data = {};
-                            data.Tools= '';
-                            data.Process= '';
-                            data.Inference= '';
+                            data.Tools= "";
+                            data.Process= "";
+                            data.Inference= "";
                             data.Image= null;
                             data.Image1= null;
                             data.Image2= null;
@@ -536,13 +544,13 @@ function updateTaskFin(service,model){
                             data.Image4= null;
                             data.Image5= null;
                             data.Image6= null;
-                            data.value1= null;
-                            data.value2= null;
-                            data.value3= null;
-                            data.value4= null;
-                            data.value5= null;
-                            data.value6= null;
-                            data.TTime= null;
+                            data.value1= 0;
+                            data.value2= 0;
+                            data.value3= 0;
+                            data.value4= 0;
+                            data.value5= 0;
+                            data.value6= 0;
+                            data.TTime= 20;
                             data.Rflag= 0;
                             data.Iflag= 0;
                             data.Lflag= 0;
@@ -623,7 +631,7 @@ function updateTaskFin(service,model){
                                     query += ", picture_i as Image, process_i as Process, tools_i as Tools, inference_i";
                                     query += " as Inference, value_i as value, Iflag_i as Iflag, timeTaken_i as TTime "
                                     query += " from toyota_tasks_supreme where taskId_i = " + value2.taskId_i + " and status = 'active'";
-
+                                    query += " and model = '"+model+"' and service = '"+service+"'";
                                     request.query(query).then(function (records, err) {
 
                                         if (err) {
@@ -633,9 +641,9 @@ function updateTaskFin(service,model){
                                         }
                                         if (records && records.length > 0) {
                                             var data = {};
-                                            data.Tools= '';
-                                            data.Process= '';
-                                            data.Inference= '';
+                                            data.Tools= "";
+                                            data.Process= "";
+                                            data.Inference= "";
                                             data.Image= null;
                                             data.Image1= null;
                                             data.Image2= null;
@@ -643,13 +651,13 @@ function updateTaskFin(service,model){
                                             data.Image4= null;
                                             data.Image5= null;
                                             data.Image6= null;
-                                            data.value1= null;
-                                            data.value2= null;
-                                            data.value3= null;
-                                            data.value4= null;
-                                            data.value5= null;
-                                            data.value6= null;
-                                            data.TTime= null;
+                                            data.value1= 0;
+                                            data.value2= 0;
+                                            data.value3= 0;
+                                            data.value4= 0;
+                                            data.value5= 0;
+                                            data.value6= 0;
+                                            data.TTime= 20;
                                             data.Rflag= 0;
                                             data.Iflag= 0;
                                             data.Lflag= 0;
@@ -732,7 +740,7 @@ function updateTaskFin(service,model){
                                                     query += ", picture_l as Image, process_l as Process, tools_l as Tools, inference_l";
                                                     query += " as Inference, value_l as value, Iflag_l as Iflag, Lflag_l as Lflag, timeTaken_l as TTime "
                                                     query += " from toyota_tasks_supreme where taskId_l = " + value3.taskId_l + " and status = 'active'";
-
+                                                    query += " and model = '"+model+"' and service = '"+service+"'";
                                                     request.query(query).then(function (records, err) {
 
                                                         if (err) {
@@ -742,9 +750,9 @@ function updateTaskFin(service,model){
                                                         }
                                                         if (records && records.length > 0) {
                                                             var data = {};
-                                                            data.Tools= '';
-                                                            data.Process= '';
-                                                            data.Inference= '';
+                                                            data.Tools= "";
+                                                            data.Process= "";
+                                                            data.Inference= "";
                                                             data.Image= null;
                                                             data.Image1= null;
                                                             data.Image2= null;
@@ -752,13 +760,13 @@ function updateTaskFin(service,model){
                                                             data.Image4= null;
                                                             data.Image5= null;
                                                             data.Image6= null;
-                                                            data.value1= null;
-                                                            data.value2= null;
-                                                            data.value3= null;
-                                                            data.value4= null;
-                                                            data.value5= null;
-                                                            data.value6= null;
-                                                            data.TTime= null;
+                                                            data.value1= 0;
+                                                            data.value2= 0;
+                                                            data.value3= 0;
+                                                            data.value4= 0;
+                                                            data.value5= 0;
+                                                            data.value6= 0;
+                                                            data.TTime= 20;
                                                             data.Rflag= 0;
                                                             data.Iflag= 0;
                                                             data.Lflag= 0;
@@ -938,17 +946,16 @@ function updateTaskFinTable(data) {
             // });
 
 
-            var dataUpdate = 'Insert into Toyota_FINTask(SNo,MName,MType,Task_id,Task,Type,Process,Tools,Inference,';
+            var dataUpdate = 'Insert into Toyota_FINTask(MName,MType,Task_id,Task,Type,Process,Tools,Inference,';
             dataUpdate += 'Image,Image1,Image2,Image3,Image4,Image5,Image6,value1,value2,';
             dataUpdate += 'value3,value4,value5,';
             dataUpdate += 'value6,TTime,Rflag,Iflag,Lflag)';
-            dataUpdate += ' values(@SNo,@MName,@MType,@Task_id,@Task,@Type,@Process,@Tools,@Inference,';
+            dataUpdate += ' values(@MName,@MType,@Task_id,@Task,@Type,@Process,@Tools,@Inference,';
             dataUpdate += '@Image,@Image1,@Image2,@Image3,@Image4,@Image5,@Image6,@value1,@value2,';
             dataUpdate += '@value3,@value4,@value5,';
             dataUpdate += '@value6,@TTime,@Rflag,@Iflag,@Lflag)';
 
             var ps = new sql.PreparedStatement(connection);
-            ps.input('SNo', sql.NVarChar);
             ps.input('MName', sql.NVarChar);
             ps.input('MType', sql.NVarChar);
             ps.input('Task_id', sql.NVarChar);
@@ -982,7 +989,7 @@ function updateTaskFinTable(data) {
                     return deferred.reject(err);
                 }
                 ps.execute({
-                    SNo: (index + 1), MName: value.MName, MType: value.MType, Task_id: value.Task_id, Task: value.Task
+                     MName: value.MName, MType: value.MType, Task_id: value.Task_id, Task: value.Task
                     , Type: value.Type, Process: value.Process, Tools: value.Tools, Inference: value.Inference,
                     Image: value.Image, Image1: value.Image1, Image2: value.Image2, Image3: value.Image3
                     , Image4: value.Image4, Image5: value.Image5, Image6: value.Image6, value1: value.value1
@@ -997,17 +1004,17 @@ function updateTaskFinTable(data) {
                     }
                     ps.unprepare(function (err) {
                         if (err) {
-                            console.log("Error3---->In updateTaskFinTable"+err);
-                            return deferred.reject(err);
+                            console.log("Error3---->In updateTaskFinTable"+err)
                         }
 
                     });
+
+                    if ((index + 1) == data.length) {
+                        connection.close();
+                        deferred.resolve(ps.lastRequest.rowsAffected);
+                    }
                 });
 
-                if ((index + 1) == data.length) {
-                    connection.close();
-                    deferred.resolve(ps.lastRequest.rowsAffected);
-                }
 
             });
 
@@ -1192,13 +1199,13 @@ function updateImages(fileName,id,selectedField){
 
 }
 
-function deleteSingleInstruction(data,cb) {
+function deleteSingleInstruction(data) {
 
     var deferred = q.defer();
 
-    var query = '';
+    var query = "";
     var taskID = 0;
-    var taskModeVar = '';
+    var taskModeVar = "";
 
     var connection = new sql.Connection(sqlDb);
 
@@ -1413,7 +1420,7 @@ function deleteEntireInstruction(data) {
 
     var deferred = q.defer();
 
-    var query = '';
+    var query = "";
     var taskId_i = data.taskId_i;
     var taskId_l = data.taskId_l;
     var taskId_r = data.taskId_r;

@@ -16,6 +16,11 @@
 
         $scope.model = [];
 
+        $scope.flags = [
+            {id:'1',value:'Active'},
+            {id:'0',value:'In-Active'}
+        ];
+        
         $scope.getModels = function () {
 
             modelRegistrationService.getModels().then(function (result) {
@@ -27,7 +32,7 @@
         $scope.editModel = function(mdl){
             angular.forEach($scope.model,function (value,index) {
 
-                if(value == mdl){
+                if(value.MName == mdl.MName){
                     value.isEdit = true;
                 }
 
@@ -43,20 +48,39 @@
         $scope.cancelEdit = function(mdl){
             angular.forEach($scope.model,function (value,index) {
 
-                if(value == mdl){
+                if(value.MName == mdl.MName){
                     value.isEdit = false;
                     $scope.getModels();
                 }
 
             });
-        }
+        };
+
+        $scope.addNewModel = function () {
+
+            var data = {
+                MName : '',
+                services : [
+                    {
+                        MType: '',
+                        Employee: '',
+                        Flag: ''
+                    }
+                ],
+                isEdit : true
+            };
+            $scope.model.push(data);
+
+        };
 
         $scope.addNewService = function (mdl) {
             angular.forEach($scope.model,function (value,index) {
 
                 if(value == mdl){
                     var data = {
-                        serviceName : ''
+                        MType : '',
+                        Employee : '',
+                        Flag : ''
                     }
                     value.services.push(data);
                 }
@@ -68,12 +92,14 @@
           
             angular.forEach($scope.model,function (value1,index1) {
 
-                if(value1 == mdl){
+                if(value1.MName == mdl.MName){
                     angular.forEach(value1.services,function(value,index){
-                       if(value == service){
+                       if(value.Mid == service.Mid){
                            value1.services.splice(index,1);
-                           // value1.isEdit = false;
                        }
+                        if(value1.services.length == 0){
+                            $scope.model.splice(index1,1);
+                        }
                     });
                 }
 
@@ -83,21 +109,45 @@
 
         $scope.updateModel = function(mdl){
 
-            modelRegistrationService.updateModel(mdl).then(function(result){
+            modelRegistrationService.updateModel(mdl).then(function(error) {
 
-                $scope.model = result.data;
+                console.log(error);
 
+            },function (result) {
+                $scope.getModels();
             });
 
         };
         
         $scope.deleteModel = function (mdl) {
-            
-            modelRegistrationService.deleteAModel(mdl).then(function (result) {
-                
-                $scope.model = result.data;
-                
+            var data = [];
+            angular.forEach(mdl.services,function (value,index) {
+                if(value.Mid) {
+
+                    data.push(value.Mid);
+
+                    if((index + 1) == mdl.services.length){
+
+                        if(data.length){
+                            modelRegistrationService.deleteAModel(data).then(function (error) {
+
+                                console.log(error);
+
+                            },function (result) {
+                                $scope.getModels();
+                            });
+                        }else{
+
+                            $scope.getModels();
+
+                        }
+
+                    }
+
+                }
             });
+
+
             
         };
 

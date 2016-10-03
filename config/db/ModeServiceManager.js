@@ -17,7 +17,7 @@ function getModels(){
 
     var deferred = q.defer();
 
-    var query = "Select Distinct(MName) as modelName from Toyota_Model";
+    var query = "Select Distinct(MName) as MName from Toyota_Model";
 
     var models = [];
 
@@ -39,7 +39,7 @@ function getModels(){
 
                 data.forEach(function (value, index) {
 
-                    var qry = "select MType as serviceName from Toyota_Model where MName = '" + value.modelName+"'";
+                    var qry = "select Mid,MType,Employee,Flag,Date from Toyota_Model where MName = '" + value.MName+"'";
 
 
                     request.query(qry).then(function (records,err) {
@@ -57,11 +57,17 @@ function getModels(){
                                 connection.close();
                                 deferred.resolve(models);
                             }
+                        }else{
+                            connection.close();
+                            deferred.resolve(data);
                         }
 
                     });
 
                 });
+            }else{
+                connection.close();
+                deferred.resolve(recordset);
             }
 
         });
@@ -71,21 +77,51 @@ function getModels(){
 
 }
 
-function deleteModel(model){
+function deleteModel(modelId){
 
     var deferred = q.defer();
 
-    var query = "Update model set status = 'mark as deleted' where id = "+model.id;
+    if(ModelId.length) {
 
-    con.query(query,function (error,result) {
+        connection.connect().then(function () {
+            var request = new sql.Request(connection);
 
-        if(error){
-            return deferred.reject(error);
-        }
+            modelId.forEach(function (value,index) {
+                var query = "Delete from Toyota_Model where id = " + value.modelId;
 
-        deferred.resolve(result);
+                request.query(query).then(function (recordset,err) {
 
-    });
+                    if (err) {
+                        connection.close();
+                        return deferred.reject(error);
+                    }
+                    if((index + 1) == modelId.length) {
+                        connection.close();
+                        deferred.resolve(request.rowsAffected);
+                    }
+                });
+            });
+
+        });
+
+    }else{
+        var query = "Delete from Toyota_Model where id = " + modelId;
+
+        connection.connect().then(function () {
+            var request = new sql.Request(connection);
+
+            request.query(query).then(function (recordset,err) {
+
+                if (err) {
+                    connection.close();
+                    return deferred.reject(error);
+                }
+                connection.close();
+                deferred.resolve(request.rowsAffected);
+            });
+
+        });
+    }
 
     return deferred.promise;
 
@@ -150,24 +186,24 @@ function deleteServices(modelId){
     return deferred.promise;
 }
 
-function updateModel(model){
-
-    var deferred = q.defer();
-
-    var query ="Insert into model(modelName,status) values('"+model.modelName+"','active')";
-
-    con.query(query,function (error,result) {
-
-        if(error){
-            return deferred.reject(error);
-        }
-
-        deferred.resolve(result);
-
-    });
-
-    return deferred.promise;
-}
+// function updateModel(model){
+//
+//     var deferred = q.defer();
+//
+//     var query ="Insert into Toyota_Model(modelName,status) values('"+model.modelName+"','active')";
+//
+//     con.query(query,function (error,result) {
+//
+//         if(error){
+//             return deferred.reject(error);
+//         }
+//
+//         deferred.resolve(result);
+//
+//     });
+//
+//     return deferred.promise;
+// }
 
 function updateRegistration(data){
 
@@ -266,6 +302,117 @@ function updateServices(services,modelId) {
     });
 
     return deferred.promise;
+}
+
+function updateModel(data){
+
+    var deferred = q.defer();
+
+    var connection = new sql.Connection(sqlDb);
+
+    connection.connect().then(function () {
+
+        data.services.forEach(function(value,index){
+            if(value.Mid) {
+                query = "Update Toyota_Model set MName = @MName,MType = @MType";
+                query += ",Employee = @Employee,Flag = @Flag,Date = @Date where Mid = @Mid";
+
+                var ps = new sql.PreparedStatement(connection);
+                ps.input('Mid',sql.BigInt);
+                ps.input('MName', sql.NVarChar);
+                ps.input('MType', sql.NVarChar);
+                ps.input('Employee', sql.NVarChar);
+                ps.input('Flag', sql.NVarChar);
+                ps.input('Date', sql.DATE);
+                ps.prepare(query, function (err) {
+                    // ... error checks
+                    if (err) {
+                        connection.close();
+                        console.log("Error1---->In updateModel"+error);
+
+                        return deferred.reject(err);
+                    }
+                    ps.execute({
+                            Mid: value.Mid, MName: data.MName, MType: value.MType
+                            , Employee: value.Employee, Flag: value.Flag, Date: new Date()
+                        },
+                        function (error, results) {
+                            if (error) {
+                                connection.close();
+                                console.log("Error2---->In updateModel"+error);
+                                return deferred.reject(err);
+                            }
+                            ps.unprepare(function (err) {
+                                if (err) {
+                                    console.log("Error3---->In updateModel"+err);
+                                    return deferred.reject(err);
+                                }
+
+                            });
+                            if((index+1) == data.services.length) {
+                                connection.close();
+                                deferred.resolve(ps.lastRequest.rowsAffected);
+                            }
+                    });
+                });
+
+
+            }else{
+
+                query = "Insert into Toyota_Model(MName,MType,Employee,Flag,Date) values";
+                query += "(@MName,@MType,@Employee,@Flag,@Date)";
+
+                var ps = new sql.PreparedStatement(connection);
+                ps.input('Mid',sql.BigInt);
+                ps.input('MName', sql.NVarChar);
+                ps.input('MType', sql.NVarChar);
+                ps.input('Employee', sql.NVarChar);
+                ps.input('Flag', sql.NVarChar);
+                ps.input('Date', sql.DATE);
+                ps.prepare(query, function (err) {
+                    // ... error checks
+                    if (err) {
+                        connection.close();
+                        console.log("Error4---->In updateModel"+err);
+
+                        return deferred.reject(err);
+                    }
+                    ps.execute({
+                            MName: data.MName, MType: value.MType
+                            , Employee: value.Employee, Flag: value.Flag, Date: new Date()
+                        },
+                        function (error, results) {
+                            if (error) {
+                                connection.close();
+                                console.log("Error5---->In updateModel"+error);
+                                return deferred.reject(err);
+                            }
+                            ps.unprepare(function (err) {
+                                if (err) {
+                                    console.log("Error6---->In updateModel"+err);
+
+                                    return deferred.reject(err);
+                                }
+
+                            });
+                            if((index+1) == data.services.length) {
+                                connection.close();
+                                deferred.resolve(ps.lastRequest.rowsAffected);
+                            }
+                        });
+                });
+
+            }
+        });
+
+    }).catch(function (err) {
+        connection.close();
+        console.log("Error7---->In updateModel"+err);
+        return deferred.reject(err);
+    });
+
+    return deferred.promise;
+
 }
 
 module.exports={

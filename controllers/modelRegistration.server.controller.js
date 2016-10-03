@@ -16,12 +16,16 @@ exports.getModel = function(req,res) {
 
 exports.updateModel = function (req,res) {
   
-    storageManager.updateModelAndServices(req.body).then(function (results) {
+    // storageManager.updateModelAndServices(req.body).then(function (results) {
+    //     res.send(results);
+    // },function (error) {
+    //     res.send(500,{ error: error });
+    // });
+    storageManager.updateModel(req.body).then(function (results) {
         res.send(results);
     },function (error) {
         res.send(500,{ error: error });
     });
-
 
 };
 

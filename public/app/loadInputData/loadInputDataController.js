@@ -62,7 +62,7 @@
         $scope.modelSelected = function(chsnModel){
             angular.forEach($scope.models,function (value,index) {
 
-                if(chsnModel == value.modelName){
+                if(chsnModel == value.MName){
 
                     $scope.services = value.services;
 

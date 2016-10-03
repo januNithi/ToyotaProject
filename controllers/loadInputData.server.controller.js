@@ -18,14 +18,14 @@ var storage = multer.diskStorage({ //multers disk storage settings
         var datetimestamp = Date.now();
         console.log("req.body"+req.body.file);
         // cb(null, file.fieldname + '-' + file.originalname);
-        cb(null, 'excel-'+req.query.service+"."+file.originalname.split('.')[1]);
+        cb(null, 'excel-'+req.query.model+"-"+req.query.service+"."+file.originalname.split('.')[1]);
         //
-        var path = "public/uploads/"+'excel-'+req.query.service+"."+file.originalname.split('.')[1];
+        var path = "public/uploads/"+'excel-'+req.query.model+"-"+req.query.service+"."+file.originalname.split('.')[1];
        
         var picArr;
 
         var exec = require('child_process').exec;
-        var child = exec('java -jar ./javaLib/jar/excelJar.jar ' +req.query.service+" "+req.query.model,
+        var child = exec('java -jar ./javaLib/jar/excelJar.jar ' +req.query.model+" "+req.query.service,
             function (error, stdout, stderr){
                 console.log('Output -> ' + stdout);
                 picArr = stdout.split("\r\n");
