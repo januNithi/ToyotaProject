@@ -1788,23 +1788,49 @@ function getWorkCompleted(serviceId) {
         // query += "from Toyota_FINWorkcheck as t where t.Status = 'Completed' and t.Sid = '"+serviceId+"'";
 
 
-        var query = "Select t.Tid as Task_Id,t.Task,t.Type as userMode,";
-        query += " t.RSummary,t.ISummary,t.LSummary,t.values6 as cameraCapture,t.Additional,t.Status,";
-        query += "t.[values] as value,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' +";
-        query += "Cast(start1 as nvarchar(max)) from Toyota_Measures where Mid = t.value)  as value1_Start_End,";
-        query += "t.values1,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value1) as value2_Start_End,";
-        query  += "t.values2,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value2) as value3_Start_End,";
-        query += "t.values3,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value3) as value4_Start_End,";
-        query += "t.values4,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value4) as value5_Start_End,";
-        query += "t.values5,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value5) as value6_Start_End,";
-        query += "t.values6,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
-        query += "Toyota_Measures where Mid = t.value6) as value7_Start_End ";
-        query += "from Toyota_FINWorkcheck as t where t.Sid = '"+serviceId+"'";
+        // var query = "Select t.Tid as Task_Id,t.Task,t.Type as userMode,";
+        // query += " t.RSummary,t.ISummary,t.LSummary,t.values6 as cameraCapture,t.Additional,t.Status,";
+        // query += "t.[values] as value,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' +";
+        // query += "Cast(start1 as nvarchar(max)) from Toyota_Measures where Mid = t.value)  as value1_Start_End,";
+        // query += "t.values1,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
+        // query += "Toyota_Measures where Mid = t.value1) as value2_Start_End,";
+        // query  += "t.values2,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
+        // query += "Toyota_Measures where Mid = t.value2) as value3_Start_End,";
+        // query += "t.values3,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
+        // query += "Toyota_Measures where Mid = t.value3) as value4_Start_End,";
+        // query += "t.values4,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
+        // query += "Toyota_Measures where Mid = t.value4) as value5_Start_End,";
+        // query += "t.values5,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
+        // query += "Toyota_Measures where Mid = t.value5) as value6_Start_End,";
+        // query += "t.values6,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
+        // query += "Toyota_Measures where Mid = t.value6) as value7_Start_End ";
+        // query += "from Toyota_FINWorkcheck as t where t.Sid = '"+serviceId+"'";
+
+        var query = "Select t.Tid as Task_id, t.Task,t.Type,(select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value != '0' and Type = t.Type) as Measurement, (select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value1 = m.Mid where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value1 != '0' and Type = t.Type) as Measurement, (select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value2 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value2 != '0' and Type = t.Type) as Measurement, (select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value3 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value3 !='0' and Type = t.Type) as Measurement, (select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value4 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value4 != '0' and Type = t.Type) as Measurement, (select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value5 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value5 != '0' and Type = t.Type) as Measurement,(select value from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value != '0' and Type = t.Type) as Standard_Value, (select value1 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value1 != '0' and Type = t.Type) as Standard_Value, (select value2 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value2 != '0' and Type = t.Type) as Standard_Value, (select value3 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value3 !='0' and Type = t.Type) as Standard_Value, (select value4 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value4 != '0' and Type = t.Type) as Standard_Value, (select value5 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value5 != '0' and Type = t.Type) as Standard_Value, (select [values] from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and [values]!= '0' and Type = t.Type) as Concluded_Value, (select values1 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and values1 != '0' and Type = t.Type) as Concluded_Value, (select values2 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and values2 != '0' and Type = t.Type) as Concluded_Value, (select values3 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and values3 != '0' and Type = t.Type) as Concluded_Value, (select values4 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and values4 !='0' and Type = t.Type) as Concluded_Value, (select values5 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and values5 != '0' and Type = t.Type) as Concluded_Value,(select RSummary from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and RSummary != '0' and Type = t.Type) as QC,(select Lsummary from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and Lsummary != '0' and Type = t.Type) as QC,(select Isummary from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and Isummary != '0' and Type = t.Type) as QC, (select values6 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and values6 ! = '0' and Type = t.Type) as Captured_Picture, t.Status,t.Additional from Toyota_FINWorkcheck as t where Sid = '"+serviceId+"'";
+        query += " and ((Isummary != '0' OR RSummary != '0' OR Lsummary != '0') OR (value != '0' OR value1 != '0' OR value2 != '0' OR value3 != '0'";
+        query += " OR value4 != '0' OR value5 != '0'))";
 
         var request = new sql.Request(connection);
 
@@ -1815,8 +1841,97 @@ function getWorkCompleted(serviceId) {
                 connection.close();
                 return deferred.reject(error);
             }
-            connection.close();
-            deferred.resolve(results);
+
+            var data = [];
+            results.forEach(function (value,index) {
+                var meas = [];
+                var conclu = [];
+                var standa = [];
+                if(value.Measurement != null) {
+
+                    if (value.Measurement[0] != null) {
+                        meas.push(value.Measurement[0]);
+                    }
+                    if (value.Measurement[1] != null) {
+                        meas.push(value.Measurement[1]);
+                    }
+                    if (value.Measurement[2] != null) {
+                        meas.push(value.Measurement[2]);
+                    }
+                    if (value.Measurement[3] != null) {
+                        meas.push(value.Measurement[3]);
+                    }
+                    if (value.Measurement[4] != null) {
+                        meas.push(value.Measurement[4]);
+                    }
+                    if (value.Measurement[5] != null) {
+                        meas.push(value.Measurement[5]);
+                    }
+                }
+
+                if(value.Standard_Value != null) {
+                    if (value.Standard_Value[0] != "") {
+                        standa.push(value.Standard_Value[0]);
+                    }
+                    if (value.Standard_Value[1] != "") {
+                        standa.push(value.Standard_Value[1]);
+                    }
+                    if (value.Standard_Value[2] != "") {
+                        standa.push(value.Standard_Value[2]);
+                    }
+                    if (value.Standard_Value[3] != "") {
+                        standa.push(value.Standard_Value[3]);
+                    }
+                    if (value.Standard_Value[4] != "") {
+                        standa.push(value.Standard_Value[4]);
+                    }
+                    if (value.Standard_Value[5] != "") {
+                        standa.push(value.Standard_Value[5]);
+                    }
+                }
+
+                if(value.Concluded_Value != null) {
+                    if (value.Concluded_Value[0] != "") {
+                        conclu.push(value.Concluded_Value[0]);
+                    }
+                    if (value.Concluded_Value[1] != "") {
+                        conclu.push(value.Concluded_Value[1]);
+                    }
+                    if (value.Concluded_Value[2] != "") {
+                        conclu.push(value.Concluded_Value[2]);
+                    }
+                    if (value.Concluded_Value[3] != "") {
+                        conclu.push(value.Concluded_Value[3]);
+                    }
+                    if (value.Concluded_Value[4] != "") {
+                        conclu.push(value.Concluded_Value[4]);
+                    }
+                    if (value.Concluded_Value[5] != "") {
+                        conclu.push(value.Concluded_Value[5]);
+                    }
+                }
+
+                if(conclu.length || standa.length || meas.length) {
+                    var obj = {
+                        Task_id: value.Task_id,
+                        Task: value.Task,
+                        Type: value.Type,
+                        Measurement: meas,
+                        Standard_Value: standa,
+                        Concluded_Value: conclu,
+                        QC: value.QC,
+                        Status: value.Status
+                    }
+                    data.push(obj);
+
+                }
+                if((index +1) == results.length){
+
+                    connection.close();
+                    deferred.resolve(data);
+                }
+            });
+
         });
 
     }).catch(function (err) {
@@ -1963,7 +2078,7 @@ function getRegisteredService(){
     var connection = new sql.Connection(sqlDb);
 
     connection.connect().then(function () {
-        var query = "Select Sid from Toyota_FINRegister";
+        var query = "Select Sid,Mid,MType from Toyota_FINRegister where Status = 'Completed'";
         var request = new sql.Request(connection);
 
         console.log(query);

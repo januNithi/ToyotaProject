@@ -41,6 +41,7 @@
 
             downloadReport : function (data) {
                 return $http.post('/report/download',data);
+                // return $http.post('/report/pdf/download',data);
             }
 
         }

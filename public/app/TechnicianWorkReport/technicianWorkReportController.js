@@ -27,7 +27,19 @@
 
         $scope.loadReport = false;
 
+        $scope.model = '';
+        $scope.service = '';
+
         $scope.registrationIdSelected = function (choosenId) {
+
+            angular.forEach($scope.registrations,function (value,index) {
+
+                if(value.Sid == choosenId){
+                    $scope.model = value.Mid;
+                    $scope.service = value.MType;
+                }
+
+            });
 
             technicianWorkReportService.getWorkCompleted(choosenId).then(function (result) {
                 $scope.reportData = result.data;
@@ -42,7 +54,8 @@
 
             technicianWorkReportService.downloadReport($scope.reportData).then(function (result) {
 
-                $window.open(downloadReportPath+'data.xlsx');
+                $window.open(result);
+                // $window.open(downloadReportPath+'data.xlsx');
                 technicianWorkReportService.deleteFile();
 
 
