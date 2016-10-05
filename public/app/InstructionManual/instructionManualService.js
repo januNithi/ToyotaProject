@@ -23,9 +23,9 @@
 
             },
 
-            getMeasures : function(){
+            getMeasures : function(modelType){
 
-                return $http.get('/connect/getMeasures');
+                return $http.get('/connect/getMeasures?modelType='+modelType);
 
             },
 

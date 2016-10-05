@@ -228,7 +228,7 @@ exports.getWorkCompleted = function (req,res) {
 
 exports.getMeasures = function (req,res) {
 
-    storageManager.getMeasures().then(function (result) {
+    storageManager.getMeasures(req.query.modelType).then(function (result) {
 
         res.send(result);
 

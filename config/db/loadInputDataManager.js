@@ -1805,19 +1805,25 @@ function getWorkCompleted(serviceId) {
         // query += "t.values6,(select MName + ':' + Cast(Start as nvarchar(max)) + '-' + Cast(start1 as nvarchar(max)) from ";
         // query += "Toyota_Measures where Mid = t.value6) as value7_Start_End ";
         // query += "from Toyota_FINWorkcheck as t where t.Sid = '"+serviceId+"'";
-
+        // (select value from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        // query += " and value != '0' and Type = t.Type) as Standard_Value, (select value1 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        // query += " and value1 != '0' and Type = t.Type) as Standard_Value, (select value2 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        // query += " and value2 != '0' and Type = t.Type) as Standard_Value, (select value3 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        // query += " and value3 !='0' and Type = t.Type) as Standard_Value, (select value4 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        // query += " and value4 != '0' and Type = t.Type) as Standard_Value, (select value5 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        // query += " and value5 != '0' and Type = t.Type) as Standard_Value,
         var query = "Select t.Tid as Task_id, t.Task,t.Type,(select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
         query += " and value != '0' and Type = t.Type) as Measurement, (select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value1 = m.Mid where Tid = t.Tid and Sid = '"+serviceId+"'";
         query += " and value1 != '0' and Type = t.Type) as Measurement, (select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value2 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
         query += " and value2 != '0' and Type = t.Type) as Measurement, (select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value3 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
         query += " and value3 !='0' and Type = t.Type) as Measurement, (select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value4 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
         query += " and value4 != '0' and Type = t.Type) as Measurement, (select m.MName from Toyota_Measures as m left join Toyota_FINWorkcheck on value5 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
-        query += " and value5 != '0' and Type = t.Type) as Measurement,(select value from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
-        query += " and value != '0' and Type = t.Type) as Standard_Value, (select value1 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
-        query += " and value1 != '0' and Type = t.Type) as Standard_Value, (select value2 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
-        query += " and value2 != '0' and Type = t.Type) as Standard_Value, (select value3 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
-        query += " and value3 !='0' and Type = t.Type) as Standard_Value, (select value4 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
-        query += " and value4 != '0' and Type = t.Type) as Standard_Value, (select value5 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value5 != '0' and Type = t.Type) as Measurement,(select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m left join Toyota_FINWorkcheck on value = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value != '0' and Type = t.Type) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m left join Toyota_FINWorkcheck on value1 = m.Mid where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value1 != '0' and Type = t.Type) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m left join Toyota_FINWorkcheck on value2 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value2 != '0' and Type = t.Type) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m left join Toyota_FINWorkcheck on value3 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value3 !='0' and Type = t.Type) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m left join Toyota_FINWorkcheck on value4 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
+        query += " and value4 != '0' and Type = t.Type) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m left join Toyota_FINWorkcheck on value5 = m.Mid  where Tid = t.Tid and Sid = '"+serviceId+"'";
         query += " and value5 != '0' and Type = t.Type) as Standard_Value, (select [values] from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
         query += " and [values]!= '0' and Type = t.Type) as Concluded_Value, (select values1 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
         query += " and values1 != '0' and Type = t.Type) as Concluded_Value, (select values2 from Toyota_FINWorkcheck where Tid = t.Tid and Sid = '"+serviceId+"'";
@@ -1847,6 +1853,7 @@ function getWorkCompleted(serviceId) {
                 var meas = [];
                 var conclu = [];
                 var standa = [];
+                var QC = '';
                 if(value.Measurement != null) {
 
                     if (value.Measurement[0] != null) {
@@ -1910,8 +1917,24 @@ function getWorkCompleted(serviceId) {
                         conclu.push(value.Concluded_Value[5]);
                     }
                 }
+                if(value.QC != null) {
+                    if(value.QC.length <= 3){
+                        if (value.QC[0] != null) {
+                            QC = value.QC[0];
+                        }
+                        if (value.QC[1] != null) {
+                            QC = value.QC[1];
+                        }
+                        if (value.QC[2] != null) {
+                            QC = value.QC[2];
+                        }
+                    }else{
+                        QC = value.QC;
+                    }
 
-                if(conclu.length || standa.length || meas.length) {
+                }
+
+                if(conclu.length || standa.length || meas.length || QC.length) {
                     var obj = {
                         Task_id: value.Task_id,
                         Task: value.Task,
@@ -1919,8 +1942,9 @@ function getWorkCompleted(serviceId) {
                         Measurement: meas,
                         Standard_Value: standa,
                         Concluded_Value: conclu,
-                        QC: value.QC,
-                        Status: value.Status
+                        QC: QC,
+                        Status: value.Status,
+                        Captured_Picture : value.Captured_Picture
                     }
                     data.push(obj);
 
@@ -2039,14 +2063,18 @@ function getAdditional(){
 
 }
 
-function getMeasures(){
+function getMeasures(modelType){
 
     var deferred = q.defer();
 
     var connection = new sql.Connection(sqlDb);
-
+    var query = '';
     connection.connect().then(function () {
-        var query = "Select Mid,MName,Start,start1,Assigned,Flag,Units from Toyota_Measures";
+        // if(modelType == 'ALL'){
+            query = "Select Mid,MName,Start,start1,Assigned,Flag,Units from Toyota_Measures";
+        // }else {
+        //     query = "Select Mid,MName,Start,start1,Assigned,Flag,Units from Toyota_Measures where Assigned = '" + modelType + "'";
+        // }
         var request = new sql.Request(connection);
 
         console.log(query);

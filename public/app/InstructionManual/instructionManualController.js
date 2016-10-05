@@ -127,7 +127,7 @@
                                 $scope.dataFilter_r = $scope.rightTechnicianInstruction.slice(begin, end);
                             });
 
-                            instructionManualService.getMeasures().then(function (result) {
+                            instructionManualService.getMeasures($scope.choosenModel).then(function (result) {
 
                                 $scope.measuresData = result.data;
 
