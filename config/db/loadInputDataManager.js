@@ -1149,46 +1149,55 @@ function updateImages(fileName,id,selectedField){
     var connection = new sql.Connection(sqlDb);
 
     connection.connect().then(function () {
-        var request = new sql.Request(connection);
+        // var request = new sql.Request(connection);
 
         var file = fs.readFileSync('public/uploads/excelImages/'+fileName);
         var picture= new Buffer(file).toString('base64');
 
-        var query = 'Update toyota_tasks_supreme set @selectedField = @picture';
+        var query = 'Update toyota_tasks_supreme set '+selectedField+' = @picture';
         query += ' where id = @id and status = @status';
 
         var ps = new sql.PreparedStatement(connection)
         ps.input('id',sql.BigInt);
-        ps.input(selectedField, sql.NVarChar);
+        ps.input('picture', sql.NVarChar);
         ps.input('status', sql.NVarChar);
 
-        ps.execute({id:id,task_l:selectedField.selectedField,status:"active"},
-            function (error, results) {
-                if (error) {
-                    connection.close();
-                    console.log("Error2---->In updateInstructions" + error);
-                    return deferred.reject(error);
-                }
-                ps.unprepare(function (err) {
-                    if (err) {
-                        console.log("Error3---->In updateInstructions" + err);
+        ps.prepare(query, function(err) {
+            // ... error checks
+            if (err) {
+                connection.close();
+                console.log("Error1---->In updateImages" + err);
+                return deferred.reject(err);
+            }
+            ps.execute({id: id, status: "active",picture:picture},
+                function (error, results) {
+                    if (error) {
+                        connection.close();
+                        console.log("Error2---->In updateImages" + error);
                         return deferred.reject(error);
                     }
-
+                    ps.unprepare(function (err) {
+                        if (err) {
+                            console.log("Error3---->In updateImages" + err);
+                            return deferred.reject(error);
+                        }
+                        connection.close();
+                        deferred.resolve(ps.lastRequest.rowsAffected);
+                    });
                 });
-            });
+        });
 
         console.log(query);
 
-        request.query(query,function (results,error) {
-            if (error) {
-                console.error(error);
-                connection.close();
-                return deferred.reject(error);
-            }
-            connection.close();
-            deferred.resolve(request.rowsAffected);
-        });
+        // request.query(query,function (results,error) {
+        //     if (error) {
+        //         console.error(error);
+        //         connection.close();
+        //         return deferred.reject(error);
+        //     }
+        //     connection.close();
+        //     deferred.resolve(request.rowsAffected);
+        // });
     }).catch(function(err){
         console.error(err);
         connection.close();

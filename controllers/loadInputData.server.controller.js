@@ -82,7 +82,19 @@ var imageStorage = multer.diskStorage({ //multers disk storage settings
         var fileName = req.query.id + '-' + file.fieldname + '-' + file.originalname;
         cb(null, fileName);
         //
-        storageManager.updateImages(fileName,req.query.id,req.query.selectedField);
+        storageManager.updateImages(fileName,req.query.id,req.query.selectedField).then(function () {
+
+            storageManager.deleteTaskFin(req.query.service,req.query.model).then(function (result,error) {
+
+                storageManager.updateTaskFin(req.query.service,req.query.model).then(function (result,error) {
+                    if(error){
+                        console.log(error);
+                    }
+                    storageManager.updateTaskFinTable(result);
+                });
+            });
+
+        });
     }
 });
 
@@ -144,9 +156,7 @@ exports.updateTaskFin = function(req,res){
 exports.uploadImages = function (req,res) {
 
     uploadImage(req,res,function () {
-        storageManager.getInstructionData().then(function (result){
-           res.send(result);
-        });
+       res.send('Success');
     });
 
 

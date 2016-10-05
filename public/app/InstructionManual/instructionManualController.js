@@ -272,12 +272,12 @@
                 $scope.imageChanged = true;
                 $scope.selectedImage = image[0];
 
-                instructionManualService.uploadImage($scope.selectedImage,$scope.selectedData.id,$scope.selectedField).then(function(error) {
-                    console.log("Error"+error);
-                },function(result){
+                instructionManualService.uploadImage($scope.selectedImage,$scope.selectedData.id,$scope.selectedField,$scope.choosenModel,$scope.choosenService).then(function(result) {
                     $scope.imageChanged = false;
                     spinnerService.hide('html5spinner');
                     $scope.getData();
+                },function(error){
+                    console.log("Error"+error);
                 });
             }
 

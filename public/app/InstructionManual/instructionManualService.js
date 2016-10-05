@@ -58,10 +58,10 @@
 
             },            
             
-            uploadImage: function (file,id,selectedField) {
+            uploadImage: function (file,id,selectedField,model,service) {
 
                 return Upload.upload({
-                    url: '/uploadImage?id='+id+'&selectedField='+selectedField,
+                    url: '/uploadImage?id='+id+'&selectedField='+selectedField+'&model='+model+'&service='+service,
 
                     data: {file:file}
 
