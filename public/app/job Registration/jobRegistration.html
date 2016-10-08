@@ -54,8 +54,10 @@
                         <div class="form-group">
                             <label>ModelName:</label>
                             <!--<input type="text" ng-model="data.ModelName" class="form-control">-->
-                            <select  ng-model="choosenModel" ng-change="modelSelected(choosenModel)" class="form-control">
-                                <option ng-value="mdl.id" ng-repeat="mdl in models">{{mdl.modelName}}</option>
+                            <select id="model" ng-model="choosenModel" ng-change="modelSelected(choosenModel)" class="form-control">
+
+                                    <option ng-value="mdl.MName" ng-repeat="mdl in models">{{mdl.MName}}</option>
+
                             </select>
                         </div>
                         <div class="form-group">
@@ -63,7 +65,7 @@
                             <!--<input type="text" ng-model="data.ModelType" class="form-control">-->
                             <select id="serviceType" ng-model="choosenService" ng-change="serviceSelected(choosenService)" class="form-control">
 
-                                <option ng-value="service.serviceName" ng-repeat="service in services">{{service.serviceName}}</option>
+                                <option ng-value="service.MType" ng-repeat="service in services">{{service.MType}}</option>
 
                             </select>
                         </div>
