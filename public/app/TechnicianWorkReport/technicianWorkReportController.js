@@ -37,11 +37,9 @@
                 if(value.Sid == choosenId){
                     $scope.model = value.Mid;
                     $scope.service = value.MType;
-                    $scope.date = value.SDate;
-                    // var timestamp1 = new Date(value.EDate).getTime();
-                    // var timestamp2 = new Date(value.SDate).getTime();
-                    //
-                    // $scope.time = moment.utc(moment(value.EDate.diff(moment(value.SDate))).format("mm"));
+                    $scope.date = value.date;
+
+                    $scope.time = value.time;
                 }
 
             });
