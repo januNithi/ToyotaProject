@@ -26,9 +26,6 @@
         $scope.choosenId = '';
 
         $scope.loadReport = false;
-
-        $scope.showPrintIcon = true;
-
         $scope.model = '';
         $scope.service = '';
         $scope.date = '';
@@ -40,7 +37,11 @@
                 if(value.Sid == choosenId){
                     $scope.model = value.Mid;
                     $scope.service = value.MType;
-                    $scope.date = value.Date;
+                    $scope.date = value.SDate;
+                    // var timestamp1 = new Date(value.EDate).getTime();
+                    // var timestamp2 = new Date(value.SDate).getTime();
+                    //
+                    // $scope.time = moment.utc(moment(value.EDate.diff(moment(value.SDate))).format("mm"));
                 }
 
             });
@@ -91,37 +92,47 @@
 
         $scope.printDiv = function (divName) {
 
-            var printContents = document.getElementById(divName).outerHTML;
-            var originalContents = document.body;
-            $scope.showPrintIcon = false;
-            if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-                var popupWin = window.open('', '_blank', 'width=600,height=600,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
-                popupWin.window.focus();
-                popupWin.document.write('<!DOCTYPE html><html><head>' +
-                        '<link rel="stylesheet" type="text/css" href="../../bower_components/font-awesome/css/font-awesome.min.css"/>' +
-                    '<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>'+
-                    '</head><body onload="window.print()"><div class="reward-body">' + printContents + '</div>'+
-                     ' <script src="app/TechnicianWorkReport/technicianWorkReportService.js"></script>'+
-                    '<script src="app/TechnicianWorkReport/technicianWorkReportController.js"></script>'+
-                    '</body></html>');
-                popupWin.onbeforeunload = function (event) {
-                    popupWin.close();
-                    $scope.showPrintIcon = true;
-                    return '.\n';
-                };
-                popupWin.onabort = function (event) {
-                    $scope.showPrintIcon = true;
-                    popupWin.document.close();
-                    popupWin.close();
-                }
-            } else {
-                var popupWin = window.open('', '_blank', 'width=800,height=600');
-                popupWin.document.open();
-                popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</html>');
-                $scope.showPrintIcon = true;
-                popupWin.document.close();
-            }
-            popupWin.document.close();
+
+            var document = $window.print();
+            console.log(document);
+
+            // var printContents = document.getElementById(divName).outerHTML;
+            // var originalContents = document.body;
+            //
+            // if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+            //     var popupWin = window.open('', '_blank', 'width=600,height=600,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
+            //     popupWin.window.focus();
+            //     popupWin.document.write('<!DOCTYPE html><html><head>' +
+            //             '<link rel="stylesheet" type="text/css" href="../../bower_components/font-awesome/css/font-awesome.min.css"/>' +
+            //         '<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/>'+
+            //         '</head><body onload="window.print()"><div class="reward-body">' + printContents + '</div>'+
+            //          ' <script src="app/TechnicianWorkReport/technicianWorkReportService.js"></script>'+
+            //         '<script src="app/TechnicianWorkReport/technicianWorkReportController.js"></script>'+
+            //         '</body></html>');
+            //     popupWin.onbeforeunload = function (event) {
+            //         popupWin.close();
+            //
+            //         return '.\n';
+            //     };
+            //     popupWin.onabort = function (event) {
+            //
+            //         popupWin.document.close();
+            //         popupWin.close();
+            //     }
+            // } else {
+            //     var popupWin = window.open('', '_blank', 'width=800,height=600');
+            //     popupWin.document.open();
+            //     popupWin.document.write('<html><head>' +
+            //         '<link rel="stylesheet" type="text/css" href="style.css" />' +
+            //         '<link rel="stylesheet" type="text/css" href="../../bower_components/font-awesome/css/font-awesome.min.css"/>' +
+            //         '<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css"/></head>' +
+            //         '<body onload="window.print()">' + printContents + '' +
+            //         '<script src="app/TechnicianWorkReport/technicianWorkReportService.js"></script>'+
+            //         '<script src="app/TechnicianWorkReport/technicianWorkReportController.js"></script></html>');
+            //
+            //     popupWin.document.close();
+            // }
+            // popupWin.document.close();
 
             return true;
         }
