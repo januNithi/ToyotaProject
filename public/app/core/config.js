@@ -6,7 +6,7 @@
         .module('toyotaApp')
         .config(config);
     angular.module('toyotaApp').constant('defaultProfilePicture', 'images/no_profile.png');
-    angular.module('toyotaApp').constant('defaultInvalidPicture', 'images/noimage.jpg');
+    angular.module('toyotaApp').constant('defaultInvalidPicture', 'images/No_Image.png');
     angular.module('toyotaApp').constant('uploadedExcelImagePath', 'uploads/excelImages/');
     angular.module('toyotaApp').constant('downloadReportPath', 'uploads/');
     config.$inject = ['$routeProvider', '$locationProvider'];
