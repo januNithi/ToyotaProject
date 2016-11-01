@@ -237,7 +237,7 @@
 
                                                 <select  class="form-control" ng-model="instruction.value_l">
 
-                                                    <option value="" disabled selected>Select Measures</option>
+                                                    <option value="0" selected>Select Measures</option>
 
                                                     <option value="{{mData.Mid}}" ng-repeat="mData in measuresData">{{mData.MName}}</option>
 
@@ -437,7 +437,7 @@
 
                                                 <select  class="form-control" ng-model="instruction.value_i">
 
-                                                    <option value="" disabled selected>Select Measures</option>
+                                                    <option value="0" selected>Select Measures</option>
 
                                                     <option value="{{mData.Mid}}" ng-repeat="mData in measuresData">{{mData.MName}}</option>
 
@@ -616,6 +616,8 @@
                                             <div ng-show="onEdit || instruction.isEdit" >
 
                                                 <select  class="form-control" ng-model="instruction.value_r">
+
+                                                    <option value="0" selected>Select Measures</option>
 
                                                     <option value="{{mData.Mid}}" ng-repeat="mData in measuresData">{{mData.MName}}</option>
 
