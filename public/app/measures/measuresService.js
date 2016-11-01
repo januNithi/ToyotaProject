@@ -17,7 +17,7 @@
                 return $http({
 
                     method:'GET',
-                    url:'/connect/getMeasures?modelType = "ALL"'
+                    url:'/connect/getMeasures?modelType=ALL'
 
                 });
 

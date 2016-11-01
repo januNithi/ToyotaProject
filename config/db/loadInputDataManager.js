@@ -2079,11 +2079,11 @@ function getMeasures(modelType){
     var connection = new sql.Connection(sqlDb);
     var query = '';
     connection.connect().then(function () {
-        // if(modelType == 'ALL'){
+        if(modelType == 'ALL'){
             query = "Select Mid,MName,Start,start1,Assigned,Flag,Units from Toyota_Measures";
-        // }else {
-        //     query = "Select Mid,MName,Start,start1,Assigned,Flag,Units from Toyota_Measures where Assigned = '" + modelType + "'";
-        // }
+        }else {
+            query = "Select Mid,MName,Start,start1,Assigned,Flag,Units from Toyota_Measures where Assigned = '" + modelType + "'";
+        }
         var request = new sql.Request(connection);
 
         console.log(query);
