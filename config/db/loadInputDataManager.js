@@ -2115,7 +2115,7 @@ function getRegisteredService(){
     var connection = new sql.Connection(sqlDb);
 
     connection.connect().then(function () {
-        var query = "Select Sid,Mid,MType,SDate as date,DATEDIFF(mi,SDate,EDate) as time from Toyota_FINRegister where Status = 'Completed'";
+        var query = "Select Sid,Mid,MType,SDate as date,DATEDIFF(mi,SDate,EDate) as time from Toyota_FINRegister where Status = 'Completed' order by id in ASC";
         var request = new sql.Request(connection);
 
         console.log(query);
