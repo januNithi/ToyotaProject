@@ -12,10 +12,11 @@
         'technicianWorkReportService',
         'defaultInvalidPicture',
         'downloadReportPath',
-        '$window'
+        '$window',
+        "spinnerService"
     ];
 
-    function technicianWorkReportController($scope, technicianWorkReportService, defaultInvalidPicture,downloadReportPath,$window) {
+    function technicianWorkReportController($scope, technicianWorkReportService, defaultInvalidPicture,downloadReportPath,$window,spinnerService) {
 
         $scope.file = defaultInvalidPicture;
 
@@ -31,6 +32,7 @@
         $scope.date = '';
 
         $scope.registrationIdSelected = function (choosenId) {
+            spinnerService.show();
             var keepGoing = true;
             angular.forEach($scope.registrations,function (value,index) {
                 if(keepGoing) {
@@ -43,9 +45,11 @@
                             $scope.reportData = result.data;
                             $scope.loadReport = true;
                             keepGoing = false;
+                            spinnerService.hide();
                         },function (error) {
                             console.log(error);
                             keepGoing = false;
+                            spinnerService.hide();
                         });
                     }
                 }
