@@ -31,25 +31,26 @@
         $scope.date = '';
 
         $scope.registrationIdSelected = function (choosenId) {
-
+            var keepGoing = true;
             angular.forEach($scope.registrations,function (value,index) {
-
-                if(value.Sid == choosenId){
-                    $scope.model = value.Mid;
-                    $scope.service = value.MType;
-                    $scope.date = value.date;
-
-                    $scope.time = value.time;
+                if(keepGoing) {
+                    if(value.Sid == choosenId){
+                        $scope.model = value.Mid;
+                        $scope.service = value.MType;
+                        $scope.date = value.date;
+                        $scope.time = value.time;
+                        technicianWorkReportService.getWorkCompleted(choosenId).then(function (result) {
+                            $scope.reportData = result.data;
+                            $scope.loadReport = true;
+                            keepGoing = false;
+                        },function (error) {
+                            console.log(error);
+                            keepGoing = false;
+                        });
+                    }
                 }
-
             });
 
-            technicianWorkReportService.getWorkCompleted(choosenId).then(function (result) {
-                $scope.reportData = result.data;
-                $scope.loadReport = true;
-            },function (error) {
-                console.log(error);
-            });
 
         };
 
