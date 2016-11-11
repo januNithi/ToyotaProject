@@ -32,7 +32,7 @@
         $scope.date = '';
 
         $scope.registrationIdSelected = function (choosenId) {
-            spinnerService.show();
+            spinnerService.show('html5spinner');
             var keepGoing = true;
             angular.forEach($scope.registrations,function (value,index) {
                 if(keepGoing) {
@@ -45,11 +45,11 @@
                             $scope.reportData = result.data;
                             $scope.loadReport = true;
                             keepGoing = false;
-                            spinnerService.hide();
+                            spinnerService.hide('html5spinner');
                         },function (error) {
                             console.log(error);
                             keepGoing = false;
-                            spinnerService.hide();
+                            spinnerService.hide('html5spinner');
                         });
                     }
                 }
