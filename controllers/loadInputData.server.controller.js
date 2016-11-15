@@ -226,7 +226,7 @@ exports.getInstruction = function(req,res){
 
 exports.getWorkCompleted = function (req,res) {
 
-    storageManager.getWorkCompleted(req.query.serviceId).then(function (result) {
+    storageManager.getWorkCompleted(req.query.serviceId,function (result) {
 
         res.send(result);
 
