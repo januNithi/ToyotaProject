@@ -1764,9 +1764,9 @@ function updateMeasure(data){
 }
 
 
-function getWorkCompleted(serviceId,cb) {
+function getWorkCompleted(serviceId) {
 
-    // var deferred = q.defer();
+    var deferred = q.defer();
 
     var connection = new sql.Connection(sqlDb);
 
@@ -1854,7 +1854,7 @@ function getWorkCompleted(serviceId,cb) {
             if (error) {
                 console.log("Error1---->In getWorkCompleted"+error);
                 connection.close();
-                cb(error,results);
+                return deferred.reject(error);
             }
 
             var data = [];
@@ -1961,7 +1961,7 @@ function getWorkCompleted(serviceId,cb) {
                 if((index +1) == results.length){
 
                     connection.close();
-                    cb(error,data);
+                    deferred.resolve(data);
                 }
             });
 
@@ -1970,8 +1970,11 @@ function getWorkCompleted(serviceId,cb) {
     }).catch(function (err) {
         connection.close();
         console.log("Error2---->In getWorkCompleted"+error);
-        cb(err,null);
+        return deferred.reject(err);
     });
+
+    return deferred.promise;
+
 }
 
 function deleteMeasure(data) {

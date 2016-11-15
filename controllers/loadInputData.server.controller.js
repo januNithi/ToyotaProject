@@ -226,13 +226,12 @@ exports.getInstruction = function(req,res){
 
 exports.getWorkCompleted = function (req,res) {
 
-    storageManager.getWorkCompleted(req.query.serviceId,function (error) {
-
-        res.send(500,{error:error});
-
-    },function (result) {
+    storageManager.getWorkCompleted(req.query.serviceId).then(function (result) {
 
         res.send(result);
+
+    },function (error) {
+        res.send(500,{error:error});
     });
     
 };
