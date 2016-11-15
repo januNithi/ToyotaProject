@@ -33,23 +33,27 @@
 
         $scope.registrationIdSelected = function (choosenId) {
             spinnerService.show('html5spinner');
+            angular.forEach($scope.registrations,function (value,index) {
+
+                if(value.Sid == choosenId){
+                    $scope.model = value.Mid;
+                    $scope.service = value.MType;
+                    $scope.date = value.date;
+
+                    $scope.time = value.time;
+                }
+
+            });
+
             technicianWorkReportService.getWorkCompleted(choosenId).then(function (result) {
                 $scope.reportData = result.data;
                 $scope.loadReport = true;
-                angular.forEach($scope.registrations,function (value,index) {
-                    if (value.Sid == choosenId) {
-                        $scope.model = value.Mid;
-                        $scope.service = value.MType;
-                        $scope.date = value.date;
-                        $scope.time = value.time;
-                    }
-                });
                 spinnerService.hide('html5spinner');
             },function (error) {
                 console.log(error);
-                keepGoing = false;
                 spinnerService.hide('html5spinner');
             });
+
         };
 
         $scope.downloadReport = function () {
