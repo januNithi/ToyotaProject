@@ -1848,25 +1848,25 @@ function getWorkCompleted(serviceId) {
         // query += " OR value5 != '0' OR value6 != '0'))";
 
         var query = "Select t.Tid as Task_id, t.Task,t.Type,(select m.MName from Toyota_Measures as m where t.value1 = m.Mid)";
-        query += "as Measurement,(select m.MName from Toyota_Measures as m where t.value2 = m.Mid) as Measurement,";
-        query += "(select m.MName from Toyota_Measures as m where t.value3 = m.Mid) as Measurement,";
-        query += "(select m.MName from Toyota_Measures as m where t.value4 = m.Mid) as Measurement,";
-        query += "(select m.MName from Toyota_Measures as m where t.value5 = m.Mid) as Measurement,";
-        query += "(select m.MName from Toyota_Measures as m where t.value6 = m.Mid) as Measurement,";
-        query += "(select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from";
-        query += "Toyota_Measures as m where t.value1 = m.Mid) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' +";
-        query += "Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m where t.value2 = m.Mid) as Standard_Value,";
-        query += "(select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from";
-        query += "Toyota_Measures as m where t.value3 = m.Mid) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' +";
-        query += "Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m where t.value4 = m.Mid) as Standard_Value,";
-        query += "(select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from";
-        query += "Toyota_Measures as m where t.value5 = m.Mid) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' +";
-        query += "Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m where t.value6 = m.Mid) as Standard_Value,";
-        query += "t.[values] as Concluded_Value,t.values1 as Concluded_Value,t.values2 as Concluded_Value, t.values3";
-        query += "as Concluded_Value,t.values4 as Concluded_Value,t.values5 as Concluded_Value,t.RSummary as QC,t.Lsummary as QC,";
-        query += "t.Isummary  as QC, t.values6 as Captured_Picture, t.Status,t.Additional";
-        query += "from Toyota_FINWorkcheck as t where Sid = '"+serviceId+"' and ((Isummary != '0' OR RSummary != '0' OR Lsummary != '0') OR";
-        query += "(value1 != '0' OR value2 != '0' OR value3 != '0' OR value4 != '0' OR value5 != '0' OR value6 != '0'))";
+        query += " as Measurement,(select m.MName from Toyota_Measures as m where t.value2 = m.Mid) as Measurement,";
+        query += " (select m.MName from Toyota_Measures as m where t.value3 = m.Mid) as Measurement,";
+        query += " (select m.MName from Toyota_Measures as m where t.value4 = m.Mid) as Measurement,";
+        query += " (select m.MName from Toyota_Measures as m where t.value5 = m.Mid) as Measurement,";
+        query += " (select m.MName from Toyota_Measures as m where t.value6 = m.Mid) as Measurement,";
+        query += " (select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from";
+        query += " Toyota_Measures as m where t.value1 = m.Mid) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' +";
+        query += " Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m where t.value2 = m.Mid) as Standard_Value,";
+        query += " (select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from";
+        query += " Toyota_Measures as m where t.value3 = m.Mid) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' +";
+        query += " Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m where t.value4 = m.Mid) as Standard_Value,";
+        query += " (select Cast(m.Start as nvarchar(max)) + '-' + Cast(m.start1 as nvarchar(max)) from";
+        query += " Toyota_Measures as m where t.value5 = m.Mid) as Standard_Value, (select Cast(m.Start as nvarchar(max)) + '-' +";
+        query += " Cast(m.start1 as nvarchar(max)) from Toyota_Measures as m where t.value6 = m.Mid) as Standard_Value,";
+        query += " t.[values] as Concluded_Value,t.values1 as Concluded_Value,t.values2 as Concluded_Value, t.values3";
+        query += " as Concluded_Value,t.values4 as Concluded_Value,t.values5 as Concluded_Value,t.RSummary as QC,t.Lsummary as QC,";
+        query += " t.Isummary  as QC, t.values6 as Captured_Picture, t.Status,t.Additional";
+        query += " from Toyota_FINWorkcheck as t where Sid = '"+serviceId+"' and ((Isummary != '0' OR RSummary != '0' OR Lsummary != '0') OR";
+        query += " (value1 != '0' OR value2 != '0' OR value3 != '0' OR value4 != '0' OR value5 != '0' OR value6 != '0'))";
 
         var request = new sql.Request(connection);
 
