@@ -1,4 +1,10 @@
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".reportDropDown").select2();
+    });
+</script>
+
 <spinner name="html5spinner" ng-cloak="">
     <div class="overlay"></div>
     <div class="spinner">
@@ -58,50 +64,52 @@
 
                 <label class="control-label" for="model">Choose Registered Id</label>
 
-                <!--<select id="model" ng-model="choosenId" ng-change="registrationIdSelected(choosenId)" class="form-control">-->
+                <select id="model" ng-model="choosenId" ng-change="registrationIdSelected(choosenId)" class="reportDropDown form-control">
 
-                    <!--<option ng-value="rgstr.Sid" ng-repeat="rgstr in registrations">{{rgstr.Sid}}</option>-->
+                    <option ng-value="rgstr.Sid" ng-repeat="rgstr in registrations">{{rgstr.Sid}}</option>
 
-                <!--</select>-->
-                <input type="text" ng-model="choosenId" id="model" class="form-control">
+                </select>
 
-            </div>
 
-            <div class="form-group">
-
-                <button type="button" class="btn btn-danger" ng-click="registrationIdSelected(choosenId)">Report</button>
+                <!--<input type="text" ng-model="choosenId" id="model" class="form-control">-->
 
             </div>
 
-            <div class="form-group">
+            <!--<div class="form-group">-->
 
-                <div class="row"  style="border: groove;word-wrap: break-word">
+                <!--<button type="button" class="btn btn-danger" ng-click="registrationIdSelected(choosenId)">Report</button>-->
 
-                    <div class="col-xs-4"><strong>Id</strong></div>
+            <!--</div>-->
 
-                    <div class="col-xs-8"><strong>Service Id</strong></div>
+            <!--<div class="form-group">-->
 
-                </div>
+                <!--<div class="row"  style="border: groove;word-wrap: break-word">-->
 
+                    <!--<div class="col-xs-4"><strong>Id</strong></div>-->
 
+                    <!--<div class="col-xs-8"><strong>Service Id</strong></div>-->
 
-                <div style="max-height: 300px;overflow-y: scroll;">
-
-                    <div class="row" ng-repeat="rgstr in registrations" style="border: groove;word-wrap: break-word">
-
-                        <div class="col-xs-4">{{$index + 1}}</div>
-
-                        <div class="col-xs-8">{{rgstr.Sid}}</div>
-
-                    </div>
-
-                </div>
+                <!--</div>-->
 
 
 
-                </div>
+                <!--<div style="max-height: 300px;overflow-y: scroll;">-->
 
-            </div>
+                    <!--<div class="row" ng-repeat="rgstr in registrations" style="border: groove;word-wrap: break-word">-->
+
+                        <!--<div class="col-xs-4">{{$index + 1}}</div>-->
+
+                        <!--<div class="col-xs-8">{{rgstr.Sid}}</div>-->
+
+                    <!--</div>-->
+
+                <!--</div>-->
+
+
+
+                <!--</div>-->
+
+            <!--</div>-->
 
         </div>
 
