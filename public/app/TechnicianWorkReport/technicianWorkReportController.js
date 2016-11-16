@@ -41,6 +41,7 @@
                     $scope.date = value.date;
 
                     $scope.time = value.time;
+                    $scope.Addno = value.Addno;
                 }
 
             });
