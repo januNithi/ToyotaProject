@@ -1527,6 +1527,7 @@ function getInstructionData(data) {
         query += ",t.timeTaken_r,t.timeTaken_l,t.timeTaken_i";
         query += ",t.model as model from toyota_tasks_supreme as t ";
         query += " where t.model = '"+data.modelId+"' and t.service = '"+data.serviceId+"' and t.status = 'active'";
+        query += " order by id ASC";
 
         // var query = 'Select id,serviceId,taskId,task_r, task_i, task_l, process_r,process_i,process_l,';
         // query += 'picture_r,picture_i,picture_l,flag_r,flag_i,flag_l,tools_r,tools_i,tools_l,';
